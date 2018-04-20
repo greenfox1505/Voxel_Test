@@ -8,6 +8,8 @@ class Chunk {
         this.size = size
         this.geometry = this.createGeometry(blocks)
         this.mesh = new THREE.Mesh(this.geometry, material);
+        console.log("checkNeighbors", this.checkNeighbors(1, 1, 1))
+        console.log("checkNeighbors2", this.checkNeighbors(1, 0, 1))
     }
     vectorToBlock(v3) {
         //if outside chunk, return other chunk!
@@ -61,7 +63,7 @@ class Chunk {
      * @returns {THREE.Geometry}
      */
     createGeometry(blocks) {
-        let start = Date.now()
+        console.time("creating geo " + this.size)
         var box = new THREE.CubeGeometry(1, 1, 1);
         let outputGeo = new THREE.Geometry();
         // outputGeo.merge(box)
@@ -77,15 +79,11 @@ class Chunk {
                 }
             }
         }
-        let dt = Date.now()-start
-        totalTime += dt 
-        n++
-        console.log("time: ", dt , "avg: " , totalTime/n)
+        console.timeEnd("creating geo " + this.size)
         return outputGeo;
     }
 
 }
-var n = 0;
-var totalTime = 0;
+
 
 module.exports = Chunk

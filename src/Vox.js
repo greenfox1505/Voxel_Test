@@ -4,6 +4,13 @@ let Chunk = require("./chunk.js")
 let FlyCam = require("./FlyCam.js")
 
 let s = 16;
+var material = new THREE.MeshNormalMaterial();
+
+/**
+ * 
+ * @param {int} s 
+ * @returns {Chunk}
+ */
 function testBlockSize(s) {
 	let blocks = []
 
@@ -26,12 +33,8 @@ function testBlockSize(s) {
 
 	}
 
-	let myChunk = new Chunk(blocks, s)
-	return myChunk;
+	return new Chunk(blocks, s, material);
 }
-let myChunk = testBlockSize(s)
-
-console.log(myChunk)
 
 var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -40,14 +43,17 @@ var renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-// var geometry = new THREE.BoxGeometry(1, 1, 1);
-var geometry = myChunk.geometry
-var material = new THREE.MeshNormalMaterial({ color: 0x00ff00 });
-for (var i = -1; i < 2; i++) {
-	
-	var cube = new THREE.Mesh(geometry, material);
-	cube.position.x = i*s
-	scene.add(cube);
+let n = 5
+for (let i = 0; i < n; i++) {
+	for (let j = 0; j < n; j++) {
+		for (let k = 0; k < n; k++) {
+			let block = testBlockSize(s)
+			block.mesh.position.x = s * i
+			block.mesh.position.z = s * j
+			block.mesh.position.y = s * k
+			scene.add(block.mesh)
+		}
+	}
 }
 camera.position.z = (s * 1.5)
 
