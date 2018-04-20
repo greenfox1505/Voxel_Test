@@ -1,6 +1,7 @@
 let THREE = require('three');
 let Chunk = require("./chunk.js")
 
+let FlyCam = require("./FlyCam.js")
 
 let s = 16;
 function testBlockSize(s) {
@@ -42,16 +43,22 @@ document.body.appendChild(renderer.domElement);
 // var geometry = new THREE.BoxGeometry(1, 1, 1);
 var geometry = myChunk.geometry
 var material = new THREE.MeshNormalMaterial({ color: 0x00ff00 });
-var cube = new THREE.Mesh(geometry, material);
-scene.add(cube);
+for (var i = -1; i < 2; i++) {
+	
+	var cube = new THREE.Mesh(geometry, material);
+	cube.position.x = i*s
+	scene.add(cube);
+}
+camera.position.z = (s * 1.5)
 
-camera.position.z = (s*1.5)
+UpdateFlyCam = new FlyCam(camera, renderer.domElement)
 
 var animate = function () {
 	requestAnimationFrame(animate);
+	UpdateFlyCam()
 
-	cube.rotation.x += 0.03;
-	cube.rotation.y += 0.003;
+	// cube.rotation.x += 0.03;
+	// cube.rotation.y += 0.003;
 
 
 	renderer.render(scene, camera);
@@ -60,15 +67,17 @@ var animate = function () {
 animate();
 
 
-document.body.onkeydown = function (e) {
-	if(e.key == "q"){
-		s = s - 1
-		cube.geometry = testBlockSize(s).geometry
-	}
-	if(e.key == "w"){
-		s = s + 1
-		cube.geometry = testBlockSize(s).geometry
-	}
-	camera.position.z = (s*1.5)
-}
+// document.body.onkeydown = function (e) {
+// 	if (e.key == "q") {
+// 		s = s - 1
+// 		cube.geometry = testBlockSize(s).geometry
+// 	}
+// 	if (e.key == "w") {
+// 		s = s + 1
+// 		cube.geometry = testBlockSize(s).geometry
+// 	}
+// 	camera.position.z = (s * 1.5)
+// }
+
+
 

@@ -2,9 +2,10 @@
   "name": "voxel_test",
   "version": "0.0.0",
   "description": "This is a bad idea. I'm pretty sure I shouldn't try to build a voxel game. It's been done to death.",
-  "main": "index.js",
+  "main": "index.html",
   "scripts": {
-    "watch": "./node_modules/.bin/watchify src/Vox.js -o main.js -v --debug",
+    "watch": "./node_modules/.bin/watchify src/Vox.js -o VoxGame.js -v --debug",
+    "build": "./node_modules/.bin/browserify src/Vox.js -o VoxGame.js -v --debug",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

@@ -17,7 +17,7 @@ class Chunk {
         return this.blocks[v3.x + (v3.y * this.size) + (v3.z * this.size * this.size)]
     }
     cordToBlock(x, y, z) {
-            //if outside chunk, return other chunk!
+        //if outside chunk, return other chunk!
         if (x < 0 | y < 0 | z < 0 | x >= this.size | y >= this.size | z >= this.size) {
             return null
         }
@@ -44,12 +44,21 @@ class Chunk {
             ((index / this.size) | 0) % this.size,
             ((index / (this.size * this.size)) | 0) % this.size)
     }
+    checkNeighbors(x, y, z) {
+        if (this.cordToBlock(x - 1, y, z) | this.cordToBlock(x + 1, y, z) |
+            this.cordToBlock(x, y - 1, z) | this.cordToBlock(x, y + 1, z) |
+            this.cordToBlock(x, y, z - 1) | this.cordToBlock(x, y, z + 1)) {
+
+        }
+    }
+
+
     /**
-     * 
      * @param {number[]} blocks 
      * @returns {THREE.Geometry}
      */
     createGeometry(blocks) {
+        console.time("creating geo " + this.size)
         var box = new THREE.CubeGeometry(1, 1, 1);
         let outputGeo = new THREE.Geometry();
         // outputGeo.merge(box)
@@ -59,12 +68,13 @@ class Chunk {
             for (let y = 0; y < this.size; y++) {
                 for (let x = 0; x < this.size; x++) {
                     if (this.cordToBlock(x, y, z) == 1) {
-                        displacement.makeTranslation(x-(this.size/2),y-(this.size/2),z-(this.size/2))
+                        displacement.makeTranslation(x - (this.size / 2), y - (this.size / 2), z - (this.size / 2))
                         outputGeo.merge(box, displacement)
                     }
                 }
             }
         }
+        console.timeEnd("creating geo " + this.size)
         return outputGeo;
     }
 
