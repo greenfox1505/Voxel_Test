@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/greenfox1505/Voxel_Test#readme",
   "dependencies": {
+    "simplex-noise": "^2.4.0",
     "three": "^0.91.0"
   },
   "devDependencies": {

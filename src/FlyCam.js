@@ -62,6 +62,9 @@ function FlyCam(camera, dom) {
 		else if (MoveState[e.code] != null) {
 			MoveState[e.code] = 1
 		}
+		else if(e.code == "Space"){
+			console.log(camera.position)
+		}
 	}
 	document.body.onkeyup = function (e) {
 		if (document.pointerLockElement != dom) { return }

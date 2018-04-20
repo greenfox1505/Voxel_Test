@@ -3,19 +3,40 @@ let THREE = require('three');
 
 
 class Chunk {
-    constructor(blocks, size, material) {
-        this.blocks = blocks
-        this.size = size
-        this.geometry = this.createGeometry(blocks)
-        this.mesh = new THREE.Mesh(this.geometry, material);
+    /**
+     * @param {number[]} args.blocks
+     * @param {number} args.size
+     * @param {THREE.Material} args.material
+     * @param {THREE.Vector3} args.location
+     */
+    constructor(args) {
+        if (args.blocks) { this.blocks = args.blocks }
+        else if (args.seed) {
+            this.blocks = []
+            for (var z = 0; z < args.size; z++) {
+                for (var y = 0; y < args.size; y++) {
+                    for (var x = 0; x < args.size; x++) {
+                        console.log(x, y, z)
+                        this.blocks[this.cordToIndex(x, y, z)] = (x + y + z) % 2
+                    }
+                }
+            }
+        }
+        else {
+            throw "Bad Build Arg!"
+        }
+        this.size = args.size
+        this.geometry = this.createGeometry(this.blocks)
+        // debugger
+        this.mesh = new THREE.Mesh(this.geometry, args.material);
+        if (args.location)
+            this.mesh.position.add(args.location);
     }
-    vectorToBlock(v3) {
-        //if outside chunk, return other chunk!
-        if (v3.x < 0 | v3.y < 0 | v3.z < 0 |
-            v3.x >= this.size | v3.y >= this.size | v3.z >= this.size) {
+    cordToIndex(x, y, z) {
+        if (x < 0 | y < 0 | z < 0 | x >= this.size | y >= this.size | z >= this.size) {
             return null
         }
-        return this.blocks[v3.x + (v3.y * this.size) + (v3.z * this.size * this.size)]
+        return x + (y * this.size) + (z * this.size * this.size)
     }
     cordToBlock(x, y, z) {
         //if outside chunk, return other chunk!
@@ -25,7 +46,6 @@ class Chunk {
         let index = x + (y * this.size) + (z * this.size * this.size)
         // debugger
         return this.blocks[index]
-
     }
     /**
      * @param {THREE.Vector3} vect 
@@ -70,17 +90,17 @@ class Chunk {
         for (let z = 0; z < this.size; z++) {
             for (let y = 0; y < this.size; y++) {
                 for (let x = 0; x < this.size; x++) {
-                    if (this.cordToBlock(x, y, z) == 1 && this.checkNeighbors(x,y,z)) {
+                    if (this.cordToBlock(x, y, z) == 1 && this.checkNeighbors(x, y, z)) {
                         displacement.makeTranslation(x - (this.size / 2), y - (this.size / 2), z - (this.size / 2))
                         outputGeo.merge(box, displacement)
                     }
                 }
             }
         }
-        let dt = Date.now()-start
-        totalTime += dt 
+        let dt = Date.now() - start
+        totalTime += dt
         n++
-        console.log("time: ", dt , "avg: " , totalTime/n)
+        console.log("time: ", dt, "avg: ", totalTime / n)
         return outputGeo;
     }
 
