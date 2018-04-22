@@ -7,30 +7,27 @@ class Chunk {
      * @param {number[]} args.blocks
      * @param {number} args.size
      * @param {THREE.Material} args.material
-     * @param {THREE.Vector3} args.location
+     * @param {THREE.Vector3} args.cLoc
+     * @param {World} args.world
      */
     constructor(args) {
-        if (args.blocks) { this.blocks = args.blocks }
-        else if (args.seed) {
-            this.blocks = []
-            for (var z = 0; z < args.size; z++) {
-                for (var y = 0; y < args.size; y++) {
-                    for (var x = 0; x < args.size; x++) {
-                        console.log(x, y, z)
-                        this.blocks[this.cordToIndex(x, y, z)] = (x + y + z) % 2
-                    }
-                }
-            }
-        }
-        else {
-            throw "Bad Build Arg!"
-        }
-        this.size = args.size
+        if (args.blocks) this.blocks = args.blocks; else throw "BadBlocks"
+        if (args.size) this.size = args.size;
+        else if( args.world){ this.size = args.world.chunkSize}
+        else throw "No World or Size"
+
+        
+
         this.geometry = this.createGeometry(this.blocks)
         // debugger
         this.mesh = new THREE.Mesh(this.geometry, args.material);
-        if (args.location)
-            this.mesh.position.add(args.location);
+        if (args.cLoc) {
+            this.mesh.position.copy(args.cLoc);
+            this.cLoc = this.mesh.position.clone();
+            this.mesh.position.multiplyScalar(this.size);
+        } else {
+            throw "NO LOCATION!"
+        }
     }
     cordToIndex(x, y, z) {
         if (x < 0 | y < 0 | z < 0 | x >= this.size | y >= this.size | z >= this.size) {
@@ -82,7 +79,7 @@ class Chunk {
      */
     createGeometry(blocks) {
         let start = Date.now()
-        var box = new THREE.CubeGeometry(1, 1, 1);
+        let box = new THREE.CubeGeometry(1, 1, 1);
         let outputGeo = new THREE.Geometry();
         // outputGeo.merge(box)
         //todo only create geomtry for visable sides
@@ -105,7 +102,7 @@ class Chunk {
     }
 
 }
-var n = 0;
-var totalTime = 0;
+let n = 0;
+let totalTime = 0;
 
 module.exports = Chunk

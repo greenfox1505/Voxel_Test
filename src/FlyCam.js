@@ -29,9 +29,6 @@ function FlyCam(camera, dom) {
 			console.log("SPIKE!")
 			return
 		}; if (e.movementX != 0) spike.x = Math.abs(e.movementX)
-		// if(spike.y - e.movementY > (e.movementY * 0.5)){
-		// 	console.log( "Mouse Spiked!")
-		// }else(spike.y = e.movementY)
 
 		if (document.pointerLockElement != dom) { return }
 		rY -= (e.movementX * sensitivity)
@@ -73,47 +70,8 @@ function FlyCam(camera, dom) {
 		}
 	}
 
-	// document.body.onkeydown = function (e) {
-	// 	if (document.pointerLockElement != dom) { return }
-	// 	else if (e.key == "w") {
-	// 		move.z = -1
-	// 	}
-	// 	else if (e.key == "s") {
-	// 		move.z = 1
-	// 	}
-	// 	else if (e.key == "a") {
-	// 		move.x = -1
-	// 	}
-	// 	else if (e.key == "d") {
-	// 		move.x = 1
-	// 	}
-	// 	else if (e.code == "ShiftLeft"){
-	// 		speed = 0.1 * 10
-
-	// 	}
-	// }
-	// document.body.onkeyup = function (e) {
-	// 	if (document.pointerLockElement != dom) { return }
-	// 	else if (e.key == "w") {
-	// 		move.z = 0;
-	// 	}
-	// 	else if (e.key == "s") {
-	// 		move.z = 0;
-	// 	}
-	// 	else if (e.key == "a") {
-	// 		move.x = 0;
-	// 	}
-	// 	else if (e.key == "d") {
-	// 		move.x = 0;
-	// 	}
-	// 	else if (e.code == "ShiftLeft"){
-	// 		speed = 0.1
-	// 	}
-	// }
-
-
 	return function () {
-		var shiftSpeed = (MoveState.ShiftLeft?speed*10:speed)
+		let shiftSpeed = (MoveState.ShiftLeft?speed*10:speed)
 		MoveState.Move.z = (MoveState.KeyS - MoveState.KeyW) * shiftSpeed
 		MoveState.Move.x = (MoveState.KeyD - MoveState.KeyA) * shiftSpeed
 		MoveState.Move.y = 0

@@ -46810,9 +46810,6 @@ function FlyCam(camera, dom) {
 			console.log("SPIKE!")
 			return
 		}; if (e.movementX != 0) spike.x = Math.abs(e.movementX)
-		// if(spike.y - e.movementY > (e.movementY * 0.5)){
-		// 	console.log( "Mouse Spiked!")
-		// }else(spike.y = e.movementY)
 
 		if (document.pointerLockElement != dom) { return }
 		rY -= (e.movementX * sensitivity)
@@ -46854,47 +46851,8 @@ function FlyCam(camera, dom) {
 		}
 	}
 
-	// document.body.onkeydown = function (e) {
-	// 	if (document.pointerLockElement != dom) { return }
-	// 	else if (e.key == "w") {
-	// 		move.z = -1
-	// 	}
-	// 	else if (e.key == "s") {
-	// 		move.z = 1
-	// 	}
-	// 	else if (e.key == "a") {
-	// 		move.x = -1
-	// 	}
-	// 	else if (e.key == "d") {
-	// 		move.x = 1
-	// 	}
-	// 	else if (e.code == "ShiftLeft"){
-	// 		speed = 0.1 * 10
-
-	// 	}
-	// }
-	// document.body.onkeyup = function (e) {
-	// 	if (document.pointerLockElement != dom) { return }
-	// 	else if (e.key == "w") {
-	// 		move.z = 0;
-	// 	}
-	// 	else if (e.key == "s") {
-	// 		move.z = 0;
-	// 	}
-	// 	else if (e.key == "a") {
-	// 		move.x = 0;
-	// 	}
-	// 	else if (e.key == "d") {
-	// 		move.x = 0;
-	// 	}
-	// 	else if (e.code == "ShiftLeft"){
-	// 		speed = 0.1
-	// 	}
-	// }
-
-
 	return function () {
-		var shiftSpeed = (MoveState.ShiftLeft?speed*10:speed)
+		let shiftSpeed = (MoveState.ShiftLeft?speed*10:speed)
 		MoveState.Move.z = (MoveState.KeyS - MoveState.KeyW) * shiftSpeed
 		MoveState.Move.x = (MoveState.KeyD - MoveState.KeyA) * shiftSpeed
 		MoveState.Move.y = 0
@@ -46911,7 +46869,7 @@ module.exports = FlyCam
 
 },{"three":3}],5:[function(require,module,exports){
 
-var stats = new (require("stats-js"))();
+let stats = new (require("stats-js"))();
 stats.setMode(0); // 0: fps, 1: ms 
  
 // Align top-left 
@@ -46942,45 +46900,60 @@ let Chunk = require("./World/Chunk")
 let FlyCam = require("./FlyCam.js")
 
 let s = 16;
-var material = new THREE.MeshNormalMaterial();
+let n = 5;
+
+let material = new THREE.MeshNormalMaterial();
 
 
 let Monitor = require("./Monitor.js");
 
-let Surface = new (require("./World/WorldGens/Solid"))(null, 16)
+let Solid = new (require("./World/WorldGens/Solid"))("helloworld", s)
 
 
-var scene = new THREE.Scene();
-var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
-var renderer = new THREE.WebGLRenderer();
+let myWorld = new (require("./World/World"))({
+	generator: (a)=>{
+		return Solid.generateChunk(a)
+	},
+	chunkSize:s,
+
+})
+
+myWorld.createStartingArea()
+
+
+let scene = new THREE.Scene();
+let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+let renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-var n = 5	
 let mat = new THREE.MeshNormalMaterial();
-for (var z = 0; z < n; z++) {
-	for (var x = 0; x < n; x++) {
-		for (var y = -1; y <= 1; y++) {
-			let blocks = Surface.generateChunk(x, y, z);
-			let c = new Chunk({
-				blocks: blocks,
-				size: 16,
-				material: mat,
-				location: { x: x * s, y: y*s, z: z * s }
-			})
-			//hChunk({ loc: new THREE.Vector2(x, y) })
-			scene.add(c.mesh)
-		}
-	}
-}
+
+scene.add(myWorld.ThreeObject)
+
+// for (let z = 0; z < n; z++) {
+// 	for (let x = 0; x < n; x++) {
+// 		for (let y = 0; y < n; y++) {
+// 			let blocks = Surface.generateChunk(x, y, z);
+// 			let c = new Chunk({
+// 				blocks: blocks,
+// 				size: s,
+// 				material: mat,
+// 				cLoc: { x: x, y: y, z: z }
+// 			})
+// 			//hChunk({ loc: new THREE.Vector2(x, y) })
+// 			scene.add(c.mesh)
+// 		}
+// 	}
+// }
 
 UpdateFlyCam = new FlyCam(camera, renderer.domElement)
-camera.position.set(0,32,0)
-let p  =Math.pow(s,n/2)
-camera.lookAt(p, 0, p)
+camera.position.set(-s * n, s * n, -s * n)
+camera.lookAt(s * n / 2, s * n / 2, s * n / 2)
 
-var animate = function () {
+let animate = function () {
 	Monitor.begin();
 	requestAnimationFrame(animate);
 	UpdateFlyCam()
@@ -46993,7 +46966,7 @@ animate();
 
 
 
-},{"./FlyCam.js":4,"./Monitor.js":5,"./World/Chunk":7,"./World/WorldGens/Solid":8,"simplex-noise":1,"three":3}],7:[function(require,module,exports){
+},{"./FlyCam.js":4,"./Monitor.js":5,"./World/Chunk":7,"./World/World":8,"./World/WorldGens/Solid":9,"simplex-noise":1,"three":3}],7:[function(require,module,exports){
 let THREE = require('three');
 
 
@@ -47003,30 +46976,27 @@ class Chunk {
      * @param {number[]} args.blocks
      * @param {number} args.size
      * @param {THREE.Material} args.material
-     * @param {THREE.Vector3} args.location
+     * @param {THREE.Vector3} args.cLoc
+     * @param {World} args.world
      */
     constructor(args) {
-        if (args.blocks) { this.blocks = args.blocks }
-        else if (args.seed) {
-            this.blocks = []
-            for (var z = 0; z < args.size; z++) {
-                for (var y = 0; y < args.size; y++) {
-                    for (var x = 0; x < args.size; x++) {
-                        console.log(x, y, z)
-                        this.blocks[this.cordToIndex(x, y, z)] = (x + y + z) % 2
-                    }
-                }
-            }
-        }
-        else {
-            throw "Bad Build Arg!"
-        }
-        this.size = args.size
+        if (args.blocks) this.blocks = args.blocks; else throw "BadBlocks"
+        if (args.size) this.size = args.size;
+        else if( args.world){ this.size = args.world.chunkSize}
+        else throw "No World or Size"
+
+        
+
         this.geometry = this.createGeometry(this.blocks)
         // debugger
         this.mesh = new THREE.Mesh(this.geometry, args.material);
-        if (args.location)
-            this.mesh.position.add(args.location);
+        if (args.cLoc) {
+            this.mesh.position.copy(args.cLoc);
+            this.cLoc = this.mesh.position.clone();
+            this.mesh.position.multiplyScalar(this.size);
+        } else {
+            throw "NO LOCATION!"
+        }
     }
     cordToIndex(x, y, z) {
         if (x < 0 | y < 0 | z < 0 | x >= this.size | y >= this.size | z >= this.size) {
@@ -47078,7 +47048,7 @@ class Chunk {
      */
     createGeometry(blocks) {
         let start = Date.now()
-        var box = new THREE.CubeGeometry(1, 1, 1);
+        let box = new THREE.CubeGeometry(1, 1, 1);
         let outputGeo = new THREE.Geometry();
         // outputGeo.merge(box)
         //todo only create geomtry for visable sides
@@ -47097,16 +47067,78 @@ class Chunk {
         totalTime += dt
         n++
         console.log("time: ", dt, "avg: ", totalTime / n)
-        outputGeo.mergeVertices()
         return outputGeo;
     }
 
 }
-var n = 0;
-var totalTime = 0;
+let n = 0;
+let totalTime = 0;
 
 module.exports = Chunk
 },{"three":3}],8:[function(require,module,exports){
+/**
+ * World.js
+ * Manages all chunks. Manages scene graph.
+ * Maybe it will do some other things here...
+ */
+
+let THREE = require('three');
+
+
+let Chunk = require("./Chunk")
+
+let asdf = new THREE.MeshNormalMaterial()
+
+
+class World {
+    /**
+     * @param {Function} args.generator
+     * @param {object} [args.saveData={}]
+     * @param {number} args.chunkSize
+     */
+    constructor(args) {
+        //this.seed = args.seed ? args.seed : "helloWorld";
+        if (args.generator == null) {
+            throw "No generator here"
+        } else {
+            this.generator = args.generator
+        }
+        this.chunkSize = args.chunkSize
+        this.chunks = {}
+        this.ThreeObject = new THREE.Object3D();
+    }
+    createStartingArea() {
+        let cCoord = new THREE.Vector3();
+        for (let x = 0; x < 5; x++) {
+            cCoord.x = x
+            for (let y = 0; y < 5; y++) {
+                cCoord.y = y
+                for (let z = 0; z < 5; z++) {
+                    cCoord.z = z
+                    this.spawnChunk(cCoord);
+                }
+            }
+        }
+    }
+
+    /**
+     * @param {THREE.Vector3} cCoord 
+     */
+    spawnChunk(cCoord) {
+        let chunkName = cCoord.x + "." + cCoord.y + "." + cCoord.z;
+        let blocks = this.generator(cCoord);
+        this.chunks[chunkName] = new Chunk({ blocks: blocks, material: asdf, cLoc: cCoord , world:this})
+        this.ThreeObject.add(this.chunks[chunkName].mesh)
+        return this.chunks[chunkName]
+    }
+    clearChunk(cX, cY, cZ) {
+
+    }
+
+}
+
+module.exports = World;
+},{"./Chunk":7,"three":3}],9:[function(require,module,exports){
 let SimplexNoise = require("simplex-noise")
 
 
@@ -47117,16 +47149,16 @@ class SolidWorldGen {
         this.size = chunkSize ? chunkSize : 16
         this.worldGenArgs = worldGenArgs
     }
-    generateChunk(cX, cY, cZ) {
+    generateChunk(cLoc) {
         let chunkArray = [];
         let s = this.size;
         let scale = 32;
         for (let z = 0; z < s; z++) {
-            let absZ = z * s;
+            let absZ = z + (cLoc.z * s)
             for (let y = 0; y < s; y++) {
-                let absY = y * s;
+                let absY = y + (cLoc.y * s)
                 for (let x = 0; x < s; x++) {
-                    let absX = x * s;
+                    let absX = x + (cLoc.x * s)
                     let value = this.simplex.noise3D(absX / scale, absY / scale, absZ / scale);
                     value = value>0?1:0
                     chunkArray[x + y * s + z * s * s] = value;

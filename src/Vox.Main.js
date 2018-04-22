@@ -6,45 +6,60 @@ let Chunk = require("./World/Chunk")
 let FlyCam = require("./FlyCam.js")
 
 let s = 16;
-var material = new THREE.MeshNormalMaterial();
+let n = 5;
+
+let material = new THREE.MeshNormalMaterial();
 
 
 let Monitor = require("./Monitor.js");
 
-let Surface = new (require("./World/WorldGens/Solid"))(null, 16)
+let Solid = new (require("./World/WorldGens/Solid"))("helloworld", s)
 
 
-var scene = new THREE.Scene();
-var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
-var renderer = new THREE.WebGLRenderer();
+let myWorld = new (require("./World/World"))({
+	generator: (a)=>{
+		return Solid.generateChunk(a)
+	},
+	chunkSize:s,
+
+})
+
+myWorld.createStartingArea()
+
+
+let scene = new THREE.Scene();
+let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+let renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-var n = 5	
 let mat = new THREE.MeshNormalMaterial();
-for (var z = 0; z < n; z++) {
-	for (var x = 0; x < n; x++) {
-		for (var y = -1; y <= 1; y++) {
-			let blocks = Surface.generateChunk(x, y, z);
-			let c = new Chunk({
-				blocks: blocks,
-				size: 16,
-				material: mat,
-				location: { x: x * s, y: y*s, z: z * s }
-			})
-			//hChunk({ loc: new THREE.Vector2(x, y) })
-			scene.add(c.mesh)
-		}
-	}
-}
+
+scene.add(myWorld.ThreeObject)
+
+// for (let z = 0; z < n; z++) {
+// 	for (let x = 0; x < n; x++) {
+// 		for (let y = 0; y < n; y++) {
+// 			let blocks = Surface.generateChunk(x, y, z);
+// 			let c = new Chunk({
+// 				blocks: blocks,
+// 				size: s,
+// 				material: mat,
+// 				cLoc: { x: x, y: y, z: z }
+// 			})
+// 			//hChunk({ loc: new THREE.Vector2(x, y) })
+// 			scene.add(c.mesh)
+// 		}
+// 	}
+// }
 
 UpdateFlyCam = new FlyCam(camera, renderer.domElement)
-camera.position.set(0,32,0)
-let p  =Math.pow(s,n/2)
-camera.lookAt(p, 0, p)
+camera.position.set(-s * n, s * n, -s * n)
+camera.lookAt(s * n / 2, s * n / 2, s * n / 2)
 
-var animate = function () {
+let animate = function () {
 	Monitor.begin();
 	requestAnimationFrame(animate);
 	UpdateFlyCam()
