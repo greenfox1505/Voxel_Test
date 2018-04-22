@@ -4,8 +4,8 @@
   "description": "This is a bad idea. I'm pretty sure I shouldn't try to build a voxel game. It's been done to death.",
   "main": "index.html",
   "scripts": {
-    "watch": "./node_modules/.bin/watchify src/Vox.js -o VoxGame.js -v --debug",
-    "build": "./node_modules/.bin/browserify src/Vox.js -o VoxGame.js -v --debug",
+    "watch": "npm run build -- --watch",
+    "build": "./node_modules/.bin/simplifyify src/Vox.Main.js --outfile Vox.pack.js --debug",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -20,9 +20,8 @@
   "homepage": "https://github.com/greenfox1505/Voxel_Test#readme",
   "dependencies": {
     "simplex-noise": "^2.4.0",
+    "simplifyify": "^4.0.2",
+    "stats-js": "^1.0.0-alpha1",
     "three": "^0.91.0"
-  },
-  "devDependencies": {
-    "watchify": "^3.11.0"
   }
 }
