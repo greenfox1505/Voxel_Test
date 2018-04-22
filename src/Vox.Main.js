@@ -11,31 +11,7 @@ var material = new THREE.MeshNormalMaterial();
 
 let Monitor = require("./Monitor.js");
 
-let Surface = new (require("./World/WorldGens/Surface"))("helloWorld", 16)
-
-
-// function hChunk(args) {
-// 	let loc = args.loc
-// 	let blocks = []; for (let i = 0; i < (s * s * s); i++) { blocks[i] = 0 }
-// 	// debugger
-// 	for (let i = 0; i < s; i++) {
-// 		for (let j = 0; j < s; j++) {
-// 			let t = 32
-// 			let h = (simplex.noise2D((i + loc.x*s)/t,(j + loc.y*s)/t) +1 )* (s/2) 
-// 			for(let k =0; k < h ; k++){
-// 				blocks[i + k*s + j*s*s ] = 1;
-
-// 			}
-// 		}
-// 	}
-
-// 	let c = new Chunk({
-// 		blocks: blocks, size: s, material: new THREE.MeshNormalMaterial(),
-// 	})
-// 	c.mesh.position.x += args.loc.x * s
-// 	c.mesh.position.z += args.loc.y * s
-// 	return c;
-// }
+let Surface = new (require("./World/WorldGens/Surface"))(null, 16)
 
 
 var scene = new THREE.Scene();

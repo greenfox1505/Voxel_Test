@@ -5,7 +5,7 @@
   "main": "index.html",
   "scripts": {
     "watch": "npm run build -- --watch",
-    "build": "./node_modules/.bin/simplifyify src/Vox.Main.js --outfile Vox.pack.js --debug",
+    "build": "./node_modules/.bin/simplifyify src/Vox.main.js --outfile Vox.js --debug --minify --bundle",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
