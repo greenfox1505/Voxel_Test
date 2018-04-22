@@ -11,7 +11,7 @@ var material = new THREE.MeshNormalMaterial();
 
 let Monitor = require("./Monitor.js");
 
-let Surface = new (require("./World/WorldGens/Surface"))(null, 16)
+let Surface = new (require("./World/WorldGens/Solid"))(null, 16)
 
 
 var scene = new THREE.Scene();
@@ -21,7 +21,7 @@ var renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-var n = 7	
+var n = 5	
 let mat = new THREE.MeshNormalMaterial();
 for (var z = 0; z < n; z++) {
 	for (var x = 0; x < n; x++) {

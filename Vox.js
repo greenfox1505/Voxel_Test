@@ -46947,7 +46947,7 @@ var material = new THREE.MeshNormalMaterial();
 
 let Monitor = require("./Monitor.js");
 
-let Surface = new (require("./World/WorldGens/Surface"))(null, 16)
+let Surface = new (require("./World/WorldGens/Solid"))(null, 16)
 
 
 var scene = new THREE.Scene();
@@ -46957,7 +46957,7 @@ var renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-var n = 7	
+var n = 5	
 let mat = new THREE.MeshNormalMaterial();
 for (var z = 0; z < n; z++) {
 	for (var x = 0; x < n; x++) {
@@ -46993,7 +46993,7 @@ animate();
 
 
 
-},{"./FlyCam.js":4,"./Monitor.js":5,"./World/Chunk":7,"./World/WorldGens/Surface":8,"simplex-noise":1,"three":3}],7:[function(require,module,exports){
+},{"./FlyCam.js":4,"./Monitor.js":5,"./World/Chunk":7,"./World/WorldGens/Solid":8,"simplex-noise":1,"three":3}],7:[function(require,module,exports){
 let THREE = require('three');
 
 
@@ -47111,8 +47111,8 @@ let SimplexNoise = require("simplex-noise")
 
 
 //hey, this could totally be pushed to a worker thread..., it doesn't depend on anything but itself
-class SurfaceWorldGen {
-    constructor(seed, chunkSize,worldGenArgs) {
+class SolidWorldGen {
+    constructor(seed, chunkSize, worldGenArgs) {
         this.simplex = new SimplexNoise(seed ? seed : null)
         this.size = chunkSize ? chunkSize : 16
         this.worldGenArgs = worldGenArgs
@@ -47122,25 +47122,22 @@ class SurfaceWorldGen {
         let s = this.size;
         let scale = 32;
         for (let z = 0; z < s; z++) {
-            for (let x = 0; x < s; x++) {
-                let absZ = z + (cZ * s)
-                let absX = x + (cX * s)
-                let surfaceHight = (this.simplex.noise2D(absX / scale, absZ / scale) )*16
-                for (let y = 0; y < s; y++) {
-                    let absY = y + (cY * s)
-                    let blockType = 1;
-                    if (absY > surfaceHight) {
-                        blockType = 0
-                    }
-                    chunkArray[x + y * s + z * s * s] = blockType;
+            let absZ = z * s;
+            for (let y = 0; y < s; y++) {
+                let absY = y * s;
+                for (let x = 0; x < s; x++) {
+                    let absX = x * s;
+                    let value = this.simplex.noise3D(absX / scale, absY / scale, absZ / scale);
+                    value = value>0?1:0
+                    chunkArray[x + y * s + z * s * s] = value;
                 }
             }
         }
-        return chunkArray;
+        return chunkArray
     }
 
 }
 
-module.exports = SurfaceWorldGen
+module.exports = SolidWorldGen
 },{"simplex-noise":1}]},{},[6])
 //# sourceMappingURL=Vox.js.map
