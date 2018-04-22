@@ -46947,7 +46947,7 @@ var material = new THREE.MeshNormalMaterial();
 
 let Monitor = require("./Monitor.js");
 
-let Surface = new (require("./World/WorldGens/Surface"))("helloWorld",16)
+let Surface = new (require("./World/WorldGens/Surface"))("helloWorld", 16)
 
 
 // function hChunk(args) {
@@ -46981,25 +46981,28 @@ var renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-var n = 6
+var n = 7	
 let mat = new THREE.MeshNormalMaterial();
-for (var z = 0; z < 5; z++) {
-	for (var x = 0; x < 5; x++) {
-		let blocks = Surface.generateChunk(x,0,z);
-		let c = new Chunk({
-			blocks:blocks ,
-			size:16,
-			material: mat,
-			location: {x:x*s,y:0,z:z*s}
-		})
-		//hChunk({ loc: new THREE.Vector2(x, y) })
-		scene.add(c.mesh)
+for (var z = 0; z < n; z++) {
+	for (var x = 0; x < n; x++) {
+		for (var y = -1; y <= 1; y++) {
+			let blocks = Surface.generateChunk(x, y, z);
+			let c = new Chunk({
+				blocks: blocks,
+				size: 16,
+				material: mat,
+				location: { x: x * s, y: y*s, z: z * s }
+			})
+			//hChunk({ loc: new THREE.Vector2(x, y) })
+			scene.add(c.mesh)
+		}
 	}
 }
 
 UpdateFlyCam = new FlyCam(camera, renderer.domElement)
-camera.position.set(55,25,75)
-camera.lookAt(0, 0, 0)
+camera.position.set(0,32,0)
+let p  =Math.pow(s,n/2)
+camera.lookAt(p, 0, p)
 
 var animate = function () {
 	Monitor.begin();
@@ -47129,10 +47132,13 @@ module.exports = Chunk
 },{"three":3}],8:[function(require,module,exports){
 let SimplexNoise = require("simplex-noise")
 
+
+//hey, this could totally be pushed to a worker thread..., it doesn't depend on anything but itself
 class SurfaceWorldGen {
-    constructor(seed, chunkSize) {
+    constructor(seed, chunkSize,worldGenArgs) {
         this.simplex = new SimplexNoise(seed ? seed : null)
         this.size = chunkSize ? chunkSize : 16
+        this.worldGenArgs = worldGenArgs
     }
     generateChunk(cX, cY, cZ) {
         let chunkArray = [];
@@ -47142,7 +47148,7 @@ class SurfaceWorldGen {
             for (let x = 0; x < s; x++) {
                 let absZ = z + (cZ * s)
                 let absX = x + (cX * s)
-                let surfaceHight = (this.simplex.noise2D(absX / scale, absZ / scale) +1)*8
+                let surfaceHight = (this.simplex.noise2D(absX / scale, absZ / scale) )*16
                 for (let y = 0; y < s; y++) {
                     let absY = y + (cY * s)
                     let blockType = 1;
@@ -47159,32 +47165,5 @@ class SurfaceWorldGen {
 }
 
 module.exports = SurfaceWorldGen
-
-
-// function mc(seed) {
-
-
-//     let loc = args.loc
-//     let blocks = []; for (let i = 0; i < (s * s * s); i++) { blocks[i] = 0 }
-//     // debugger
-//     for (let i = 0; i < s; i++) {
-//         for (let j = 0; j < s; j++) {
-//             let t = 32
-//             let h = (simplex.noise2D((i + loc.x * s) / t, (j + loc.y * s) / t) + 1) * (s / 2)
-//             for (let k = 0; k < h; k++) {
-//                 blocks[i + k * s + j * s * s] = 1;
-
-//             }
-//         }
-//     }
-
-//     let c = new Chunk({
-//         blocks: blocks, size: s, material: new THREE.MeshNormalMaterial(),
-//     })
-//     c.mesh.position.x += args.loc.x * s
-//     c.mesh.position.z += args.loc.y * s
-//     return c;
-// }
-
 },{"simplex-noise":1}]},{},[6])
 //# sourceMappingURL=Vox.pack.js.map

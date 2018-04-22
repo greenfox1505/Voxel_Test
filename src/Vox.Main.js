@@ -11,7 +11,7 @@ var material = new THREE.MeshNormalMaterial();
 
 let Monitor = require("./Monitor.js");
 
-let Surface = new (require("./World/WorldGens/Surface"))("helloWorld",16)
+let Surface = new (require("./World/WorldGens/Surface"))("helloWorld", 16)
 
 
 // function hChunk(args) {
@@ -45,25 +45,28 @@ var renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-var n = 6
+var n = 7	
 let mat = new THREE.MeshNormalMaterial();
-for (var z = 0; z < 5; z++) {
-	for (var x = 0; x < 5; x++) {
-		let blocks = Surface.generateChunk(x,0,z);
-		let c = new Chunk({
-			blocks:blocks ,
-			size:16,
-			material: mat,
-			location: {x:x*s,y:0,z:z*s}
-		})
-		//hChunk({ loc: new THREE.Vector2(x, y) })
-		scene.add(c.mesh)
+for (var z = 0; z < n; z++) {
+	for (var x = 0; x < n; x++) {
+		for (var y = -1; y <= 1; y++) {
+			let blocks = Surface.generateChunk(x, y, z);
+			let c = new Chunk({
+				blocks: blocks,
+				size: 16,
+				material: mat,
+				location: { x: x * s, y: y*s, z: z * s }
+			})
+			//hChunk({ loc: new THREE.Vector2(x, y) })
+			scene.add(c.mesh)
+		}
 	}
 }
 
 UpdateFlyCam = new FlyCam(camera, renderer.domElement)
-camera.position.set(55,25,75)
-camera.lookAt(0, 0, 0)
+camera.position.set(0,32,0)
+let p  =Math.pow(s,n/2)
+camera.lookAt(p, 0, p)
 
 var animate = function () {
 	Monitor.begin();
