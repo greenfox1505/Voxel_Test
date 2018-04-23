@@ -42,9 +42,9 @@ class World {
                 }
             }
         }
-        for(let i in this.chunks){
-            this.chunks[i].generateMesh
-        }
+        // for(let i in this.chunks){
+        //     this.chunks[i].generateMesh()
+        // }
     }
 
     /**

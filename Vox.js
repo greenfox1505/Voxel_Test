@@ -46932,7 +46932,7 @@ scene.add(myWorld.ThreeObject)
 
 
 UpdateFlyCam = new FlyCam(camera, renderer.domElement)
-camera.position.set(-s * n, s * n, -s * n)
+camera.position.set(-(s*n)/2,(s*n)/2,-(s*n)/2)
 camera.lookAt(s * n / 2, s * n / 2, s * n / 2)
 
 let animate = function () {
@@ -46945,7 +46945,17 @@ let animate = function () {
 
 animate();
 
+let polys = {
+    up: new THREE.PlaneGeometry(1, 1, 1), //+z
+    down: new THREE.PlaneGeometry(1, 1, 1), //-z
+    north: new THREE.PlaneGeometry(1, 1, 1), //+y
+    south: new THREE.PlaneGeometry(1, 1, 1), //-y
+    west:new THREE.PlaneGeometry(1, 1, 1),//+x
+    east:new THREE.PlaneGeometry(1, 1, 1),//-x
+}
 
+
+var plane = new THREE.Mesh( polys.up, material );
 
 
 },{"./FlyCam.js":4,"./Monitor.js":5,"./World/Chunk":7,"./World/World":8,"./World/WorldGens/Solid":9,"simplex-noise":1,"three":3}],7:[function(require,module,exports){
@@ -46953,6 +46963,21 @@ let THREE = require('three');
 
 
 let loader = new THREE.JSONLoader();
+
+let polys = {
+    up: new THREE.PlaneGeometry(1, 1, 1), //+y
+    down: new THREE.PlaneGeometry(1, 1, 1), //-y
+    north: new THREE.PlaneGeometry(1, 1, 1), //+z
+    south: new THREE.PlaneGeometry(1, 1, 1), //-z
+    west: new THREE.PlaneGeometry(1, 1, 1),//+x //this seems backword, shouldn't east be +x?
+    east: new THREE.PlaneGeometry(1, 1, 1),//-x
+}
+polys.north.translate(0, 0, 0.5)
+polys.up.rotateX(-Math.PI / 2).translate(0, 0.5, 0)
+polys.down.rotateX(Math.PI / 2).translate(0, -0.5, 0)
+polys.south.rotateY(Math.PI).translate(0, 0, -0.5)
+polys.west.rotateY(Math.PI / 2).translate(0.5, 0, 0)
+polys.east.rotateY(-Math.PI / 2).translate(-0.5, 0, 0)
 
 
 class Chunk {
@@ -46964,10 +46989,10 @@ class Chunk {
      * @param {World} args.world
      */
     constructor(args) {
-        if(args.name) this.name = args.name; else throw "A chunk with no name"
+        if (args.name) this.name = args.name; else throw "A chunk with no name"
         if (args.blocks) this.blocks = args.blocks; else throw "BadBlocks"
         if (args.size) this.size = args.size;
-        else if( args.world){ this.size = args.world.chunkSize}
+        else if (args.world) { this.size = args.world.chunkSize }
         else throw "No World or Size"
 
         // if(args.neighbors){
@@ -47046,10 +47071,22 @@ class Chunk {
         for (let z = 0; z < this.size; z++) {
             for (let y = 0; y < this.size; y++) {
                 for (let x = 0; x < this.size; x++) {
-                    if (this.cordToBlock(x, y, z) == 1 && this.checkNeighbors(x, y, z)) {
-                        displacement.makeTranslation(x - (this.size / 2), y - (this.size / 2), z - (this.size / 2))
-                        outputGeo.merge(box, displacement)
+                    let thisBlock = this.cordToBlock(x, y, z);
+                    if (thisBlock) {
+                        displacement.makeTranslation(x, y, z)
+                        if (this.cordToBlock(x, y + 1, z) == 0) {
+                            outputGeo.merge(polys.up,displacement)
+                        }
+                        if (this.cordToBlock(x, y - 1, z) == 0) {
+                            outputGeo.merge(polys.down,displacement)
+                        }
+
+
                     }
+                    // if (this.cordToBlock(x, y, z) == 1 && this.checkNeighbors(x, y, z)) {
+                    //     displacement.makeTranslation(x - (this.size / 2), y - (this.size / 2), z - (this.size / 2))
+                    //     outputGeo.merge(box, displacement)
+                    // }
                 }
             }
         }
@@ -47058,10 +47095,10 @@ class Chunk {
         n++
         console.log("time: ", dt, "avg: ", totalTime / n)
 
-        
+
         // console.log()
         // console.log(outputGeo)
-        
+
         return outputGeo;
     }
 
@@ -47115,9 +47152,9 @@ class World {
                 }
             }
         }
-        for(let i in this.chunks){
-            this.chunks[i].generateMesh
-        }
+        // for(let i in this.chunks){
+        //     this.chunks[i].generateMesh()
+        // }
     }
 
     /**

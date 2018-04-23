@@ -38,7 +38,7 @@ scene.add(myWorld.ThreeObject)
 
 
 UpdateFlyCam = new FlyCam(camera, renderer.domElement)
-camera.position.set(-s * n, s * n, -s * n)
+camera.position.set(-(s*n)/2,(s*n)/2,-(s*n)/2)
 camera.lookAt(s * n / 2, s * n / 2, s * n / 2)
 
 let animate = function () {
@@ -51,5 +51,15 @@ let animate = function () {
 
 animate();
 
+let polys = {
+    up: new THREE.PlaneGeometry(1, 1, 1), //+z
+    down: new THREE.PlaneGeometry(1, 1, 1), //-z
+    north: new THREE.PlaneGeometry(1, 1, 1), //+y
+    south: new THREE.PlaneGeometry(1, 1, 1), //-y
+    west:new THREE.PlaneGeometry(1, 1, 1),//+x
+    east:new THREE.PlaneGeometry(1, 1, 1),//-x
+}
 
+
+var plane = new THREE.Mesh( polys.up, material );
 
