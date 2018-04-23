@@ -6,7 +6,7 @@ let Chunk = require("./World/Chunk")
 let FlyCam = require("./FlyCam.js")
 
 let s = 16;
-let n = 5;
+let n = 8;
 
 let material = new THREE.MeshNormalMaterial();
 

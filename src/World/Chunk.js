@@ -31,7 +31,7 @@ class Chunk {
         if (args.name) this.name = args.name; else throw "A chunk with no name"
         if (args.blocks) this.blocks = args.blocks; else throw "BadBlocks"
         if (args.size) this.size = args.size;
-        else if (args.world) { this.size = args.world.chunkSize }
+        else if (args.world) { this.size = args.world.chunkSize; this.world = args.world }
         else throw "No World or Size"
 
         // if(args.neighbors){
@@ -52,12 +52,13 @@ class Chunk {
             throw "NO LOCATION!"
         }
     }
-    cordToIndex(x, y, z) {
-        if (x < 0 | y < 0 | z < 0 | x >= this.size | y >= this.size | z >= this.size) {
-            return null
-        }
-        return x + (y * this.size) + (z * this.size * this.size)
-    }
+    //if this isn't used for a while, imma delete it.
+    // cordToIndex(x, y, z) {
+    //     if (x < 0 | y < 0 | z < 0 | x >= this.size | y >= this.size | z >= this.size) {
+    //         return null
+    //     }
+    //     return x + (y * this.size) + (z * this.size * this.size)
+    // }
     cordToBlock(x, y, z) {
         //if outside chunk, return other chunk!
         if (x < 0 | y < 0 | z < 0 | x >= this.size | y >= this.size | z >= this.size) {
