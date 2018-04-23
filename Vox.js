@@ -47022,7 +47022,7 @@ class Chunk {
     cordToBlock(x, y, z) {
         //if outside chunk, return other chunk!
         if (x < 0 | y < 0 | z < 0 | x >= this.size | y >= this.size | z >= this.size) {
-            return null
+            return 0
         }
         let index = x + (y * this.size) + (z * this.size * this.size)
         // debugger
@@ -47075,18 +47075,24 @@ class Chunk {
                     if (thisBlock) {
                         displacement.makeTranslation(x, y, z)
                         if (this.cordToBlock(x, y + 1, z) == 0) {
-                            outputGeo.merge(polys.up,displacement)
+                            outputGeo.merge(polys.up, displacement)
                         }
                         if (this.cordToBlock(x, y - 1, z) == 0) {
-                            outputGeo.merge(polys.down,displacement)
+                            outputGeo.merge(polys.down, displacement)
                         }
-
-
+                        if (this.cordToBlock(x - 1, y, z) == 0) {
+                            outputGeo.merge(polys.east, displacement)
+                        }
+                        if (this.cordToBlock(x + 1, y, z) == 0) {
+                            outputGeo.merge(polys.west, displacement)
+                        }
+                        if (this.cordToBlock(x, y, z + 1) == 0) {
+                            outputGeo.merge(polys.north, displacement)
+                        }
+                        if (this.cordToBlock(x, y, z - 1) == 0) {
+                            outputGeo.merge(polys.south, displacement)
+                        }
                     }
-                    // if (this.cordToBlock(x, y, z) == 1 && this.checkNeighbors(x, y, z)) {
-                    //     displacement.makeTranslation(x - (this.size / 2), y - (this.size / 2), z - (this.size / 2))
-                    //     outputGeo.merge(box, displacement)
-                    // }
                 }
             }
         }
