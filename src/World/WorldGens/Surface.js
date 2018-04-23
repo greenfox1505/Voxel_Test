@@ -2,6 +2,7 @@ let SimplexNoise = require("simplex-noise")
 
 
 //hey, this could totally be pushed to a worker thread..., it doesn't depend on anything but itselfd
+//edit: it could, but there is no reason. this noise function is very fast. world gen doesn't use that much time
 class SurfaceWorldGen {
     constructor(seed, chunkSize,worldGenArgs) {
         this.simplex = new SimplexNoise(seed ? seed : null)

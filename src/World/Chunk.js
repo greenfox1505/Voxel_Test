@@ -1,6 +1,8 @@
 let THREE = require('three');
 
 
+let loader = new THREE.JSONLoader();
+
 
 class Chunk {
     /**
@@ -11,12 +13,18 @@ class Chunk {
      * @param {World} args.world
      */
     constructor(args) {
+        if(args.name) this.name = args.name; else throw "A chunk with no name"
         if (args.blocks) this.blocks = args.blocks; else throw "BadBlocks"
         if (args.size) this.size = args.size;
         else if( args.world){ this.size = args.world.chunkSize}
         else throw "No World or Size"
 
-        
+        // if(args.neighbors){
+        //     this.neighbors = args.neighbors
+        // }
+        // else{
+        //     throw "No Neighbors Defined"
+        // }
 
         this.geometry = this.createGeometry(this.blocks)
         // debugger
@@ -98,6 +106,11 @@ class Chunk {
         totalTime += dt
         n++
         console.log("time: ", dt, "avg: ", totalTime / n)
+
+        
+        // console.log()
+        // console.log(outputGeo)
+        
         return outputGeo;
     }
 

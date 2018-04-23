@@ -46909,17 +46909,14 @@ let Monitor = require("./Monitor.js");
 
 let Solid = new (require("./World/WorldGens/Solid"))("helloworld", s)
 
-
-
 let myWorld = new (require("./World/World"))({
-	generator: (a)=>{
+	generator: (a) => {
 		return Solid.generateChunk(a)
 	},
-	chunkSize:s,
-
+	chunkSize: s,
 })
 
-myWorld.createStartingArea()
+myWorld.createStartingArea(n)
 
 
 let scene = new THREE.Scene();
@@ -46933,21 +46930,6 @@ let mat = new THREE.MeshNormalMaterial();
 
 scene.add(myWorld.ThreeObject)
 
-// for (let z = 0; z < n; z++) {
-// 	for (let x = 0; x < n; x++) {
-// 		for (let y = 0; y < n; y++) {
-// 			let blocks = Surface.generateChunk(x, y, z);
-// 			let c = new Chunk({
-// 				blocks: blocks,
-// 				size: s,
-// 				material: mat,
-// 				cLoc: { x: x, y: y, z: z }
-// 			})
-// 			//hChunk({ loc: new THREE.Vector2(x, y) })
-// 			scene.add(c.mesh)
-// 		}
-// 	}
-// }
 
 UpdateFlyCam = new FlyCam(camera, renderer.domElement)
 camera.position.set(-s * n, s * n, -s * n)
@@ -46970,6 +46952,8 @@ animate();
 let THREE = require('three');
 
 
+let loader = new THREE.JSONLoader();
+
 
 class Chunk {
     /**
@@ -46980,12 +46964,18 @@ class Chunk {
      * @param {World} args.world
      */
     constructor(args) {
+        if(args.name) this.name = args.name; else throw "A chunk with no name"
         if (args.blocks) this.blocks = args.blocks; else throw "BadBlocks"
         if (args.size) this.size = args.size;
         else if( args.world){ this.size = args.world.chunkSize}
         else throw "No World or Size"
 
-        
+        // if(args.neighbors){
+        //     this.neighbors = args.neighbors
+        // }
+        // else{
+        //     throw "No Neighbors Defined"
+        // }
 
         this.geometry = this.createGeometry(this.blocks)
         // debugger
@@ -47067,6 +47057,11 @@ class Chunk {
         totalTime += dt
         n++
         console.log("time: ", dt, "avg: ", totalTime / n)
+
+        
+        // console.log()
+        // console.log(outputGeo)
+        
         return outputGeo;
     }
 
@@ -47076,6 +47071,7 @@ let totalTime = 0;
 
 module.exports = Chunk
 },{"three":3}],8:[function(require,module,exports){
+
 /**
  * World.js
  * Manages all chunks. Manages scene graph.
@@ -47107,17 +47103,20 @@ class World {
         this.chunks = {}
         this.ThreeObject = new THREE.Object3D();
     }
-    createStartingArea() {
+    createStartingArea(n) {
         let cCoord = new THREE.Vector3();
-        for (let x = 0; x < 5; x++) {
+        for (let x = 0; x < n; x++) {
             cCoord.x = x
-            for (let y = 0; y < 5; y++) {
+            for (let y = 0; y < n; y++) {
                 cCoord.y = y
-                for (let z = 0; z < 5; z++) {
+                for (let z = 0; z < n; z++) {
                     cCoord.z = z
                     this.spawnChunk(cCoord);
                 }
             }
+        }
+        for(let i in this.chunks){
+            this.chunks[i].generateMesh
         }
     }
 
@@ -47127,8 +47126,10 @@ class World {
     spawnChunk(cCoord) {
         let chunkName = cCoord.x + "." + cCoord.y + "." + cCoord.z;
         let blocks = this.generator(cCoord);
-        this.chunks[chunkName] = new Chunk({ blocks: blocks, material: asdf, cLoc: cCoord , world:this})
+        this.chunks[chunkName] = new Chunk({name:chunkName, blocks: blocks, material: asdf, cLoc: cCoord , world:this})
         this.ThreeObject.add(this.chunks[chunkName].mesh)
+
+
         return this.chunks[chunkName]
     }
     clearChunk(cX, cY, cZ) {

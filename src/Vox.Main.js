@@ -15,17 +15,14 @@ let Monitor = require("./Monitor.js");
 
 let Solid = new (require("./World/WorldGens/Solid"))("helloworld", s)
 
-
-
 let myWorld = new (require("./World/World"))({
-	generator: (a)=>{
+	generator: (a) => {
 		return Solid.generateChunk(a)
 	},
-	chunkSize:s,
-
+	chunkSize: s,
 })
 
-myWorld.createStartingArea()
+myWorld.createStartingArea(n)
 
 
 let scene = new THREE.Scene();
@@ -39,21 +36,6 @@ let mat = new THREE.MeshNormalMaterial();
 
 scene.add(myWorld.ThreeObject)
 
-// for (let z = 0; z < n; z++) {
-// 	for (let x = 0; x < n; x++) {
-// 		for (let y = 0; y < n; y++) {
-// 			let blocks = Surface.generateChunk(x, y, z);
-// 			let c = new Chunk({
-// 				blocks: blocks,
-// 				size: s,
-// 				material: mat,
-// 				cLoc: { x: x, y: y, z: z }
-// 			})
-// 			//hChunk({ loc: new THREE.Vector2(x, y) })
-// 			scene.add(c.mesh)
-// 		}
-// 	}
-// }
 
 UpdateFlyCam = new FlyCam(camera, renderer.domElement)
 camera.position.set(-s * n, s * n, -s * n)
