@@ -46899,9 +46899,10 @@ let Chunk = require("./World/Chunk")
 
 let FlyCam = require("./FlyCam.js")
 
-let s = 16;
-let n = 8;
+let s = 16*10;
+let n = 1;
 
+console.log("target block count:" + (Math.pow(s*n,3)))
 
 
 let Monitor = require("./Monitor.js");
@@ -46940,12 +46941,17 @@ camera.lookAt(s * n / 2, s * n / 2, s * n / 2)
 var amb = new THREE.AmbientLight(0x404040); // soft white light
 scene.add(amb);
 
-var light = new THREE.PointLight( 0xFFD1B2, 1, 100 );
+var lightColor = 0xFFD1B2
+
+var light = new THREE.PointLight( lightColor, 1, 100 );
 light.position.copy( {x: 18, y: 45, z: 17})	
 light.castShadow = true;
 scene.add( light );
 
-
+let ball = new THREE.SphereGeometry(0.25,16,8)
+let colorMat = new THREE.MeshBasicMaterial({color:lightColor})
+let lightbulb = new THREE.Mesh(ball,colorMat)
+light.add(lightbulb)
 
 let x = 0;
 let animate = function () {
@@ -47068,11 +47074,10 @@ class Chunk {
      */
     createGeometry(blocks) {
         let start = Date.now()
-        let box = new THREE.CubeGeometry(1, 1, 1);
-        let outputGeo = new THREE.Geometry();
+        let holderGeo = new THREE.Geometry();
         // outputGeo.merge(box)
         //todo only create geomtry for visable sides
-        let displacement = new THREE.Matrix4()
+        let displacement = new THREE.Matrix4();
         for (let z = 0; z < this.size; z++) {
             for (let y = 0; y < this.size; y++) {
                 for (let x = 0; x < this.size; x++) {
@@ -47080,22 +47085,22 @@ class Chunk {
                     if (thisBlock) {
                         displacement.makeTranslation(x, y, z)
                         if (this.cordToBlock(x, y + 1, z) == 0) {
-                            outputGeo.merge(polys.up, displacement)
+                            holderGeo.merge(polys.up, displacement)
                         }
                         if (this.cordToBlock(x, y - 1, z) == 0) {
-                            outputGeo.merge(polys.down, displacement)
+                            holderGeo.merge(polys.down, displacement)
                         }
                         if (this.cordToBlock(x - 1, y, z) == 0) {
-                            outputGeo.merge(polys.east, displacement)
+                            holderGeo.merge(polys.east, displacement)
                         }
                         if (this.cordToBlock(x + 1, y, z) == 0) {
-                            outputGeo.merge(polys.west, displacement)
+                            holderGeo.merge(polys.west, displacement)
                         }
                         if (this.cordToBlock(x, y, z + 1) == 0) {
-                            outputGeo.merge(polys.north, displacement)
+                            holderGeo.merge(polys.north, displacement)
                         }
                         if (this.cordToBlock(x, y, z - 1) == 0) {
-                            outputGeo.merge(polys.south, displacement)
+                            holderGeo.merge(polys.south, displacement)
                         }
                     }
                 }
@@ -47109,7 +47114,8 @@ class Chunk {
 
         // console.log()
         // console.log(outputGeo)
-
+        let outputGeo = new THREE.BufferGeometry().fromGeometry(holderGeo)
+        holderGeo.dispose()
         return outputGeo;
     }
 
@@ -47136,9 +47142,9 @@ let normal = new THREE.MeshNormalMaterial()
 let depth = new THREE.MeshDepthMaterial()
 let basic = new THREE.MeshBasicMaterial({ color: 0xFFFF00 })
 let pbr = new THREE.MeshStandardMaterial({
-    map: new THREE.TextureLoader().load( "./assets/slate2-tiled-albedo2.png" ),
-    normalMap:new THREE.TextureLoader().load( "./assets/slate2-tiled-normal3-UE4.png"),
-    metalnessMap:new THREE.TextureLoader().load( "./assets/slate2-tiled-metalness.png"),
+    map: new THREE.TextureLoader().load( "./assets/StoneSurface/stonesurface_COLOR.png" ),
+    normalMap:new THREE.TextureLoader().load( "./assets/StoneSurface/stonesurface_NRM.png"),
+    metalnessMap:new THREE.TextureLoader().load( "./assets/StoneSurface/stonesurface_SPEC.png"),
 
 })
 

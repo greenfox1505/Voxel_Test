@@ -106,11 +106,10 @@ class Chunk {
      */
     createGeometry(blocks) {
         let start = Date.now()
-        let box = new THREE.CubeGeometry(1, 1, 1);
-        let outputGeo = new THREE.Geometry();
+        let holderGeo = new THREE.Geometry();
         // outputGeo.merge(box)
         //todo only create geomtry for visable sides
-        let displacement = new THREE.Matrix4()
+        let displacement = new THREE.Matrix4();
         for (let z = 0; z < this.size; z++) {
             for (let y = 0; y < this.size; y++) {
                 for (let x = 0; x < this.size; x++) {
@@ -118,22 +117,22 @@ class Chunk {
                     if (thisBlock) {
                         displacement.makeTranslation(x, y, z)
                         if (this.cordToBlock(x, y + 1, z) == 0) {
-                            outputGeo.merge(polys.up, displacement)
+                            holderGeo.merge(polys.up, displacement)
                         }
                         if (this.cordToBlock(x, y - 1, z) == 0) {
-                            outputGeo.merge(polys.down, displacement)
+                            holderGeo.merge(polys.down, displacement)
                         }
                         if (this.cordToBlock(x - 1, y, z) == 0) {
-                            outputGeo.merge(polys.east, displacement)
+                            holderGeo.merge(polys.east, displacement)
                         }
                         if (this.cordToBlock(x + 1, y, z) == 0) {
-                            outputGeo.merge(polys.west, displacement)
+                            holderGeo.merge(polys.west, displacement)
                         }
                         if (this.cordToBlock(x, y, z + 1) == 0) {
-                            outputGeo.merge(polys.north, displacement)
+                            holderGeo.merge(polys.north, displacement)
                         }
                         if (this.cordToBlock(x, y, z - 1) == 0) {
-                            outputGeo.merge(polys.south, displacement)
+                            holderGeo.merge(polys.south, displacement)
                         }
                     }
                 }
@@ -147,7 +146,8 @@ class Chunk {
 
         // console.log()
         // console.log(outputGeo)
-
+        let outputGeo = new THREE.BufferGeometry().fromGeometry(holderGeo)
+        holderGeo.dispose()
         return outputGeo;
     }
 

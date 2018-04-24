@@ -5,9 +5,10 @@ let Chunk = require("./World/Chunk")
 
 let FlyCam = require("./FlyCam.js")
 
-let s = 16;
-let n = 8;
+let s = 16*10;
+let n = 1;
 
+console.log("target block count:" + (Math.pow(s*n,3)))
 
 
 let Monitor = require("./Monitor.js");
@@ -46,12 +47,17 @@ camera.lookAt(s * n / 2, s * n / 2, s * n / 2)
 var amb = new THREE.AmbientLight(0x404040); // soft white light
 scene.add(amb);
 
-var light = new THREE.PointLight( 0xFFD1B2, 1, 100 );
+var lightColor = 0xFFD1B2
+
+var light = new THREE.PointLight( lightColor, 1, 100 );
 light.position.copy( {x: 18, y: 45, z: 17})	
 light.castShadow = true;
 scene.add( light );
 
-
+let ball = new THREE.SphereGeometry(0.25,16,8)
+let colorMat = new THREE.MeshBasicMaterial({color:lightColor})
+let lightbulb = new THREE.Mesh(ball,colorMat)
+light.add(lightbulb)
 
 let x = 0;
 let animate = function () {
