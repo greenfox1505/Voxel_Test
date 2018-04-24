@@ -10,7 +10,16 @@ let THREE = require('three');
 
 let Chunk = require("./Chunk")
 
-let asdf = new THREE.MeshNormalMaterial()
+
+let normal = new THREE.MeshNormalMaterial()
+let depth = new THREE.MeshDepthMaterial()
+let basic = new THREE.MeshBasicMaterial({ color: 0xFFFF00 })
+let pbr = new THREE.MeshStandardMaterial({
+    map: new THREE.TextureLoader().load( "/assets/slate2-tiled-albedo2.png" ),
+    normalMap:new THREE.TextureLoader().load( "/assets/slate2-tiled-normal3-UE4.png"),
+    metalnessMap:new THREE.TextureLoader().load( "/assets/slate2-tiled-metalness.png"),
+
+})
 
 
 class World {
@@ -53,7 +62,7 @@ class World {
     spawnChunk(cCoord) {
         let chunkName = cCoord.x + "." + cCoord.y + "." + cCoord.z;
         let blocks = this.generator(cCoord);
-        this.chunks[chunkName] = new Chunk({name:chunkName, blocks: blocks, material: asdf, cLoc: cCoord , world:this})
+        this.chunks[chunkName] = new Chunk({ name: chunkName, blocks: blocks, material: pbr, cLoc: cCoord, world: this })
         this.ThreeObject.add(this.chunks[chunkName].mesh)
 
 

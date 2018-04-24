@@ -46902,7 +46902,6 @@ let FlyCam = require("./FlyCam.js")
 let s = 16;
 let n = 8;
 
-let material = new THREE.MeshNormalMaterial();
 
 
 let Monitor = require("./Monitor.js");
@@ -46923,46 +46922,47 @@ let scene = new THREE.Scene();
 let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
 let renderer = new THREE.WebGLRenderer();
+
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap; //
+
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-let mat = new THREE.MeshNormalMaterial();
 
 scene.add(myWorld.ThreeObject)
 
 
 UpdateFlyCam = new FlyCam(camera, renderer.domElement)
-camera.position.set(-(s*n)/2,(s*n)/2,-(s*n)/2)
+camera.position.copy( {x: 18, y: 45, z: 17})
 camera.lookAt(s * n / 2, s * n / 2, s * n / 2)
 
+var amb = new THREE.AmbientLight(0x404040); // soft white light
+scene.add(amb);
+
+var light = new THREE.PointLight( 0xFFD1B2, 1, 100 );
+light.position.copy( {x: 18, y: 45, z: 17})	
+light.castShadow = true;
+scene.add( light );
+
+
+
+let x = 0;
 let animate = function () {
 	Monitor.begin();
 	requestAnimationFrame(animate);
 	UpdateFlyCam()
+	light.position.z = Math.sin((x++)/1000)*30 + 15
 	renderer.render(scene, camera);
 	Monitor.end();
 };
 
 animate();
 
-let polys = {
-    up: new THREE.PlaneGeometry(1, 1, 1), //+z
-    down: new THREE.PlaneGeometry(1, 1, 1), //-z
-    north: new THREE.PlaneGeometry(1, 1, 1), //+y
-    south: new THREE.PlaneGeometry(1, 1, 1), //-y
-    west:new THREE.PlaneGeometry(1, 1, 1),//+x
-    east:new THREE.PlaneGeometry(1, 1, 1),//-x
-}
-
-
-var plane = new THREE.Mesh( polys.up, material );
-
-
 },{"./FlyCam.js":4,"./Monitor.js":5,"./World/Chunk":7,"./World/World":8,"./World/WorldGens/Solid":9,"simplex-noise":1,"three":3}],7:[function(require,module,exports){
 let THREE = require('three');
 
 
-let loader = new THREE.JSONLoader();
 
 let polys = {
     up: new THREE.PlaneGeometry(1, 1, 1), //+y
@@ -46989,6 +46989,7 @@ class Chunk {
      * @param {World} args.world
      */
     constructor(args) {
+        // debugger
         if (args.name) this.name = args.name; else throw "A chunk with no name"
         if (args.blocks) this.blocks = args.blocks; else throw "BadBlocks"
         if (args.size) this.size = args.size;
@@ -47005,6 +47006,9 @@ class Chunk {
         this.geometry = this.createGeometry(this.blocks)
         // debugger
         this.mesh = new THREE.Mesh(this.geometry, args.material);
+        // debugger
+        this.mesh.castShadow = true;
+        this.mesh.receiveShadow = true;
         if (args.cLoc) {
             this.mesh.position.copy(args.cLoc);
             this.cLoc = this.mesh.position.clone();
@@ -47127,7 +47131,16 @@ let THREE = require('three');
 
 let Chunk = require("./Chunk")
 
-let asdf = new THREE.MeshNormalMaterial()
+
+let normal = new THREE.MeshNormalMaterial()
+let depth = new THREE.MeshDepthMaterial()
+let basic = new THREE.MeshBasicMaterial({ color: 0xFFFF00 })
+let pbr = new THREE.MeshStandardMaterial({
+    map: new THREE.TextureLoader().load( "/assets/slate2-tiled-albedo2.png" ),
+    normalMap:new THREE.TextureLoader().load( "/assets/slate2-tiled-normal3-UE4.png"),
+    metalnessMap:new THREE.TextureLoader().load( "/assets/slate2-tiled-metalness.png"),
+
+})
 
 
 class World {
@@ -47170,7 +47183,7 @@ class World {
     spawnChunk(cCoord) {
         let chunkName = cCoord.x + "." + cCoord.y + "." + cCoord.z;
         let blocks = this.generator(cCoord);
-        this.chunks[chunkName] = new Chunk({name:chunkName, blocks: blocks, material: asdf, cLoc: cCoord , world:this})
+        this.chunks[chunkName] = new Chunk({ name: chunkName, blocks: blocks, material: pbr, cLoc: cCoord, world: this })
         this.ThreeObject.add(this.chunks[chunkName].mesh)
 
 

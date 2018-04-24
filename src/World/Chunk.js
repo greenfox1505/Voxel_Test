@@ -1,7 +1,6 @@
 let THREE = require('three');
 
 
-let loader = new THREE.JSONLoader();
 
 let polys = {
     up: new THREE.PlaneGeometry(1, 1, 1), //+y
@@ -28,6 +27,7 @@ class Chunk {
      * @param {World} args.world
      */
     constructor(args) {
+        // debugger
         if (args.name) this.name = args.name; else throw "A chunk with no name"
         if (args.blocks) this.blocks = args.blocks; else throw "BadBlocks"
         if (args.size) this.size = args.size;
@@ -44,6 +44,9 @@ class Chunk {
         this.geometry = this.createGeometry(this.blocks)
         // debugger
         this.mesh = new THREE.Mesh(this.geometry, args.material);
+        // debugger
+        this.mesh.castShadow = true;
+        this.mesh.receiveShadow = true;
         if (args.cLoc) {
             this.mesh.position.copy(args.cLoc);
             this.cLoc = this.mesh.position.clone();
