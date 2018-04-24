@@ -15,9 +15,9 @@ let normal = new THREE.MeshNormalMaterial()
 let depth = new THREE.MeshDepthMaterial()
 let basic = new THREE.MeshBasicMaterial({ color: 0xFFFF00 })
 let pbr = new THREE.MeshStandardMaterial({
-    map: new THREE.TextureLoader().load( "/assets/slate2-tiled-albedo2.png" ),
-    normalMap:new THREE.TextureLoader().load( "/assets/slate2-tiled-normal3-UE4.png"),
-    metalnessMap:new THREE.TextureLoader().load( "/assets/slate2-tiled-metalness.png"),
+    map: new THREE.TextureLoader().load( "./assets/slate2-tiled-albedo2.png" ),
+    normalMap:new THREE.TextureLoader().load( "./assets/slate2-tiled-normal3-UE4.png"),
+    metalnessMap:new THREE.TextureLoader().load( "./assets/slate2-tiled-metalness.png"),
 
 })
 
