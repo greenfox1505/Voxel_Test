@@ -82,8 +82,18 @@ class MarchingCubeElement {
     }
     invert(){
         let vertIndex = []
-        
-        let pos = []
+        for( let i = 0; i < 8; i ++){
+            if(this.vertIndex.indexOf(i) == -1){
+                vertIndex.push(i)
+            }
+        }
+        let pos = []; 
+        for(let i =0; i < this.pos.length; i = i+3){
+            pos.push(this.pos[i+2])
+            pos.push(this.pos[i+1])
+            pos.push(this.pos[i])
+        }
+        return new MarchingCubeElement(vertIndex, pos)
     }
     rotateY() {
         let vertIndex = []
@@ -184,6 +194,8 @@ function AllXYs(input){
 for (let i of atomics) {
     AllXYs(i)
     
+    AllXYs(i.invert() )
+    debugger
 }
 
 // FillElem(mcElem[v[0].i])
