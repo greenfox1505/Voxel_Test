@@ -120,7 +120,11 @@ let e = [
 ].map((vect, i) => { vect.multiplyScalar(0.5); vect.i = Math.pow(2, i); return vect })
 
 // debugger
-let atomics = [new MarchingCubeElement([], []), new MarchingCubeElement([0], [0, 8, 3]), new MarchingCubeElement([0, 1], [9, 8, 3, 1, 9, 3])]
+let atomics = [
+    new MarchingCubeElement([], []), 
+    new MarchingCubeElement([0], [0, 8, 3]), 
+    new MarchingCubeElement([0, 1], [9, 8, 3, 1, 9, 3])
+]
 
 function addMCube(element){
     if(mcElem[element.index] == null){
