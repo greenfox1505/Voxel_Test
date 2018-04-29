@@ -46960,7 +46960,7 @@ let animate = function () {
 	Monitor.begin();
 	requestAnimationFrame(animate);
 	UpdateFlyCam()
-	light.position.z = Math.sin((x++) / 1000) * 30 + 15
+	light.position.z = Math.sin((x++) / 25) * 30 + 15
 	renderer.render(scene, camera);
 	Monitor.end();
 };
