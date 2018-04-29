@@ -11,31 +11,61 @@ var renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-camera.position.z = 23;
 
 let objList = []
-let sep = 2
+let sep = 3
 for (let y = 0; y < 16; y++) {
     for (let x = 0; x < 16; x++) {
         let myObj = mcTest.mcVis(y * 16 + x)
-        objList[y*16+x] = myObj
-        myObj.position.set(x*sep,-y*sep,0).sub({x:sep*7.5,y:0,z:0}).add({x:0,y:sep*7.5,z:0})
+        objList[y * 16 + x] = myObj
+        myObj.position.set(x * sep, -y * sep, 0).sub({ x: sep * 7.5, y: 0, z: 0 }).add({ x: 0, y: sep * 7.5, z: 0 })
         scene.add(myObj)
     }
 }
 
 let rSpeed = 0;
-document.body.onkeydown = function(){
-    rSpeed = rSpeed ? 0:0.01
+document.body.onkeydown = function (e) {
+    if (e.code == "Space") {
+        rSpeed = rSpeed ? 0 : 0.01
+    }
 }
 
+let zoom = false
+document.body.onclick = function () {
+    zoom = zoom ? false : true
+}
+
+
+let dis = new THREE.Vector2()
+document.body.onmousemove = function (e) {
+    // console.log(e)
+    dis.copy({
+        x: e.screenX / window.innerWidth,
+        y: e.screenY / window.innerHeight
+    })
+}
 
 let animate = function () {
     requestAnimationFrame(animate);
     // mc.rotation.y += 0.01;
-    objList.map((e)=>{
+    objList.map((e) => {
         e.rotation.y += rSpeed;
     })
+    if (zoom) {
+        var z = 64
+        camera.position.copy(
+            {
+                x: (dis.x * z) - (z / 2),
+                y: (-dis.y * z) + (z / 2),
+                z: 5
+            }
+        )
+
+    }
+    else {
+        camera.position.copy({ x: 0, y: 0, z: 35 })
+    }
+
 
     renderer.render(scene, camera);
 };
@@ -56,12 +86,21 @@ function vRotY90(vertexIndex) {
 function vRotX90(vertexIndex) {
     return [3, 2, 6, 7, 0, 1, 5, 4][vertexIndex]
 }
+function vMirror(vertexIndex) {
+    // return vertexIndex
+    return [1, 0, 3, 2, 5, 4, 7, 6][vertexIndex]
+}
 function eRotY90(edgeIndex) {
     return [1, 2, 3, 0, 5, 6, 7, 4, 9, 10, 11, 8][edgeIndex]
 }
 function eRotX90(edgeIndex) {
     return [2, 10, 6, 11, 0, 9, 4, 8, 3, 1, 5, 7][edgeIndex]
 }
+function eMirror(edgeIndex) {
+    // return edgeIndex
+    return [0, 3, 2, 1, 4, 7, 6, 5, 9, 8, 11, 10][edgeIndex]
+}
+
 // function eRotX90() {
 //     return [2, 10,]
 // }
@@ -80,18 +119,31 @@ class MarchingCubeElement {
             // debugger
         }
     }
-    invert(){
+    invert() {
         let vertIndex = []
-        for( let i = 0; i < 8; i ++){
-            if(this.vertIndex.indexOf(i) == -1){
+        for (let i = 0; i < 8; i++) {
+            if (this.vertIndex.indexOf(i) == -1) {
                 vertIndex.push(i)
             }
         }
-        let pos = []; 
-        for(let i =0; i < this.pos.length; i = i+3){
-            pos.push(this.pos[i+2])
-            pos.push(this.pos[i+1])
+        let pos = [];
+        for (let i = 0; i < this.pos.length; i = i + 3) {
+            pos.push(this.pos[i + 2])
+            pos.push(this.pos[i + 1])
             pos.push(this.pos[i])
+        }
+        return new MarchingCubeElement(vertIndex, pos)
+    }
+    mirror() {
+        let vertIndex = []
+        for (let i of this.vertIndex) {
+            vertIndex.push(vMirror(i))
+        }
+        let pos = []
+        for (let i = 0; i < this.pos.length; i = i + 3) {
+            pos.push(eMirror(this.pos[i + 2]))
+            pos.push(eMirror(this.pos[i + 1]))
+            pos.push(eMirror(this.pos[i]))
         }
         return new MarchingCubeElement(vertIndex, pos)
     }
@@ -169,46 +221,68 @@ let e = [
 
 // debugger
 let atomics = [
-    new MarchingCubeElement([], []), 
-    new MarchingCubeElement([0], [0, 8, 3]), 
-    new MarchingCubeElement([0, 1], [9, 8, 3, 1, 9, 3])
+    new MarchingCubeElement([], []),
+    new MarchingCubeElement([0], [0, 8, 3]),
+    new MarchingCubeElement([0, 1], [9, 8, 3, 1, 9, 3]),
+    new MarchingCubeElement([0, 5], [0, 8, 3, 5, 4, 9]),
+    new MarchingCubeElement([1, 2, 3], [10, 9, 11, 9, 0, 3, 3, 11, 9]),
+
+    new MarchingCubeElement([0, 1, 2, 3], [8, 10, 9, 8, 11, 10]),
+    new MarchingCubeElement([1, 2, 3, 4], [10, 9, 11, 9, 0, 3, 3, 11, 9, 4, 7, 8]),
+    new MarchingCubeElement([0, 5, 2, 7], [0, 8, 3, 5, 4, 9, 1, 2, 10, 7, 6, 11]),
+    new MarchingCubeElement([0, 2, 3, 7], [0, 10, 1, 0, 6, 10, 6, 0, 8, 8, 7, 6]),
+    new MarchingCubeElement([1, 2, 3, 7], [0, 10, 9, 0, 3, 7, 0, 7, 10, 10, 7, 6]),
+
+    new MarchingCubeElement([0, 6], [0, 8, 3, 6, 5, 10]),
+    new MarchingCubeElement([0, 1, 6], [9, 8, 3, 1, 9, 3, 6, 5, 10]),
+    new MarchingCubeElement([1, 6, 4], [0, 1, 9, 4, 7, 8, 5, 10, 6]),
+    new MarchingCubeElement([0, 4, 2, 6], [0, 4, 3, 3, 4, 7, 2, 6, 5, 2, 5, 1]),
+    new MarchingCubeElement([0, 2, 3, 6], [8, 11, 0, 0, 11, 5, 0, 5, 1, 11, 6, 5]),
 ]
 
-function addMCube(element){
-    if(mcElem[element.index] == null){
+function addMCube(element) {
+    if (mcElem[element.index] == null) {
         console.log("adding " + element.index, element)
-        mcElem[element.index] = element        
+        mcElem[element.index] = element
     }
 }
 
 function AllYs(input) {
+    if (input.vertIndex.length == 2) {
+    }
     addMCube(input);//stupid
-    addMCube(input.rotateY())
+    addMCube(input.rotateY())//redudant
     addMCube(input.rotateY().rotateY())
     addMCube(input.rotateY().rotateY().rotateY())
 }
-function AllXYs(input){
+function AllXYs(input) {
     AllYs(input);//stupid
     AllYs(input.rotateX())
     AllYs(input.rotateX().rotateX())
     AllYs(input.rotateX().rotateX().rotateX())
-       
+
 }
 
+console.time("populating MC list")
 for (let i of atomics) {
     AllXYs(i)
-    
-    AllXYs(i.invert() )
-    debugger
+    AllXYs(i.rotateY())
+    AllXYs(i.invert())
+    AllXYs(i.mirror())
+    AllXYs(i.invert().mirror())
 }
+console.timeEnd("populating MC list")
 
 // FillElem(mcElem[v[0].i])
 
 
-blue = new THREE.MeshBasicMaterial({ color: 0x0000ff })
-yellow = new THREE.MeshBasicMaterial({ color: 0xffff00 })
-green = new THREE.MeshBasicMaterial({ color: 0x00ff00 })
-red = new THREE.MeshBasicMaterial({ color: 0xff0000 })
+let blue = new THREE.MeshBasicMaterial({ color: 0x0000ff })
+let yellow = new THREE.MeshBasicMaterial({ color: 0xffff00 })
+let green = new THREE.MeshBasicMaterial({ color: 0x00ff00 })
+let red = new THREE.MeshBasicMaterial({ color: 0xff0000 })
+
+let blueLine = new THREE.LineBasicMaterial({ color: 0x0000ff })
+
 vertexBox = new THREE.BoxGeometry(0.1, 0.1, 0.1);
 edgeCenter = new THREE.SphereGeometry(0.05);
 
@@ -227,9 +301,25 @@ function mcVis(index) {
     // }
     // debugger
     if (mcElem[index]) {
-        var poly1 = new THREE.Mesh(mcElem[index].toGeo(), yellow)
+
+
+        let geo = mcElem[index].toGeo()
+        let poly1 = new THREE.Mesh(geo, yellow)
         poly1.position.subScalar(.5)
         output.add(poly1)
+
+        var edges = new THREE.EdgesGeometry(geo);
+        var line = new THREE.LineSegments(edges, blueLine);
+        poly1.add(line);
+
+
+    }
+    else {
+        var x = index % 16
+        var y = (index / 16) | 0
+
+        console.log("missing index " + index, { x: x+1, y: y+1 })
+
     }
 
     return output
