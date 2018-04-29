@@ -62,7 +62,7 @@ class World {
     spawnChunk(cCoord) {
         let chunkName = cCoord.x + "." + cCoord.y + "." + cCoord.z;
         let blocks = this.generator(cCoord);
-        this.chunks[chunkName] = new Chunk({ name: chunkName, blocks: blocks, material: pbr, cLoc: cCoord, world: this })
+        this.chunks[chunkName] = new Chunk({ name: chunkName, blocks: blocks, material: depth, cLoc: cCoord, world: this })
         this.ThreeObject.add(this.chunks[chunkName].mesh)
 
 

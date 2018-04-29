@@ -1,0 +1,1 @@
+$(npm bin)/watchify main.js -o ../index.js -v

@@ -141,25 +141,35 @@ let e = [
     new THREE.Vector3(0, 1, 2),//e11
 ].map((vect, i) => { vect.multiplyScalar(0.5); vect.i = Math.pow(2, i); return vect })
 
+let n = [
+    new THREE.Vector3(1, 0, 0),
+    new THREE.Vector3(-1, 0, 0),
+    new THREE.Vector3(0, 1, 0),
+    new THREE.Vector3(0, -1, 0),
+    new THREE.Vector3(0, 0,1),
+    new THREE.Vector3(0, 0,-1),
+
+]
+
 // debugger
 let atomics = [
-    new MarchingCubeElement([], []),
-    new MarchingCubeElement([0], [0, 8, 3]),
-    new MarchingCubeElement([0, 1], [9, 8, 3, 1, 9, 3]),
-    new MarchingCubeElement([0, 5], [0, 8, 3, 5, 4, 9]),
-    new MarchingCubeElement([1, 2, 3], [10, 9, 11, 9, 0, 3, 3, 11, 9]),
+    new MarchingCubeElement([], [], 0),
+    new MarchingCubeElement([0], [0, 8, 3], 1),
+    new MarchingCubeElement([0, 1], [9, 8, 3, 1, 9, 3], 2),
+    new MarchingCubeElement([0, 5], [0, 8, 3, 5, 4, 9], 3),
+    new MarchingCubeElement([1, 2, 3], [10, 9, 11, 9, 0, 3, 3, 11, 9], 4),
 
-    new MarchingCubeElement([0, 1, 2, 3], [8, 10, 9, 8, 11, 10]),
-    new MarchingCubeElement([1, 2, 3, 4], [10, 9, 11, 9, 0, 3, 3, 11, 9, 4, 7, 8]),
-    new MarchingCubeElement([0, 5, 2, 7], [0, 8, 3, 5, 4, 9, 1, 2, 10, 7, 6, 11]),
-    new MarchingCubeElement([0, 2, 3, 7], [0, 10, 1, 0, 6, 10, 6, 0, 8, 8, 7, 6]),
-    new MarchingCubeElement([1, 2, 3, 7], [0, 10, 9, 0, 3, 7, 0, 7, 10, 10, 7, 6]),
+    new MarchingCubeElement([0, 1, 2, 3], [8, 10, 9, 8, 11, 10], 5),
+    new MarchingCubeElement([1, 2, 3, 4], [10, 9, 11, 9, 0, 3, 3, 11, 9, 4, 7, 8], 6),
+    new MarchingCubeElement([0, 5, 2, 7], [0, 8, 3, 5, 4, 9, 1, 2, 10, 7, 6, 11], 7),
+    new MarchingCubeElement([0, 2, 3, 7], [0, 10, 1, 0, 6, 10, 6, 0, 8, 8, 7, 6], 8),
+    new MarchingCubeElement([1, 2, 3, 7], [0, 10, 9, 0, 3, 7, 0, 7, 10, 10, 7, 6], 9),
 
-    new MarchingCubeElement([0, 6], [0, 8, 3, 6, 5, 10]),
-    new MarchingCubeElement([0, 1, 6], [9, 8, 3, 1, 9, 3, 6, 5, 10]),
-    new MarchingCubeElement([1, 6, 4], [0, 1, 9, 4, 7, 8, 5, 10, 6]),
-    new MarchingCubeElement([0, 4, 2, 6], [0, 4, 3, 3, 4, 7, 2, 6, 5, 2, 5, 1]),
-    new MarchingCubeElement([0, 2, 3, 6], [8, 11, 0, 0, 11, 5, 0, 5, 1, 11, 6, 5]),
+    new MarchingCubeElement([0, 6], [0, 8, 3, 6, 5, 10], 10),
+    new MarchingCubeElement([0, 1, 6], [9, 8, 3, 1, 9, 3, 6, 5, 10], 11),
+    new MarchingCubeElement([1, 6, 4], [0, 1, 9, 4, 7, 8, 5, 10, 6], 12),
+    new MarchingCubeElement([0, 4, 2, 6], [0, 4, 3, 3, 4, 7, 2, 6, 5, 2, 5, 1], 13),
+    new MarchingCubeElement([0, 2, 3, 6], [8, 11, 0, 0, 11, 5, 0, 5, 1, 11, 6, 5], 14),
 ]
 
 function addMCube(element) {
@@ -242,7 +252,7 @@ function mcVis(index) {
         var x = index % 16
         var y = (index / 16) | 0
 
-        console.log("missing index " + index, { x: x+1, y: y+1 })
+        console.log("missing index " + index, { x: x + 1, y: y + 1 })
 
     }
 

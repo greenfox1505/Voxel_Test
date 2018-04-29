@@ -26,7 +26,7 @@ myWorld.createStartingArea(n)
 
 
 let scene = new THREE.Scene();
-let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 1000);
 
 let renderer = new THREE.WebGLRenderer();
 
@@ -41,7 +41,7 @@ scene.add(myWorld.ThreeObject)
 
 
 UpdateFlyCam = new FlyCam(camera, renderer.domElement)
-camera.position.copy( {x: 18, y: 45, z: 17})
+camera.position.copy({x: 18.91874500889374, y: 43.60676071999159, z: 29.86601231836803})
 camera.lookAt(s * n / 2, s * n / 2, s * n / 2)
 
 var amb = new THREE.AmbientLight(0x404040); // soft white light
@@ -50,7 +50,6 @@ scene.add(amb);
 var lightColor = 0xFFD1B2
 
 var light = new THREE.PointLight( lightColor, 1, 100 );
-light.position.copy( {x: 18, y: 45, z: 17})	
 light.castShadow = true;
 scene.add( light );
 

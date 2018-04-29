@@ -1,6 +1,7 @@
 let THREE = require('three');
 
-
+let MCTris = require("./mc.json")
+// console.log(MCTris)
 
 let polys = {
     up: new THREE.PlaneGeometry(1, 1, 1), //+y
@@ -41,7 +42,7 @@ class Chunk {
         //     throw "No Neighbors Defined"
         // }
 
-        this.geometry = this.createGeometry(this.blocks)
+        this.geometry = this.createGeometry2()
         // debugger
         this.mesh = new THREE.Mesh(this.geometry, args.material);
         // debugger
@@ -98,13 +99,67 @@ class Chunk {
         }
         else return true
     }
+    marchingNeighbors(x, y, z) {
+        var output = 0
+        if (this.cordToBlock(x, y, z)) {
+            output = output | 1
+        }
+        if (this.cordToBlock(x + 1, y, z)) {
+            output = output | 2
+        }
+        if (this.cordToBlock(x + 1, y, z + 1)) {
+            output = output | 4
+        }
+        if (this.cordToBlock(x, y, z + 1)) {
+            output = output | 8
+        }
 
+        if (this.cordToBlock(x, y + 1, z)) {
+            output = output | 16
+        }
+        if (this.cordToBlock(x + 1, y + 1, z)) {
+            output = output | 32
+        }
+        if (this.cordToBlock(x + 1, y + 1, z + 1)) {
+            output = output | 64
+        }
+        if (this.cordToBlock(x, y + 1, z + 1)) {
+            output = output | 128
+        }
+        return output
+    }
+    createGeometry2() {
+        let geometry = new THREE.BufferGeometry();
+        console.time("MC Geo Test")
+        let verts = []
+        for (let z = 0; z < this.size - 1; z++) {
+            for (let y = 0; y < this.size - 1; y++) {
+                for (let x = 0; x < this.size - 1; x++) {
+                    let tris = MCTris[ this.marchingNeighbors(x,y,z)]
+                    for(let i = 0 ; i < tris.length ; i = i+3){
+                        let vL = verts.length;
+                        verts[vL] = tris[i]+x
+                        verts[vL+1] = tris[i+1]+y
+                        verts[vL+2] = tris[i+2]+z
+                    }
+                }
+            }
+        }
+        var vertices = new Float32Array( verts );
+        
+        // itemSize = 3 because there are 3 values (components) per vertex
+        geometry.addAttribute( 'position', new THREE.BufferAttribute( vertices, 3 ) );
+        
+        console.timeEnd("MC Geo Test")
+        return geometry
+    }
 
     /**
      * @param {number[]} blocks 
      * @returns {THREE.Geometry}
      */
-    createGeometry(blocks) {
+    createGeometry() {
+        let blocks = this.blocks
         let start = Date.now()
         let holderGeo = new THREE.Geometry();
         // outputGeo.merge(box)
