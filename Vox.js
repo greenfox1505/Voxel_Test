@@ -46899,7 +46899,7 @@ let Chunk = require("./World/Chunk")
 
 let FlyCam = require("./FlyCam.js")
 
-let s = 16*10;
+let s = 16*16;
 let n = 1;
 
 console.log("target block count:" + (Math.pow(s*n,3)))
@@ -46944,7 +46944,7 @@ scene.add(amb);
 var lightColor = 0xFFD1B2
 
 var light = new THREE.PointLight( lightColor, 1, 100 );
-light.castShadow = true;
+light.castShadow = false;
 scene.add( light );
 
 let ball = new THREE.SphereGeometry(0.25,16,8)
