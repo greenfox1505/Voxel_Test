@@ -51,11 +51,11 @@ let animate = function () {
         e.rotation.y += rSpeed;
     })
     if (zoom) {
-        var z = 64
+        var myZoom = 64
         camera.position.copy(
             {
-                x: (dis.x * z) - (z / 2),
-                y: (-dis.y * z) + (z / 2),
+                x: (dis.x * myZoom) - (myZoom / 2),
+                y: (-dis.y * myZoom) + (myZoom / 2),
                 z: 5
             }
         )

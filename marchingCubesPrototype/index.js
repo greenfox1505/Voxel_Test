@@ -52,11 +52,11 @@ let animate = function () {
         e.rotation.y += rSpeed;
     })
     if (zoom) {
-        var z = 64
+        var myZoom = 64
         camera.position.copy(
             {
-                x: (dis.x * z) - (z / 2),
-                y: (-dis.y * z) + (z / 2),
+                x: (dis.x * myZoom) - (myZoom / 2),
+                y: (-dis.y * myZoom) + (myZoom / 2),
                 z: 5
             }
         )
@@ -233,6 +233,23 @@ class MarchingCubeElement {
         output.addAttribute('normal', new THREE.BufferAttribute(normal, 3));
         return output
     }
+    export() {
+        // debugger
+        let output = {
+            pos: [],
+            norm: []
+        }
+        if (this.pos.length != this.normals.length) {
+            throw "Positions length must equal normal length!"
+        }
+        for (let i = 0; i < this.pos.length; i++) {
+            output.pos.push(this.pos[i])
+        }
+        for (let i = 0; i < this.normals.length; i++) {
+            output.norm.push(this.normals[i])
+        }
+        return output;
+    }
 
 }
 
@@ -331,7 +348,7 @@ function AllXYs(input) {
 
 }
 
-console.time("populating MC list")
+// console.time("populating MC list")
 for (let i of atomics) {
     AllXYs(i)
     AllXYs(i.rotateY())
@@ -340,7 +357,7 @@ for (let i of atomics) {
     AllXYs(i.mirror())
     AllXYs(i.invert().mirror())
 }
-console.timeEnd("populating MC list")
+// console.timeEnd("populating MC list")
 
 // FillElem(mcElem[v[0].i])
 
@@ -372,7 +389,6 @@ function mcVis(index) {
     // debugger
     if (mcElem[index]) {
 
-
         let geo = mcElem[index].toGeo()
         let poly1 = new THREE.Mesh(geo, normal)
         poly1.position.subScalar(.5)
@@ -388,9 +404,11 @@ function mcVis(index) {
         poly1.add(line);
 
 
+
+
     }
     else {
-        // debugger
+        debugger
         let x = index % 16
         let y = (index / 16) | 0
 
@@ -403,6 +421,21 @@ function mcVis(index) {
 
 
 exports.mcVis = mcVis;
+
+function ExportMarchingCubes() {
+    let output = []
+    for (let i in mcElem) {
+        output[i] = mcElem[i].export()
+        // console.log(output[i])
+    }
+    return output
+}
+exports.ExportMarchingCubes = ExportMarchingCubes
+
+if (require.main === module) {
+    console.log(JSON.stringify(ExportMarchingCubes()))
+}
+
 },{"three":3}],3:[function(require,module,exports){
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
