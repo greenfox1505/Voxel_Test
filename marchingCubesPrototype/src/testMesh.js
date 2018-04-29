@@ -190,6 +190,7 @@ for (let i of atomics) {
     AllXYs(i)
     AllXYs(i.rotateY())
     AllXYs(i.invert())
+    AllXYs(i.rotateY().invert())
     AllXYs(i.mirror())
     AllXYs(i.invert().mirror())
 }
@@ -237,6 +238,7 @@ function mcVis(index) {
 
     }
     else {
+        debugger
         var x = index % 16
         var y = (index / 16) | 0
 
@@ -246,5 +248,6 @@ function mcVis(index) {
 
     return output
 }
+
 
 exports.mcVis = mcVis;
