@@ -14,7 +14,12 @@ let Chunk = require("./Chunk")
 let normal = new THREE.MeshNormalMaterial()
 let depth = new THREE.MeshDepthMaterial()
 let basic = new THREE.MeshBasicMaterial({ color: 0xFFFF00 })
-let pbr = new THREE.MeshStandardMaterial({})
+let pbr = new THREE.MeshStandardMaterial({
+    color:0xffff00,
+    metalness:0.7,
+    roughness:0.7,
+    flatShading :true
+})
 
 
 class World {

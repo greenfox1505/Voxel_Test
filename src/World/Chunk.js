@@ -156,7 +156,7 @@ class Chunk {
         
         // itemSize = 3 because there are 3 values (components) per vertex
         geometry.addAttribute( 'position', new THREE.BufferAttribute( geoVerts, 3 ) );
-        geometry.addAttribute( 'normal', new THREE.BufferAttribute( geoNorms, 3 ) );
+        // geometry.addAttribute( 'normal', new THREE.BufferAttribute( geoNorms, 3 ) );
         
         console.timeEnd("MC Geo Test")
         return geometry
