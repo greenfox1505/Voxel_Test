@@ -1,7 +1,6 @@
 let THREE = require('three');
 
-let MCTris = require("./mc.json")
-// console.log(MCTris)
+let MCTris = require("./mcMesh.json")
 
 let polys = {
     up: new THREE.PlaneGeometry(1, 1, 1), //+y
@@ -131,24 +130,33 @@ class Chunk {
     createGeometry2() {
         let geometry = new THREE.BufferGeometry();
         console.time("MC Geo Test")
-        let verts = []
+        let vertexes = []
+        let normals = []
         for (let z = 0; z < this.size - 1; z++) {
             for (let y = 0; y < this.size - 1; y++) {
                 for (let x = 0; x < this.size - 1; x++) {
-                    let tris = MCTris[ this.marchingNeighbors(x,y,z)]
+                    let elem = MCTris[ this.marchingNeighbors(x,y,z)]
+                    let tris = elem[0]
+                    let norm = elem[1]
                     for(let i = 0 ; i < tris.length ; i = i+3){
-                        let vL = verts.length;
-                        verts[vL] = tris[i]+x
-                        verts[vL+1] = tris[i+1]+y
-                        verts[vL+2] = tris[i+2]+z
+                        vertexes[vertexes.length] = tris[i]+x
+                        vertexes[vertexes.length] = tris[i+1]+y
+                        vertexes[vertexes.length] = tris[i+2]+z
+                        normals[normals.length] = norm[i]
+                        normals[normals.length] = norm[i+1]
+                        normals[normals.length] = norm[i+2]
+                        
                     }
                 }
             }
         }
-        var vertices = new Float32Array( verts );
+        // debugger
+        var geoVerts = new Float32Array( vertexes );
+        var geoNorms = new Float32Array( normals );
         
         // itemSize = 3 because there are 3 values (components) per vertex
-        geometry.addAttribute( 'position', new THREE.BufferAttribute( vertices, 3 ) );
+        geometry.addAttribute( 'position', new THREE.BufferAttribute( geoVerts, 3 ) );
+        geometry.addAttribute( 'normal', new THREE.BufferAttribute( geoNorms, 3 ) );
         
         console.timeEnd("MC Geo Test")
         return geometry

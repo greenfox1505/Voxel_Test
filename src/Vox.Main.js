@@ -5,10 +5,10 @@ let Chunk = require("./World/Chunk")
 
 let FlyCam = require("./FlyCam.js")
 
-let s = 16*16;
+let s = 16 * 8;
 let n = 1;
 
-console.log("target block count:" + (Math.pow(s*n,3)))
+console.log("target block count:" + (Math.pow(s * n, 3)))
 
 
 let Monitor = require("./Monitor.js");
@@ -41,7 +41,7 @@ scene.add(myWorld.ThreeObject)
 
 
 UpdateFlyCam = new FlyCam(camera, renderer.domElement)
-camera.position.copy({x: 18.91874500889374, y: 43.60676071999159, z: 29.86601231836803})
+camera.position.copy({x: 14, y: 43, z: 23})
 camera.lookAt(s * n / 2, s * n / 2, s * n / 2)
 
 var amb = new THREE.AmbientLight(0x404040); // soft white light
@@ -49,13 +49,14 @@ scene.add(amb);
 
 var lightColor = 0xFFD1B2
 
-var light = new THREE.PointLight( lightColor, 1, 100 );
-light.castShadow = false;
-scene.add( light );
+var light = new THREE.PointLight(lightColor, 1, 100);
+light.position.copy({ x: 18, y: 45, z: 17 })
+light.castShadow = true;
+scene.add(light);
 
-let ball = new THREE.SphereGeometry(0.25,16,8)
-let colorMat = new THREE.MeshBasicMaterial({color:lightColor})
-let lightbulb = new THREE.Mesh(ball,colorMat)
+let ball = new THREE.SphereGeometry(0.25, 16, 8)
+let colorMat = new THREE.MeshBasicMaterial({ color: lightColor })
+let lightbulb = new THREE.Mesh(ball, colorMat)
 light.add(lightbulb)
 
 let x = 0;
@@ -63,7 +64,7 @@ let animate = function () {
 	Monitor.begin();
 	requestAnimationFrame(animate);
 	UpdateFlyCam()
-	light.position.z = Math.sin((x++)/1000)*30 + 15
+	light.position.z = Math.sin((x++) / 1000) * 30 + 15
 	renderer.render(scene, camera);
 	Monitor.end();
 };
