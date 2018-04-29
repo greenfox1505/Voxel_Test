@@ -87,7 +87,6 @@ function vRotX90(vertexIndex) {
     return [3, 2, 6, 7, 0, 1, 5, 4][vertexIndex]
 }
 function vMirror(vertexIndex) {
-    // return vertexIndex
     return [1, 0, 3, 2, 5, 4, 7, 6][vertexIndex]
 }
 function eRotY90(edgeIndex) {
@@ -97,26 +96,39 @@ function eRotX90(edgeIndex) {
     return [2, 10, 6, 11, 0, 9, 4, 8, 3, 1, 5, 7][edgeIndex]
 }
 function eMirror(edgeIndex) {
-    // return edgeIndex
     return [0, 3, 2, 1, 4, 7, 6, 5, 9, 8, 11, 10][edgeIndex]
 }
 
-// function eRotX90() {
-//     return [2, 10,]
-// }
-//I don't need a zrotation
+function nRotY90(normalIndex) {
+    return [4, 5, 2, 3, 1, 0][normalIndex]
+}
+function nRotX90(normalIndex) {
+    return [0, 1, 5, 4, 2, 3][normalIndex]
+}
+function nMirror(normalIndex) {
+    return [1, 0, 2, 3, 4, 5][normalIndex]
+}
+function nInvert(normalIndex) {
+    return [1, 0, 3, 2, 5, 4][normalIndex]
+}
 
 class MarchingCubeElement {
-    constructor(vertIndex, pos) {
+    constructor(vertIndex, pos, normal, primitive, nameString) {
         this.vertIndex = vertIndex
         this.pos = pos
+        this.normals = normal ? normal : []
         if (pos % 3) { throw "Tris Arg must be multipul of 3" }
         this.trisCount = pos.length / 3
 
         this.index = 0
         for (let i in vertIndex) {
             this.index = this.index | v[vertIndex[i]].i
-            // debugger
+        }
+        this.primitive = primitive;
+        if (nameString) {
+            this.nameString = nameString
+        } else {
+            this.nameString = primitive
         }
     }
     invert() {
@@ -132,7 +144,14 @@ class MarchingCubeElement {
             pos.push(this.pos[i + 1])
             pos.push(this.pos[i])
         }
-        return new MarchingCubeElement(vertIndex, pos)
+
+        let normal = []
+        for (let i = 0; i < this.normals.length; i = i + 3) {
+            normal.push(nInvert(this.normals[i + 2]))
+            normal.push(nInvert(this.normals[i + 1]))
+            normal.push(nInvert(this.normals[i]))
+        }
+        return new MarchingCubeElement(vertIndex, pos, normal, this.primitive, this.nameString + " invert")
     }
     mirror() {
         let vertIndex = []
@@ -145,7 +164,14 @@ class MarchingCubeElement {
             pos.push(eMirror(this.pos[i + 1]))
             pos.push(eMirror(this.pos[i]))
         }
-        return new MarchingCubeElement(vertIndex, pos)
+        let normal = []
+        for (let i = 0; i < this.normals.length; i = i + 3) {
+            normal.push(nMirror(this.normals[i + 2]))
+            normal.push(nMirror(this.normals[i + 1]))
+            normal.push(nMirror(this.normals[i]))
+        }
+        // debugger
+        return new MarchingCubeElement(vertIndex, pos, normal, this.primitive, this.nameString + " mirror")
     }
     rotateY() {
         let vertIndex = []
@@ -156,7 +182,11 @@ class MarchingCubeElement {
         for (let i of this.pos) {
             pos.push(eRotY90(i))
         }
-        return new MarchingCubeElement(vertIndex, pos)
+        let normal = []
+        for (let i of this.normals) {
+            normal.push(nRotY90(i))
+        }
+        return new MarchingCubeElement(vertIndex, pos, normal, this.primitive, this.nameString + " rotY")
     }
     rotateX() {
         let vertIndex = []
@@ -167,7 +197,11 @@ class MarchingCubeElement {
         for (let i of this.pos) {
             pos.push(eRotX90(i))
         }
-        return new MarchingCubeElement(vertIndex, pos)
+        let normal = []
+        for (let i of this.normals) {
+            normal.push(nRotX90(i))
+        }
+        return new MarchingCubeElement(vertIndex, pos, normal, this.primitive, this.nameString + " rotX")
     }
     getTri(i) {
         i = i * 3;
@@ -178,17 +212,25 @@ class MarchingCubeElement {
         ]
     }
     toGeo() {
-        var output = new THREE.BufferGeometry();
-        var vertices = []
+        let output = new THREE.BufferGeometry();
+        let vertices = []
         for (let i = 0; i < this.trisCount; i++) {
             this.getTri(i).map((e, j) => {
                 vertices.push(e)//this seems wonky...   
             })
         }
-        // deb  ugger
-        var position = new Float32Array(vertices)
+        let normalVerts = []
+        for (let i = 0; i < this.normals.length; i++) {
+            normalVerts.push(n[this.normals[i]].x)
+            normalVerts.push(n[this.normals[i]].y)
+            normalVerts.push(n[this.normals[i]].z)
+        }
 
+        let position = new Float32Array(vertices)
+        let normal = new Float32Array(normalVerts)
+        // debugger
         output.addAttribute('position', new THREE.BufferAttribute(position, 3));
+        output.addAttribute('normal', new THREE.BufferAttribute(normal, 3));
         return output
     }
 
@@ -220,46 +262,62 @@ let e = [
 ].map((vect, i) => { vect.multiplyScalar(0.5); vect.i = Math.pow(2, i); return vect })
 
 let n = [
-    new THREE.Vector3(1, 0, 0),
-    new THREE.Vector3(-1, 0, 0),
-    new THREE.Vector3(0, 1, 0),
-    new THREE.Vector3(0, -1, 0),
-    new THREE.Vector3(0, 0,1),
-    new THREE.Vector3(0, 0,-1),
-
+    new THREE.Vector3(1, 0, 0),//n0
+    new THREE.Vector3(-1, 0, 0),//n1
+    new THREE.Vector3(0, 1, 0),//n2
+    new THREE.Vector3(0, -1, 0),//n3
+    new THREE.Vector3(0, 0, 1),//n4
+    new THREE.Vector3(0, 0, -1),//n5
 ]
 
 // debugger
 let atomics = [
-    new MarchingCubeElement([], [], 0),
-    new MarchingCubeElement([0], [0, 8, 3], 1),
-    new MarchingCubeElement([0, 1], [9, 8, 3, 1, 9, 3], 2),
-    new MarchingCubeElement([0, 5], [0, 8, 3, 5, 4, 9], 3),
-    new MarchingCubeElement([1, 2, 3], [10, 9, 11, 9, 0, 3, 3, 11, 9], 4),
+    new MarchingCubeElement([], [], [], 0),
+    new MarchingCubeElement([0], [0, 8, 3], [0, 2, 4], 1),
+    new MarchingCubeElement([0, 1], [9, 8, 3, 1, 9, 3], [2, 2, 4, 4, 2, 4], 2),
+    new MarchingCubeElement([0, 5], [0, 8, 3, 5, 4, 9], [0, 2, 4, 4, 1, 3], 3),
+    new MarchingCubeElement([1, 2, 3], [10, 9, 11, 9, 0, 3, 3, 11, 9], [2, 2, 2, 2, 1, 5, 5, 2, 2], 4),
 
-    new MarchingCubeElement([0, 1, 2, 3], [8, 10, 9, 8, 11, 10], 5),
-    new MarchingCubeElement([1, 2, 3, 4], [10, 9, 11, 9, 0, 3, 3, 11, 9, 4, 7, 8], 6),
-    new MarchingCubeElement([0, 5, 2, 7], [0, 8, 3, 5, 4, 9, 1, 2, 10, 7, 6, 11], 7),
-    new MarchingCubeElement([0, 2, 3, 7], [0, 10, 1, 0, 6, 10, 6, 0, 8, 8, 7, 6], 8),
-    new MarchingCubeElement([1, 2, 3, 7], [0, 10, 9, 0, 3, 7, 0, 7, 10, 10, 7, 6], 9),
+    new MarchingCubeElement([0, 1, 2, 3], [8, 10, 9, 8, 11, 10], [2, 2, 2, 2, 2, 2], 5),
+    new MarchingCubeElement([1, 2, 3, 4], [10, 9, 11, 9, 0, 3, 3, 11, 9, 4, 7, 8], [2, 2, 2, 2, 1, 5, 5, 2, 2, 0, 4, 3], 6),
+    new MarchingCubeElement([0, 5, 2, 7], [0, 8, 3, 5, 4, 9, 1, 2, 10, 7, 6, 11], [0, 2, 4, 4, 1, 3, 5, 1, 2, 5, 0, 3], 7),
+    new MarchingCubeElement([0, 2, 3, 7], [0, 10, 1, 0, 6, 10, 6, 0, 8, 8, 7, 6], [0, 2, 5, 0, 0, 2, 0, 0, 2, 2, 5, 0], 8),
+    new MarchingCubeElement([1, 2, 3, 7], [0, 10, 9, 0, 3, 7, 0, 7, 10, 10, 7, 6], [1, 2, 2, 1, 5, 5, 1, 5, 2, 2, 5, 0], 9),
 
-    new MarchingCubeElement([0, 6], [0, 8, 3, 6, 5, 10], 10),
-    new MarchingCubeElement([0, 1, 6], [9, 8, 3, 1, 9, 3, 6, 5, 10], 11),
-    new MarchingCubeElement([1, 6, 4], [0, 1, 9, 4, 7, 8, 5, 10, 6], 12),
-    new MarchingCubeElement([0, 4, 2, 6], [0, 4, 3, 3, 4, 7, 2, 6, 5, 2, 5, 1], 13),
-    new MarchingCubeElement([0, 2, 3, 6], [8, 11, 0, 0, 11, 5, 0, 5, 1, 11, 6, 5], 14),
+    new MarchingCubeElement([0, 6], [0, 8, 3, 6, 5, 10], [0, 2, 4, 1, 5, 3], 10),
+    new MarchingCubeElement([0, 1, 6], [9, 8, 3, 1, 9, 3, 6, 5, 10], [2, 2, 4, 4, 2, 4, 1, 5, 3], 11),
+    new MarchingCubeElement([1, 6, 4], [0, 1, 9, 4, 7, 8, 5, 10, 6], [1, 4, 2, 0, 4, 3, 5, 3, 1], 12),
+    new MarchingCubeElement([0, 4, 2, 6], [0, 4, 3, 3, 4, 7, 2, 6, 5, 2, 5, 1], [0, 0, 4, 4, 0, 4, 1, 1, 5, 1, 5, 5], 13),
+    new MarchingCubeElement([0, 2, 3, 6], [8, 11, 0, 0, 11, 5, 0, 5, 1, 11, 6, 5], [2, 2, 0, 0, 2, 5, 0, 5, 5, 2, 1, 5], 14),//I'm pretty sure this is the same as #9....
 ]
+
+function indexCheck(e, x, y) {
+    let i = (x - 1) + (y - 1) * 16
+    if (e.index == i) { return true; }
+    return false;
+}
+
 
 function addMCube(element) {
     if (mcElem[element.index] == null) {
-        console.log("adding " + element.index, element)
+        // // debugger
+        // // console.log("adding " + element.index, element)
+        // if (indexCheck(element, 15, 3) |
+        //     indexCheck(element, 14, 5) |
+        //     indexCheck(element, 5, 8) |
+        //     indexCheck(element, 8, 2) |
+        //     indexCheck(element, 9, 15) |
+        //     indexCheck(element, 2, 14)) {
+        // }
+        // else {
+        //     console.log(element.index % 16 + 1, ((element.index / 16) | 0) + 1, element.nameString)
+        //     debugger
+        // }
         mcElem[element.index] = element
     }
 }
 
 function AllYs(input) {
-    if (input.vertIndex.length == 2) {
-    }
     addMCube(input);//stupid
     addMCube(input.rotateY())//redudant
     addMCube(input.rotateY().rotateY())
@@ -286,13 +344,14 @@ console.timeEnd("populating MC list")
 
 // FillElem(mcElem[v[0].i])
 
+let normal = new THREE.MeshNormalMaterial()
 
-let blue = new THREE.MeshBasicMaterial({ color: 0x0000ff })
 let yellow = new THREE.MeshBasicMaterial({ color: 0xffff00 })
+let blue = new THREE.MeshBasicMaterial({ color: 0x0000ff })
 let green = new THREE.MeshBasicMaterial({ color: 0x00ff00 })
 let red = new THREE.MeshBasicMaterial({ color: 0xff0000 })
 
-let blueLine = new THREE.LineBasicMaterial({ color: 0x0000ff })
+let whiteLine = new THREE.LineBasicMaterial({ color: 0xffffff })
 
 vertexBox = new THREE.BoxGeometry(0.1, 0.1, 0.1);
 edgeCenter = new THREE.SphereGeometry(0.05);
@@ -315,20 +374,25 @@ function mcVis(index) {
 
 
         let geo = mcElem[index].toGeo()
-        let poly1 = new THREE.Mesh(geo, yellow)
+        let poly1 = new THREE.Mesh(geo, normal)
         poly1.position.subScalar(.5)
         output.add(poly1)
 
-        var edges = new THREE.EdgesGeometry(geo);
-        var line = new THREE.LineSegments(edges, blueLine);
+        let edges = new THREE.EdgesGeometry(geo);
+        let line = new THREE.LineSegments(edges, whiteLine);
+
+        let normals = new THREE.VertexNormalsHelper(poly1, 0.5, 0x00ff00, 2);
+        normals.position.x = -5
+
+        output.add(normals)
         poly1.add(line);
 
 
     }
     else {
-        debugger
-        var x = index % 16
-        var y = (index / 16) | 0
+        // debugger
+        let x = index % 16
+        let y = (index / 16) | 0
 
         console.log("missing index " + index, { x: x + 1, y: y + 1 })
 
