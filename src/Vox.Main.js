@@ -3,10 +3,15 @@ let simplex = new (require('simplex-noise'))()
 let THREE = require('three');
 let Chunk = require("./World/Chunk")
 
-let FlyCam = require("./FlyCam.js")
+let WASD_Mouse = require("./WASD_Mouse")
+// let FlyCam = require("./FlyCam.js")
 
-let s = 16 * 8;
-let n = 1;
+let TrackObject = require("./TrackObject")
+
+let s = 16;
+let n = 8;
+
+
 
 console.log("target block count:" + (Math.pow(s * n, 3)))
 
@@ -28,6 +33,13 @@ myWorld.createStartingArea(n)
 let scene = new THREE.Scene();
 let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
+let wasd_mouse = new WASD_Mouse(document.body)
+wasd_mouse.addListener(WASD_Mouse.Fly(camera, {
+	speed: 0.01,
+	sensitivity: 0.005,
+	sprint: 5
+}))
+
 let renderer = new THREE.WebGLRenderer();
 
 renderer.shadowMap.enabled = true;
@@ -40,7 +52,8 @@ document.body.appendChild(renderer.domElement);
 scene.add(myWorld.ThreeObject)
 
 
-UpdateFlyCam = new FlyCam(camera, renderer.domElement)
+// UpdateFlyCam = FlyCam(camera, renderer.domElement)
+new TrackObject("Camera", camera, scene)
 camera.position.set(5.710485311777327, 47.89856260921998, 50.649956633218565)
 camera.rotation.set(-0.6407963267948963, -0.7331853071796124, -3.7353756219504284e-17, "ZYX"
 )
@@ -61,11 +74,15 @@ let lightbulb = new THREE.Mesh(ball, colorMat)
 light.add(lightbulb)
 
 let x = 0;
+
+
+
 let animate = function () {
 	Monitor.begin();
 	requestAnimationFrame(animate);
-	UpdateFlyCam()
-	light.position.z = Math.sin((x++) / 25) * 30 + 15
+	wasd_mouse.tick(16)
+	// UpdateFlyCam()
+	//light.position.z = Math.sin((x++) / 25) * 30 + 15
 	renderer.render(scene, camera);
 	Monitor.end();
 };
