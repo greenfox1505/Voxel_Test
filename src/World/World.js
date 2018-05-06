@@ -1,4 +1,3 @@
-
 /**
  * World.js
  * Manages all chunks. Manages scene graph.
@@ -9,7 +8,6 @@ let THREE = require('three');
 
 
 let Chunk = require("./Chunk")
-
 
 let normal = new THREE.MeshNormalMaterial()
 let depth = new THREE.MeshDepthMaterial()
@@ -22,7 +20,7 @@ let pbr = new THREE.MeshStandardMaterial({
 })
 
 
-class World {
+class VoxWorld {
     /**
      * @param {Function} args.generator
      * @param {object} [args.saveData={}]
@@ -69,18 +67,36 @@ class World {
         return this.chunks[chunkName]
     }
     clearChunk(cX, cY, cZ) {
-
+        throw "TODO!"
     }
-
+    /**
+     * 
+     * @param {THREE.Vector3} vIn 
+     */
+    GetVoxel(vIn) {
+        let chunk = vIn.clone().divideScalar(this.chunkSize).floor();
+        let chunkN = chunk.x + "." + chunk.y + "." + chunk.z;
+        /**@type {Chunk}*/
+        if (this.chunks[chunkN]) {
+            let chunkData = this.chunks[chunkN]
+            var block = chunkData.cordToBlock(vIn.x % this.chunkSize, vIn.y % this.chunkSize, vIn.z % this.chunkSize)
+            // debugger
+            return block
+        }
+        return null
+    }   
+    SetVoxel(vIn){
+        
+    }
 }
 
-module.exports = World;
+module.exports = VoxWorld;
 
 
 document.body.addEventListener("keydown", function (e) {
     if (e.code == "Space") {
-        pbr.flatShading = pbr.flatShading? false : true
-        pbr.needsUpdate =true;
+        pbr.flatShading = pbr.flatShading ? false : true
+        pbr.needsUpdate = true;
         console.log("toggled!")
     }
 })

@@ -23,6 +23,7 @@ class WASD_Mouse {
 			KeyS: 0,
 			KeyD: 0,
 			ShiftLeft: 0,
+			Space:0,
 			mouse: { x: 0, y: 0 }
 		}
 	}
@@ -81,7 +82,7 @@ class WASD_Mouse {
 		let v = new THREE.Vector3()
 		let r = new THREE.Euler()
 		r.order = "ZYX"
-		let sprint = settings.sprint?settings.sprint:1
+		let sprint = settings.sprint ? settings.sprint : 1
 		return function (keyState, dt) {
 			v.z = (keyState.KeyW - keyState.KeyS) * settings.speed * dt * (keyState.ShiftLeft ? sprint : 1)
 			v.x = (keyState.KeyA - keyState.KeyD) * settings.speed * dt * (keyState.ShiftLeft ? sprint : 1)

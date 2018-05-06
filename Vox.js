@@ -46780,6 +46780,161 @@ var Stats = function () {
 
 },{}],4:[function(require,module,exports){
 
+let THREE = require("three")
+let world = require("./World/World")
+
+
+class CharacterController {
+    /**
+     * 
+     * @param {THREE.Object3D} object 
+     * @param {VoxWorld} myVoxWorld 
+     */
+    constructor(object, myVoxWorld) {
+        this.object = object;
+        this.ThreeWorld = myVoxWorld.ThreeObject
+        /**
+         * @type {VoxWorld}
+         */
+        this.VoxWorld = myVoxWorld
+    }
+    createHandle(settings) {
+        let v = new THREE.Vector3()
+        let r = new THREE.Euler()
+        let object = this.object
+        r.order = "ZYX"
+        let sprint = settings.sprint ? settings.sprint : 1
+
+        let moveRay = new THREE.Raycaster(this.object.position, v, 0);
+
+        let feetRay = new THREE.Raycaster(this.object.position, new THREE.Vector3(0, -1, 0), 0, 3);
+
+
+        let that = this;
+
+        let grav = new THREE.Vector3(0, -10, 0);
+        let velocity = new THREE.Vector3(0, 0, 0);
+
+        return function handle(keyState, dt) {
+            if (settings.mode == "noclip") {
+                //rotate camera
+                r.x = THREE.Math.clamp(r.x + (keyState.mouse.y * settings.sensitivity), -Math.PI / 2, Math.PI / 2)
+                r.y += keyState.mouse.x * settings.sensitivity
+                object.setRotationFromEuler(r)
+
+                //move intent
+                v.z = -(keyState.KeyW - keyState.KeyS) * settings.speed * dt * (keyState.ShiftLeft ? sprint : 1)
+                v.x = -(keyState.KeyA - keyState.KeyD) * settings.speed * dt * (keyState.ShiftLeft ? sprint : 1)
+                v.y = 0;
+                v.applyEuler(r)
+
+                //move results
+                object.position.add(v)
+
+                return;
+            }
+            if (settings.mode == "fly") {
+                //you can fly through corners with this. I should probably have some sort of recurisve machine...
+                v.z = -(keyState.KeyW - keyState.KeyS) * settings.speed * dt * (keyState.ShiftLeft ? sprint : 1)
+                v.x = -(keyState.KeyA - keyState.KeyD) * settings.speed * dt * (keyState.ShiftLeft ? sprint : 1)
+                v.y = 0;
+                r.x = THREE.Math.clamp(r.x + (keyState.mouse.y * settings.sensitivity), -Math.PI / 2, Math.PI / 2)
+                r.y += keyState.mouse.x * settings.sensitivity
+                v.applyEuler(r)
+
+                moveRay.far = v.length() + 0.5;
+                var a = moveRay.intersectObject(that.ThreeWorld, true)
+                if (a.length != 0) {
+                    // debugger
+                    console.log(v)
+                    let n = a[0].face.normal
+                    // debugger                   v
+                    let neg = v.clone().negate()
+
+                    v = v.add(n.multiplyScalar(neg.dot(n)))
+                    // v = v.multiplyScalar(v.dot(a[0].face.normal))//.divideScalar(v.length())
+                }
+                object.setRotationFromEuler(r)
+                object.position.add(v)
+                return;
+            }
+            if (settings.mode == "voxclip") {
+                //rotate camera
+                r.x = THREE.Math.clamp(r.x + (keyState.mouse.y * settings.sensitivity), -Math.PI / 2, Math.PI / 2)
+                r.y += keyState.mouse.x * settings.sensitivity
+                object.setRotationFromEuler(r)
+
+                //move vector
+                v.z = -(keyState.KeyW - keyState.KeyS) 
+                v.x = -(keyState.KeyA - keyState.KeyD)
+                v.y = 0;
+                v.applyEuler(r);
+                v.y = 0;
+                v.normalize()
+                v.multiplyScalar(settings.speed * dt * (keyState.ShiftLeft ? sprint : 1))
+
+
+                ///get vertex pos
+                let pos = that.object.position.clone()
+                pos.addScalar(0.5)
+                pos.floor()
+                let feet = pos.clone(); feet.y =feet.y - 2
+                
+                let gt = grav.clone().multiplyScalar(dt)
+                if(that.VoxWorld.GetVoxel(feet) == 0){
+                    velocity.add(gt)
+                }
+                if(that.VoxWorld.GetVoxel(feet) != 0){
+                    velocity.set(0,0,0);
+                    velocity.sub(gt);                   
+                }
+
+
+                // if(that.VoxWorld.GetVoxel(feet) == undefined){
+                //     debugger
+                // }
+                object.position.add(velocity)
+                object.position.add(v)
+
+                return
+            }
+            if (settings.mode == "dot") {
+                let gt = grav.clone().multiplyScalar(dt);
+                //shoot ray down
+                let touching = feetRay.intersectObject(that.ThreeWorld, true)
+                if (touching.length == 0) {
+                    velocity = velocity.add(gt);
+                }
+                if (touching.length != 0) {
+                    debugger
+                    if (touching[0].distance < 2) {
+                        velocity.y = 2 - touching[0].distance
+                    }
+                    else {
+                        velocity = velocity.add(gt);
+                        if (velocity.y > (2 - touching[0].distance)) {
+                            velocity.y = 2 - touching[0].distance
+                        }
+                    }
+                }
+                //if ray is <0.5, resist movement
+                //if ray is 1.5, push player to 2
+                //if ray is >2, drop player
+                // debugger
+                object.position.add(velocity)
+                console.log(velocity)
+                return
+            }
+
+            throw "No CharacterController Mode Set!"
+        }
+    }
+
+}
+
+module.exports = CharacterController
+},{"./World/World":9,"three":3}],5:[function(require,module,exports){
+
 let stats = new (require("stats-js"))();
 stats.setMode(0); // 0: fps, 1: ms 
  
@@ -46802,115 +46957,51 @@ module.exports = {
         stats.domElement.style.display = "none";
     },
 }
-},{"stats-js":2}],5:[function(require,module,exports){
-let THREE = require("three")
+},{"stats-js":2}],6:[function(require,module,exports){
+console.time("FirstFrame"); let f = () => { console.timeEnd("FirstFrame") }
 
-let all = []
 
-let container = document.createElement("div")
-container.setAttribute("class", "info")
-document.body.appendChild(container)
-
-const down = new THREE.Vector3(0, -1, 0)
-const forward = new THREE.Vector3(0, 0, 1)
-
-class TrackObject {
-	/**
-	 * 
-	 * @param {string} name 
-	 * @param {THREE.Object3D} OBJ 
-	 * @param {THREE.Scene} world 
-	 */
-	constructor(name, OBJ, world) {
-		this.name = name
-		this.obj = OBJ
-		this.downRay = new THREE.Raycaster(OBJ.position, down )
-		this.forRay = new THREE.Raycaster(OBJ.position )
-		all.push(this)
-		this.world = world
-	}
-	update() {
-		let downObjs = this.downRay.intersectObjects(this.world.children,true)
-		this.forRay.setFromCamera({x:0,y:0},this.obj);
-		let forRay = 		this.forRay.intersectObjects(this.world.children,true)
-
-//		let forwardObjs = 
-
-		if(downObjs.length != 0 ){
-			// debugger
-		}
-		return {
-			name: this.name,
-			pos: {
-				x: this.obj.position.x | 0,
-				y: this.obj.position.y | 0,
-				z: this.obj.position.z | 0,
-			},
-			downRay:downObjs.length?downObjs[0].distance:null ,
-			forRay:forRay.length?forRay[0].distance:null 
-		}
-	}
-}
-
-module.exports = TrackObject
-
-function track() {
-	if(document.debugger){
-		debugger
-		document.debugger = null
-	}
-	container.innerHTML = ""
-	for (let i in all) {
-		let out = "<p>" + JSON.stringify(all[i].update()) + "</p>"
-		container.innerHTML = container.innerHTML + out
-
-	}
-	requestAnimationFrame(track)
-}
-requestAnimationFrame(track)
-
-},{"three":3}],6:[function(require,module,exports){
 let simplex = new (require('simplex-noise'))()
 // debugger
 let THREE = require('three');
 let Chunk = require("./World/Chunk")
 
 let WASD_Mouse = require("./WASD_Mouse")
-// let FlyCam = require("./FlyCam.js")
+let CharacterController = require("./CharacterController")
 
-let TrackObject = require("./TrackObject")
+//let TrackObject = require("./TrackObject")
 
-let s = 16;
-let n = 8;
+let size = 16;
+let cunksCubed = 8;
 
 
 
-console.log("target block count:" + (Math.pow(s * n, 3)))
+console.log("target block count:" + (Math.pow(size * cunksCubed, 3)))
 
 
 let Monitor = require("./Monitor.js");
 
-let Solid = new (require("./World/WorldGens/Solid"))("helloworld", s)
+let Solid = new (require("./World/WorldGens/Solid"))("helloworld", size)
 
 let myWorld = new (require("./World/World"))({
-	generator: (a) => {
+	generator: function (a) {
 		return Solid.generateChunk(a)
 	},
-	chunkSize: s,
+	chunkSize: size,
 })
 
-myWorld.createStartingArea(n)
+myWorld.createStartingArea(cunksCubed)
 
 
 let scene = new THREE.Scene();
 let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
-let wasd_mouse = new WASD_Mouse(document.body)
-wasd_mouse.addListener(WASD_Mouse.Fly(camera, {
-	speed: 0.01,
-	sensitivity: 0.005,
-	sprint: 5
-}))
+// let wasd_mouse = new WASD_Mouse(document.body)
+// wasd_mouse.addListener(WASD_Mouse.Fly(camera, {
+// 	speed: 0.01,
+// 	sensitivity: 0.005,
+// 	sprint: 5
+// }))
 
 let renderer = new THREE.WebGLRenderer();
 
@@ -46925,10 +47016,8 @@ scene.add(myWorld.ThreeObject)
 
 
 // UpdateFlyCam = FlyCam(camera, renderer.domElement)
-new TrackObject("Camera", camera, scene)
-camera.position.set(5.710485311777327, 47.89856260921998, 50.649956633218565)
-camera.rotation.set(-0.6407963267948963, -0.7331853071796124, -3.7353756219504284e-17, "ZYX"
-)
+// new TrackObject("Camera", camera, scene)
+camera.position.set(28, 46, 21)
 
 var amb = new THREE.AmbientLight(0x404040); // soft white light
 scene.add(amb);
@@ -46947,21 +47036,44 @@ light.add(lightbulb)
 
 let x = 0;
 
+let boxShape = new THREE.CubeGeometry(1, 2, 1);
+let playerMat = new THREE.MeshBasicMaterial({ color: 0x0000FF })
+let player = new THREE.Mesh(boxShape, playerMat)
+scene.add(player)
+player.position.copy({ x: 11, y: 45, z: 25 })
 
+
+let wasd_mouse = new WASD_Mouse(document.body)
+// wasd_mouse.addListener(WASD_Mouse.Fly(player, {
+// 	sprint: 5,
+// 	speed: 1,
+// 	sensitivity: 0.01
+// }))
+
+let pawn = new CharacterController(player, myWorld)
+wasd_mouse.addListener(pawn.createHandle({
+	sprint: 5,
+	speed: 8,
+	sensitivity: 0.01,
+	mode: "voxclip"
+}))
 
 let animate = function () {
+	f(); f = () => { }
+
 	Monitor.begin();
 	requestAnimationFrame(animate);
-	wasd_mouse.tick(16)
-	// UpdateFlyCam()
-	//light.position.z = Math.sin((x++) / 25) * 30 + 15
+	wasd_mouse.tick(16 / 1000)
+	camera.position.copy(player.position);
+	camera.rotation.copy(player.rotation)
+	// camera.lookAt(player.position);
 	renderer.render(scene, camera);
 	Monitor.end();
 };
 
 animate();
 
-},{"./Monitor.js":4,"./TrackObject":5,"./WASD_Mouse":7,"./World/Chunk":8,"./World/World":9,"./World/WorldGens/Solid":10,"simplex-noise":1,"three":3}],7:[function(require,module,exports){
+},{"./CharacterController":4,"./Monitor.js":5,"./WASD_Mouse":7,"./World/Chunk":8,"./World/World":9,"./World/WorldGens/Solid":10,"simplex-noise":1,"three":3}],7:[function(require,module,exports){
 let THREE = require("three")
 
 class WASD_Mouse {
@@ -46987,6 +47099,7 @@ class WASD_Mouse {
 			KeyS: 0,
 			KeyD: 0,
 			ShiftLeft: 0,
+			Space:0,
 			mouse: { x: 0, y: 0 }
 		}
 	}
@@ -47045,7 +47158,7 @@ class WASD_Mouse {
 		let v = new THREE.Vector3()
 		let r = new THREE.Euler()
 		r.order = "ZYX"
-		let sprint = settings.sprint?settings.sprint:1
+		let sprint = settings.sprint ? settings.sprint : 1
 		return function (keyState, dt) {
 			v.z = (keyState.KeyW - keyState.KeyS) * settings.speed * dt * (keyState.ShiftLeft ? sprint : 1)
 			v.x = (keyState.KeyA - keyState.KeyD) * settings.speed * dt * (keyState.ShiftLeft ? sprint : 1)
@@ -47284,7 +47397,6 @@ let totalTime = 0;
 
 module.exports = Chunk
 },{"./mcMesh.json":11,"three":3}],9:[function(require,module,exports){
-
 /**
  * World.js
  * Manages all chunks. Manages scene graph.
@@ -47295,7 +47407,6 @@ let THREE = require('three');
 
 
 let Chunk = require("./Chunk")
-
 
 let normal = new THREE.MeshNormalMaterial()
 let depth = new THREE.MeshDepthMaterial()
@@ -47308,7 +47419,7 @@ let pbr = new THREE.MeshStandardMaterial({
 })
 
 
-class World {
+class VoxWorld {
     /**
      * @param {Function} args.generator
      * @param {object} [args.saveData={}]
@@ -47355,18 +47466,36 @@ class World {
         return this.chunks[chunkName]
     }
     clearChunk(cX, cY, cZ) {
-
+        throw "TODO!"
     }
-
+    /**
+     * 
+     * @param {THREE.Vector3} vIn 
+     */
+    GetVoxel(vIn) {
+        let chunk = vIn.clone().divideScalar(this.chunkSize).floor();
+        let chunkN = chunk.x + "." + chunk.y + "." + chunk.z;
+        /**@type {Chunk}*/
+        if (this.chunks[chunkN]) {
+            let chunkData = this.chunks[chunkN]
+            var block = chunkData.cordToBlock(vIn.x % this.chunkSize, vIn.y % this.chunkSize, vIn.z % this.chunkSize)
+            // debugger
+            return block
+        }
+        return null
+    }   
+    SetVoxel(vIn){
+        
+    }
 }
 
-module.exports = World;
+module.exports = VoxWorld;
 
 
 document.body.addEventListener("keydown", function (e) {
     if (e.code == "Space") {
-        pbr.flatShading = pbr.flatShading? false : true
-        pbr.needsUpdate =true;
+        pbr.flatShading = pbr.flatShading ? false : true
+        pbr.needsUpdate = true;
         console.log("toggled!")
     }
 })
