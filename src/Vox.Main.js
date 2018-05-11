@@ -95,7 +95,7 @@ wasd_mouse.addListener(pawn.createHandle({
 	sprint: 5,
 	speed: 8,
 	sensitivity: 0.01,
-	mode: "voxclip"
+	mode: "noclip"
 }))
 
 let animate = function () {
