@@ -47241,7 +47241,14 @@ class Chunk {
     // }
     cordToBlock(x, y, z) {
         //if outside chunk, return other chunk!
-        if (x < 0 | y < 0 | z < 0 | x >= this.size | y >= this.size | z >= this.size) {
+        if (x < 0 | y < 0 | z < 0) { return 0 }
+        else if (x >= this.size) {
+            return 0
+        }
+        else if (y >= this.size) {
+            return 0
+        }
+        else if (z >= this.size) {
             return 0
         }
         let index = x + (y * this.size) + (z * this.size * this.size)
@@ -47312,29 +47319,29 @@ class Chunk {
         for (let z = 0; z < this.size - 1; z++) {
             for (let y = 0; y < this.size - 1; y++) {
                 for (let x = 0; x < this.size - 1; x++) {
-                    let elem = MCTris[ this.marchingNeighbors(x,y,z)]
+                    let elem = MCTris[this.marchingNeighbors(x, y, z)]
                     let tris = elem[0]
                     let norm = elem[1]
-                    for(let i = 0 ; i < tris.length ; i = i+3){
-                        vertexes[vertexes.length] = tris[i]+x
-                        vertexes[vertexes.length] = tris[i+1]+y
-                        vertexes[vertexes.length] = tris[i+2]+z
+                    for (let i = 0; i < tris.length; i = i + 3) {
+                        vertexes[vertexes.length] = tris[i] + x
+                        vertexes[vertexes.length] = tris[i + 1] + y
+                        vertexes[vertexes.length] = tris[i + 2] + z
                         normals[normals.length] = norm[i]
-                        normals[normals.length] = norm[i+1]
-                        normals[normals.length] = norm[i+2]
-                        
+                        normals[normals.length] = norm[i + 1]
+                        normals[normals.length] = norm[i + 2]
+
                     }
                 }
             }
         }
         // debugger
-        var geoVerts = new Float32Array( vertexes );
-        var geoNorms = new Float32Array( normals );
-        
+        var geoVerts = new Float32Array(vertexes);
+        var geoNorms = new Float32Array(normals);
+
         // itemSize = 3 because there are 3 values (components) per vertex
-        geometry.addAttribute( 'position', new THREE.BufferAttribute( geoVerts, 3 ) );
-        geometry.addAttribute( 'normal', new THREE.BufferAttribute( geoNorms, 3 ) );
-        
+        geometry.addAttribute('position', new THREE.BufferAttribute(geoVerts, 3));
+        geometry.addAttribute('normal', new THREE.BufferAttribute(geoNorms, 3));
+
         console.timeEnd("MC Geo Test")
         return geometry
     }
