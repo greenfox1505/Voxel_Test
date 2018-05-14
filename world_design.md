@@ -4,12 +4,17 @@ World object maintains the World. This include chunk data and save data. It's
 informed by the player. I needs to sort what chunks need to be deleted or added as
 the player travels around the world.
 
+I need a Staged Chunk Generator. Each Chunk needs certain parts of it's neighbors to complete before
+continuing. Large object (such as trees) might pass between 2 or more chunks. First stage is the stone, dirt,
+etc. Things that cannot extend past one chunk. Secound stage is for trees and the like. Last Stage is 
+geometry (both physics and rendering, since both need to query neighbors).
+
 # Chunk Object Design
 
 The Chunk Object loads chunk data. When no Chunk data is provided, it runs the world Generator.
 
 Before a chunk can be displayed, it needs to go through several stages:
-- Allocates Chunk (the chunk is not filled out yet)
+- Allocates Chunk (0th stage generation, just filled out) 
 - 1st Pass Chunk Generation: Noise functions, terraian, etc
 - 2nd Pass Chunk Generation: objects that are larger than one chunk 
 - 3rd Pass Chunk Generation: Geometry! Both physics and Redering.
