@@ -1,6 +1,8 @@
 let THREE = require("three")
 let GeometryGenerator = require("./GeometryGenerator")
 
+
+
 class Chunk {
     /**
      * 
@@ -17,6 +19,7 @@ class Chunk {
         this.generator = args.generator
         this.stage = 0;
         this.blocks = [];
+        this.gCoord = args.cCoord.clone().multiplyScalar(args.size)
         //I feel like maybe there is a better way to map this...
         for (let i = 0; i < (args.size * args.size * args.size); i++) { this.blocks[i] = null }
 
@@ -24,7 +27,8 @@ class Chunk {
 
         this.engine = {
             threeGeo: null,
-            cannonGeo: null
+            cannonGeo: null,
+            threeMesh: null
         }
 
     }
@@ -35,16 +39,22 @@ class Chunk {
             console.error("coord to block hit detection needed!")
             return 0;
         }
-        return this.blocks[x * this.size2 + y * this.size + z]
+        let index = x * this.size2 + y * this.size + z;
+        return this.blocks[index]
     }
     //maybe I need a veriation of this method that's "safe" who gets it's neighboors?
     getBlock(lCoord) {
-        //todo detect outside
+        this.world.reporting.warning("todo detect outside!")
         return this.blocks[lCoord.x * this.size2 + lCoord.y * this.size + lCoord.z]
     }
     setBlock(lCoord, block) {
-        //todo detect outside
-        return this.blocks[lCoord.x * this.size2 + lCoord.y * this.size + lCoord.z] = block
+        try {
+            this.world.reporting.warning("todo detect outside!")
+            this.world.reporting.warning("mark for regeneration!")
+            return this.blocks[lCoord.x * this.size2 + lCoord.y * this.size + lCoord.z] = block
+        } catch (e) {
+            debugger
+        }
     }
     generate(stage) {
         /**@type {THREE.Vector3} */
@@ -53,30 +63,36 @@ class Chunk {
             throw "Stage CANNOT be less than One!"
         }
         return new Promise((res, rej) => {
-            if (this.stage >= stage) {
-                res(this)
-            }
-            else if (stage == 1) {
-                this.generator(stage).then(res(this)).catch(rej)
-            } else {
-                let neighborhood = []
-                for (let x of [-1, 0, 1]) {
-                    for (let y of [-1, 0, 1]) {
-                        for (let z of [-1, 0, 1]) {
-                            let neighbor = cCoord.clone()
-                            neighbor.x += x;
-                            neighbor.y += y;
-                            neighbor.z += z;
-                            neighborhood.push(
-                                this.world.requestChunk(neighbor, stage - 1)
-                            )
+            try {
+                if (this.stage >= stage) {
+                    res(this)
+                }
+                else if (stage == 1) {
+                    this.generator(stage).then(res(this))//.catch(rej)
+                } else {
+                    let neighborhood = []
+                    for (let x of [-1, 0, 1]) {
+                        for (let y of [-1, 0, 1]) {
+                            for (let z of [-1, 0, 1]) {
+                                let neighbor = cCoord.clone()
+                                neighbor.x += x;
+                                neighbor.y += y;
+                                neighbor.z += z;
+                                neighborhood.push(
+                                    this.world.requestChunk(neighbor, stage - 1)
+                                )
+                            }
                         }
                     }
+                    Promise.all(neighborhood).then(this.generator(stage)).then(res(this))
                 }
-                Promise.all(neighborhood).then(this.generator(stage)).then(res(this)).catch(rej)
+            }
+            catch(e){
+                rej(e)
             }
         })
     }
 }
 
 module.exports = Chunk;
+

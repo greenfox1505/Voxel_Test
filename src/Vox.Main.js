@@ -94,6 +94,7 @@ let pawn = new CharacterController(player, myWorld)
 wasd_mouse.addListener(pawn.createHandle({
 	sprint: 5,
 	speed: 8,
+	
 	sensitivity: 0.01,
 	mode: "noclip"
 }))

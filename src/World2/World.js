@@ -11,20 +11,22 @@ let config = {
 let V3 = THREE.Vector3
 
 
+
+
 class World {
     constructor(args) {
         this.chunks = {}
         this.seed = args.seed
         this.generator = LoadWorldGen(args.seed)
+        this.object = new THREE.Object3D()
+        this.reporting = {
+            warning : (message)=>{
+                // debugger
+            }
+        }
     }
-    createSpawnPoint() {
-        // this.chunks["0,0,0"] = this.chunks["0,0,0"].generate(3);
-        console.time("Generating Spawn")
-
+    createSpawnPoint(size) {
         let AllChunks = []
-
-        let size = 10
-
         for (let x = 0; x < size; x++) {
             for (let y = 0; y < size; y++) {
                 for (let z = 0; z < size; z++) {
@@ -32,10 +34,7 @@ class World {
                 }
             }
         }
-        Promise.all(AllChunks).then((e) => {
-            console.timeEnd("Generating Spawn")
-            debugger
-        })
+        return Promise.all(AllChunks)
     }
     getChunkCoord(wCoord) {
         return new V3(
@@ -46,13 +45,27 @@ class World {
     }
     getBlock(wCoord) {
         let cCoord = getChunkCoord(wCoord)
-        return this.chunks[cCoord.x + "," + coord.y + "," + coord.z]
-            .getBlock(
+        let chunkName = cCoord.x + "," + coord.y + "," + coord.z
+        if (this.chunks[chunkName] != null) {
+            return this.chunks[chunkName].getBlock(
                 new V3(
                     wCoord.x % config.chunkSize,
                     wCoord.y % config.chunkSize,
                     wCoord.z % config.chunkSize)
             )
+        }
+    }
+    setBlock(wCoord, block) {
+        let cCoord = getChunkCoord(wCoord)
+        let chunkName = cCoord.x + "," + coord.y + "," + coord.z
+        if (this.chunks[chunkName] != null) {
+            return this.chunks[chunkName].setBlock(
+                new V3(
+                    wCoord.x % config.chunkSize,
+                    wCoord.y % config.chunkSize,
+                    wCoord.z % config.chunkSize), block
+            )
+        }
     }
     requestChunk(cCoord, stage) {
         let name = cCoord.x + "," + cCoord.y + "," + cCoord.z
@@ -82,7 +95,15 @@ class World {
 
 module.exports = World;
 
+World.prototype.mats = {
+    // stone: new THREE.MeshStandardMaterial({
+    //     color: 0xffffd1,
+    //     metalness: 0.7,
+    //     roughness: 0.7,
+    //     flatShading: true
+    // })
+    stone: new THREE.MeshNormalMaterial({
+        flatShading: true
+    })
+};
 
-(new World({
-    seed: "Hello World!"
-})).createSpawnPoint()

@@ -8,9 +8,6 @@ let prop = {
 }
 
 function Terrain(rnd) {
-    /**@type {SimplexNoise} */
-    //    let stone = rnd.stone
-    // console.log("Generating Terrain for " + this.name)
     let lCoord = new THREE.Vector3();
     for (let x = 0; x < this.size; x++) {
         lCoord.x = x;
@@ -18,14 +15,15 @@ function Terrain(rnd) {
             lCoord.y = y;
             for (let z = 0; z < this.size; z++) {
                 lCoord.z = z;
-                let block = ((rnd.stone(x, y, z) + 1) | 0)
-                if (block == 0) {
-                    block = ((rnd.grass(x, y, z) + 1) | 0)
-                }
+                let block = ((rnd.stone(x + this.gCoord.x, y + this.gCoord.y, z + this.gCoord.z) + 1) | 0)
+                // if (block == 0) {
+                //     block = ((rnd.grass(x, y, z) + 1) | 0)
+                // }
                 this.setBlock(lCoord, block)
             }
         }
     }
+    return this
 }
 
 function Structures(rnd) {
@@ -34,28 +32,30 @@ function Structures(rnd) {
 
 function Load(seed) {
     let rnd = {
-        stone: SeededSimplex(seed + "stone", 16),
+        stone: SeededSimplex(seed + "stone", 32),
         dirt: SeededSimplex(seed + "dirt", 16)
     }
 
     return function DefaultGenerator(stage) {
-        switch (stage) {
-            case 1:
-                Terrain.bind(this)(rnd)
-                break;
-            case 2:
-                Structures.bind(this)(rnd)
-                break;
-            case 3:
-                //3rd pass, prep for rendering
-                this.refreshGeo()
-                break;
-            default:
-                throw "There is no Stage" + stage + "generation!"
-                break;
-        }
-
-        this.stage = stage
+        return new Promise((res, rej) => {
+            switch (stage) {
+                case 1:
+                    Terrain.bind(this)(rnd)
+                    break;
+                case 2:
+                    Structures.bind(this)(rnd)
+                    break;
+                case 3:
+                    //3rd pass, prep for rendering
+                    this.refreshGeo()
+                    break;
+                default:
+                    throw "There is no Stage" + stage + "generation!"
+                    break;
+            }
+            res("chunk complete")
+            this.stage = stage
+        })
     }
 
 }

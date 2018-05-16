@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/greenfox1505/Voxel_Test#readme",
   "dependencies": {
+    "npm": "^6.0.1",
     "simplex-noise": "^2.4.0",
     "simplifyify": "^4.0.2",
     "stats-js": "^1.0.0-alpha1",
