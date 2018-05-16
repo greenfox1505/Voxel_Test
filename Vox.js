@@ -47054,9 +47054,11 @@ class Chunk {
     xyzToBlock(x, y, z) {
         //I didn't think I'd need it, but this does make Marching Cubes faster
         //this needs hit detection for outside of block
-        if (x > this.size | y > this.size | z > this.size) {
-            console.error("coord to block hit detection needed!")
-            return 0;
+        if (x >= this.size | y >= this.size | z >= this.size) {
+            let a = this.gCoord.clone().add({x:x,y:y,z:z})
+            return this.world.getBlock(a)
+            // console.error("coord to block hit detection needed!")
+            // return 0;
         }
         let index = x * this.size2 + y * this.size + z;
         return this.blocks[index]
@@ -47131,11 +47133,11 @@ function GeometryGenerator() {
 
     let lCoord = new THREE.Vector3()//todo aabb looping object!
 
-    for (let x = 0; x < (this.size-1); x++) {
+    for (let x = 0; x < (this.size); x++) {
         lCoord.x = x;
-        for (let y = 0; y < (this.size-1); y++) {
+        for (let y = 0; y < (this.size); y++) {
             lCoord.y = y;
-            for (let z = 0; z < (this.size-1); z++) {
+            for (let z = 0; z < (this.size); z++) {
                 lCoord.z = z;
                 let tris = mcMesh[marchingNeighbors.bind(this)(lCoord,1)]
                 for (let i = 0; i < tris.length; i = i + 3) {
@@ -47242,8 +47244,8 @@ class World {
         )
     }
     getBlock(wCoord) {
-        let cCoord = getChunkCoord(wCoord)
-        let chunkName = cCoord.x + "," + coord.y + "," + coord.z
+        let cCoord = this.getChunkCoord(wCoord)
+        let chunkName = cCoord.x + "," + cCoord.y + "," + cCoord.z
         if (this.chunks[chunkName] != null) {
             return this.chunks[chunkName].getBlock(
                 new V3(
@@ -47723,7 +47725,8 @@ let myWorld = new World({
 	seed: "Test Args!"
 })
 
-myWorld.createSpawnPoint(4).then((e) => {
+let chunks = 10
+myWorld.createSpawnPoint(chunks).then((e) => {
 	console.timeEnd("createSpawn")
 }).catch((e)=>{
 debugger
@@ -47756,10 +47759,10 @@ scene.add(myWorld.object)
 
 
 
-var geometry = new THREE.BoxGeometry(1, 1, 1);
-var material = new THREE.MeshNormalMaterial({ color: 0x00ff00 });
-var cube = new THREE.Mesh(geometry, material);
-scene.add(cube);
+// var geometry = new THREE.BoxGeometry(1, 1, 1);
+// var material = new THREE.MeshNormalMaterial({ color: 0x00ff00 });
+// var cube = new THREE.Mesh(geometry, material);
+// scene.add(cube);
 
 // camera.position.z = 5;
 

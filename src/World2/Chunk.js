@@ -35,9 +35,11 @@ class Chunk {
     xyzToBlock(x, y, z) {
         //I didn't think I'd need it, but this does make Marching Cubes faster
         //this needs hit detection for outside of block
-        if (x > this.size | y > this.size | z > this.size) {
-            console.error("coord to block hit detection needed!")
-            return 0;
+        if (x >= this.size | y >= this.size | z >= this.size) {
+            let a = this.gCoord.clone().add({x:x,y:y,z:z})
+            return this.world.getBlock(a)
+            // console.error("coord to block hit detection needed!")
+            // return 0;
         }
         let index = x * this.size2 + y * this.size + z;
         return this.blocks[index]

@@ -44,8 +44,8 @@ class World {
         )
     }
     getBlock(wCoord) {
-        let cCoord = getChunkCoord(wCoord)
-        let chunkName = cCoord.x + "," + coord.y + "," + coord.z
+        let cCoord = this.getChunkCoord(wCoord)
+        let chunkName = cCoord.x + "," + cCoord.y + "," + cCoord.z
         if (this.chunks[chunkName] != null) {
             return this.chunks[chunkName].getBlock(
                 new V3(

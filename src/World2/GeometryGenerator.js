@@ -12,11 +12,11 @@ function GeometryGenerator() {
 
     let lCoord = new THREE.Vector3()//todo aabb looping object!
 
-    for (let x = 0; x < (this.size-1); x++) {
+    for (let x = 0; x < (this.size); x++) {
         lCoord.x = x;
-        for (let y = 0; y < (this.size-1); y++) {
+        for (let y = 0; y < (this.size); y++) {
             lCoord.y = y;
-            for (let z = 0; z < (this.size-1); z++) {
+            for (let z = 0; z < (this.size); z++) {
                 lCoord.z = z;
                 let tris = mcMesh[marchingNeighbors.bind(this)(lCoord,1)]
                 for (let i = 0; i < tris.length; i = i + 3) {

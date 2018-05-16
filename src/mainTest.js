@@ -8,7 +8,8 @@ let myWorld = new World({
 	seed: "Test Args!"
 })
 
-myWorld.createSpawnPoint(4).then((e) => {
+let chunks = 10
+myWorld.createSpawnPoint(chunks).then((e) => {
 	console.timeEnd("createSpawn")
 }).catch((e)=>{
 debugger
@@ -41,10 +42,10 @@ scene.add(myWorld.object)
 
 
 
-var geometry = new THREE.BoxGeometry(1, 1, 1);
-var material = new THREE.MeshNormalMaterial({ color: 0x00ff00 });
-var cube = new THREE.Mesh(geometry, material);
-scene.add(cube);
+// var geometry = new THREE.BoxGeometry(1, 1, 1);
+// var material = new THREE.MeshNormalMaterial({ color: 0x00ff00 });
+// var cube = new THREE.Mesh(geometry, material);
+// scene.add(cube);
 
 // camera.position.z = 5;
 
