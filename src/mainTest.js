@@ -1,5 +1,7 @@
 let f = () => { console.timeEnd("Load To First Frame") }; console.time("Load To First Frame")
 
+let Monitor = require("./Monitor")
+
 let THREE = require("three")
 
 console.time("createSpawn")
@@ -8,11 +10,11 @@ let myWorld = new World({
 	seed: "Test Args!"
 })
 
-let chunks = 10
+let chunks =10
 myWorld.createSpawnPoint(chunks).then((e) => {
 	console.timeEnd("createSpawn")
-}).catch((e)=>{
-debugger
+}).catch((e) => {
+	debugger
 })
 
 let wasd_mouse = new (require("./WASD_Mouse"))(document.body)
@@ -65,6 +67,9 @@ scene.add(myWorld.object)
 
 
 let animate = function () {
+
+	Monitor.end()
+	Monitor.begin()
 	myWorld
 	// debugger
 	requestAnimationFrame(animate);
