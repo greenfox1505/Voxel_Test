@@ -16,9 +16,9 @@ function Terrain(rnd) {
             for (let z = 0; z < this.size; z++) {
                 lCoord.z = z;
                 let block = ((rnd.stone(x + this.gCoord.x, y + this.gCoord.y, z + this.gCoord.z) + 1) | 0)
-                // if (block == 0) {
-                //     block = ((rnd.grass(x, y, z) + 1) | 0)
-                // }
+                if (lCoord.clone().addScalar(this.size / -2).length() < (this.size / 4)) {
+                    block = 2
+                }
                 this.setBlock(lCoord, block)
             }
         }

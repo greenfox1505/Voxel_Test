@@ -1,6 +1,4 @@
-
 let THREE = require("three")
-let world = require("./World/World")
 
 
 class CharacterController {
@@ -34,7 +32,25 @@ class CharacterController {
         let grav = new THREE.Vector3(0, -10, 0);
         let velocity = new THREE.Vector3(0, 0, 0);
 
+        let pointRay = new THREE.Raycaster(this.object.position, v, 0, 25);
+
         return function handle(keyState, dt) {
+            if (keyState.Space == 1) {
+                pointRay.setFromCamera({ x: 0, y: 0 }, that.object)
+                let a = pointRay.intersectObject(that.VoxWorld.object, true)
+                if (a.length != 0) {
+                    let wCoord = a[0].point.clone().addScalar(0.5).floor()
+                    this.VoxWorld.setBlock(wCoord,0)
+                    this.VoxWorld.setBlock(wCoord.clone().add({x:0,y:1,z:0}),0)
+                    this.VoxWorld.setBlock(wCoord.clone().sub({x:0,y:1,z:0}),0)
+                    this.VoxWorld.setBlock(wCoord.clone().add({x:1,y:0,z:0}),0)
+                    this.VoxWorld.setBlock(wCoord.clone().sub({x:1,y:0,z:0}),0)
+                    this.VoxWorld.setBlock(wCoord.clone().add({x:0,y:0,z:1}),0)
+                    this.VoxWorld.setBlock(wCoord.clone().sub({x:0,y:0,z:1}),0)
+                    console.log(wCoord)
+                }
+            }
+
             if (settings.mode == "noclip") {
                 //rotate camera
                 r.x = THREE.Math.clamp(r.x + (keyState.mouse.y * settings.sensitivity), -Math.PI / 2, Math.PI / 2)
@@ -84,7 +100,7 @@ class CharacterController {
                 object.setRotationFromEuler(r)
 
                 //move vector
-                v.z = -(keyState.KeyW - keyState.KeyS) 
+                v.z = -(keyState.KeyW - keyState.KeyS)
                 v.x = -(keyState.KeyA - keyState.KeyD)
                 v.y = 0;
                 v.applyEuler(r);
@@ -97,15 +113,15 @@ class CharacterController {
                 let pos = that.object.position.clone()
                 pos.addScalar(0.5)
                 pos.floor()
-                let feet = pos.clone(); feet.y =feet.y - 2
-                
+                let feet = pos.clone(); feet.y = feet.y - 2
+
                 let gt = grav.clone().multiplyScalar(dt)
-                if(that.VoxWorld.GetVoxel(feet) == 0){
+                if (that.VoxWorld.GetVoxel(feet) == 0) {
                     velocity.add(gt)
                 }
-                if(that.VoxWorld.GetVoxel(feet) != 0){
-                    velocity.set(0,0,0);
-                    velocity.sub(gt);                   
+                if (that.VoxWorld.GetVoxel(feet) != 0) {
+                    velocity.set(0, 0, 0);
+                    velocity.sub(gt);
                 }
 
 
@@ -146,7 +162,7 @@ class CharacterController {
             }
 
             throw "No CharacterController Mode Set!"
-        }
+        }.bind(this)
     }
 
 }

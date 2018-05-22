@@ -5,7 +5,18 @@ let THREE = require('three')
  */
 function GeometryGenerator() {
     //TODO: clean up old geometry if it exists!
-    if (this.engine.threeGeo != null) { throw "GEO ALREADY EXISTS!" }
+    if (this.engine.threeGeo != null | this.engine.threeMesh != null) {
+        console.log("clearing chunk:" + this.name)
+        this.engine.threeGeo.dispose()
+        this.engine.threeGeo = null;
+
+        this.world.object.remove(this.engine.threeMesh)
+        this.engine.threeMesh = null;
+
+        // debugger
+        // this.engine.
+        // throw "GEO ALREADY EXISTS!"
+    }
 
     this.engine.threeGeo = new THREE.BufferGeometry();
     let verts = []
@@ -18,7 +29,7 @@ function GeometryGenerator() {
             lCoord.y = y;
             for (let z = 0; z < (this.size); z++) {
                 lCoord.z = z;
-                let tris = mcMesh[marchingNeighbors.bind(this)(lCoord,1)]
+                let tris = mcMesh[marchingNeighbors.bind(this)(lCoord, 1)]
                 for (let i = 0; i < tris.length; i = i + 3) {
                     verts[verts.length] = tris[i] + x
                     verts[verts.length] = tris[i + 1] + y

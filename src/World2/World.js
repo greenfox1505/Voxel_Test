@@ -13,6 +13,7 @@ let V3 = THREE.Vector3
 
 
 
+
 class World {
     constructor(args) {
         this.chunks = {}
@@ -20,10 +21,27 @@ class World {
         this.generator = LoadWorldGen(args.seed)
         this.object = new THREE.Object3D()
         this.reporting = {
-            warning : (message)=>{
+            warning: (message) => {
                 // debugger
             }
         }
+        this.todoList = []
+    }
+    update(){
+        if(this.todoList.length != 0){
+            let job = this.todoList[0];
+            if(job.update){
+                this.chunks[job.update].update()
+                let newList = []
+                for( let i = 0; i < this.todoList.length; i++){
+                    if(this.todoList[i].update != job.update){
+                        newList.push(this.todoList[i])
+                    }
+                }
+                this.todoList = newList
+            }
+        }
+
     }
     createSpawnPoint(size) {
         let AllChunks = []
@@ -56,9 +74,12 @@ class World {
         }
     }
     setBlock(wCoord, block) {
-        let cCoord = getChunkCoord(wCoord)
-        let chunkName = cCoord.x + "," + coord.y + "," + coord.z
+        let cCoord = this.getChunkCoord(wCoord)
+        let chunkName = cCoord.x + "," + cCoord.y + "," + cCoord.z
         if (this.chunks[chunkName] != null) {
+            this.todoList.push({
+                update: chunkName
+            })
             return this.chunks[chunkName].setBlock(
                 new V3(
                     wCoord.x % config.chunkSize,

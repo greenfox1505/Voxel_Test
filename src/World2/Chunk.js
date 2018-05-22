@@ -32,6 +32,10 @@ class Chunk {
         }
 
     }
+    update(){
+        console.log("Updating Chunk: " + this.name)
+        this.refreshGeo()
+    }
     xyzToBlock(x, y, z) {
         //I didn't think I'd need it, but this does make Marching Cubes faster
         //this needs hit detection for outside of block
@@ -57,6 +61,7 @@ class Chunk {
         } catch (e) {
             debugger
         }
+
     }
     generate(stage) {
         /**@type {THREE.Vector3} */

@@ -10,7 +10,7 @@ let myWorld = new World({
 	seed: "Test Args!"
 })
 
-let chunks =10
+let chunks =5
 myWorld.createSpawnPoint(chunks).then((e) => {
 	console.timeEnd("createSpawn")
 }).catch((e) => {
@@ -62,7 +62,7 @@ scene.add(myWorld.object)
 
 // animate();
 
-
+ 
 
 
 
@@ -70,7 +70,7 @@ let animate = function () {
 
 	Monitor.end()
 	Monitor.begin()
-	myWorld
+	myWorld.update()
 	// debugger
 	requestAnimationFrame(animate);
 	wasd_mouse.tick(16 / 1000)
