@@ -475,21 +475,11 @@ Better rank ordering method by Stefan Gustavson in 2012.
 
 },{}],2:[function(require,module,exports){
 // stats.js - http://github.com/mrdoob/stats.js
-var Stats = function () {
-    var l = Date.now(), m = l, g = 0, n = Infinity, o = 0, h = 0, p = Infinity, q = 0, r = 0, s = 0, f = document.createElement("div"); f.id = "stats"; f.addEventListener("mousedown", function (b) { b.preventDefault(); t(++s % 2) }, !1); f.style.cssText = "width:80px;opacity:0.9;cursor:pointer"; var a = document.createElement("div"); a.id = "fps"; a.style.cssText = "padding:0 0 3px 3px;text-align:left;background-color:#002"; f.appendChild(a); var i = document.createElement("div"); i.id = "fpsText"; i.style.cssText = "color:#0ff;font-family:Helvetica,Arial,sans-serif;font-size:9px;font-weight:bold;line-height:15px";
-    i.innerHTML = "FPS"; a.appendChild(i); var c = document.createElement("div"); c.id = "fpsGraph"; c.style.cssText = "position:relative;width:74px;height:30px;background-color:#0ff"; for (a.appendChild(c); 74 > c.children.length;) { var j = document.createElement("span"); j.style.cssText = "width:1px;height:30px;float:left;background-color:#113"; c.appendChild(j) } var d = document.createElement("div"); d.id = "ms"; d.style.cssText = "padding:0 0 3px 3px;text-align:left;background-color:#020;display:none"; f.appendChild(d); var k = document.createElement("div");
-    k.id = "msText"; k.style.cssText = "color:#0f0;font-family:Helvetica,Arial,sans-serif;font-size:9px;font-weight:bold;line-height:15px"; k.innerHTML = "MS"; d.appendChild(k); var e = document.createElement("div"); e.id = "msGraph"; e.style.cssText = "position:relative;width:74px;height:30px;background-color:#0f0"; for (d.appendChild(e); 74 > e.children.length;)j = document.createElement("span"), j.style.cssText = "width:1px;height:30px;float:left;background-color:#131", e.appendChild(j); var t = function (b) {
-        s = b; switch (s) {
-            case 0: a.style.display =
-                "block"; d.style.display = "none"; break; case 1: a.style.display = "none", d.style.display = "block"
-        }
-    }; return {
-        REVISION: 12, domElement: f, setMode: t, begin: function () { l = Date.now() }, end: function () {
-            var b = Date.now(); g = b - l; n = Math.min(n, g); o = Math.max(o, g); k.textContent = g + " MS (" + n + "-" + o + ")"; var a = Math.min(30, 30 - 30 * (g / 200)); e.appendChild(e.firstChild).style.height = a + "px"; r++; b > m + 1E3 && (h = Math.round(1E3 * r / (b - m)), p = Math.min(p, h), q = Math.max(q, h), i.textContent = h + " FPS (" + p + "-" + q + ")", a = Math.min(30, 30 - 30 * (h / 100)), c.appendChild(c.firstChild).style.height =
-                a + "px", m = b, r = 0); return b
-        }, update: function () { l = this.end() }
-    }
-}; "object" === typeof module && (module.exports = Stats);
+var Stats=function(){var l=Date.now(),m=l,g=0,n=Infinity,o=0,h=0,p=Infinity,q=0,r=0,s=0,f=document.createElement("div");f.id="stats";f.addEventListener("mousedown",function(b){b.preventDefault();t(++s%2)},!1);f.style.cssText="width:80px;opacity:0.9;cursor:pointer";var a=document.createElement("div");a.id="fps";a.style.cssText="padding:0 0 3px 3px;text-align:left;background-color:#002";f.appendChild(a);var i=document.createElement("div");i.id="fpsText";i.style.cssText="color:#0ff;font-family:Helvetica,Arial,sans-serif;font-size:9px;font-weight:bold;line-height:15px";
+i.innerHTML="FPS";a.appendChild(i);var c=document.createElement("div");c.id="fpsGraph";c.style.cssText="position:relative;width:74px;height:30px;background-color:#0ff";for(a.appendChild(c);74>c.children.length;){var j=document.createElement("span");j.style.cssText="width:1px;height:30px;float:left;background-color:#113";c.appendChild(j)}var d=document.createElement("div");d.id="ms";d.style.cssText="padding:0 0 3px 3px;text-align:left;background-color:#020;display:none";f.appendChild(d);var k=document.createElement("div");
+k.id="msText";k.style.cssText="color:#0f0;font-family:Helvetica,Arial,sans-serif;font-size:9px;font-weight:bold;line-height:15px";k.innerHTML="MS";d.appendChild(k);var e=document.createElement("div");e.id="msGraph";e.style.cssText="position:relative;width:74px;height:30px;background-color:#0f0";for(d.appendChild(e);74>e.children.length;)j=document.createElement("span"),j.style.cssText="width:1px;height:30px;float:left;background-color:#131",e.appendChild(j);var t=function(b){s=b;switch(s){case 0:a.style.display=
+"block";d.style.display="none";break;case 1:a.style.display="none",d.style.display="block"}};return{REVISION:12,domElement:f,setMode:t,begin:function(){l=Date.now()},end:function(){var b=Date.now();g=b-l;n=Math.min(n,g);o=Math.max(o,g);k.textContent=g+" MS ("+n+"-"+o+")";var a=Math.min(30,30-30*(g/200));e.appendChild(e.firstChild).style.height=a+"px";r++;b>m+1E3&&(h=Math.round(1E3*r/(b-m)),p=Math.min(p,h),q=Math.max(q,h),i.textContent=h+" FPS ("+p+"-"+q+")",a=Math.min(30,30-30*(h/100)),c.appendChild(c.firstChild).style.height=
+a+"px",m=b,r=0);return b},update:function(){l=this.end()}}};"object"===typeof module&&(module.exports=Stats);
 
 },{}],3:[function(require,module,exports){
 (function (global, factory) {
@@ -46974,6 +46964,123 @@ module.exports = {
     },
 }
 },{"stats-js":2}],6:[function(require,module,exports){
+console.time("FirstFrame"); let f = () => { console.timeEnd("FirstFrame") }
+
+
+let simplex = new (require('simplex-noise'))()
+// debugger
+let THREE = require('three');
+let Chunk = require("./World/Chunk")
+
+let WASD_Mouse = require("./WASD_Mouse")
+let CharacterController = require("./CharacterController")
+
+//let TrackObject = require("./TrackObject")
+
+let size = 16*4;
+let cunksCubed = 4;
+
+
+
+console.log("target block count:" + (Math.pow(size * cunksCubed, 3)))
+
+
+let Monitor = require("./Monitor.js");
+
+let Solid = new (require("./World/WorldGens/Solid"))("helloworld", size)
+
+let myWorld = new (require("./World/World"))({
+	generator: function (a) {
+		return Solid.generateChunk(a)
+	},
+	chunkSize: size,
+})
+
+myWorld.createStartingArea(cunksCubed)
+
+
+let scene = new THREE.Scene();
+let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+// let wasd_mouse = new WASD_Mouse(document.body)
+// wasd_mouse.addListener(WASD_Mouse.Fly(camera, {
+// 	speed: 0.01,
+// 	sensitivity: 0.005,
+// 	sprint: 5
+// }))
+
+let renderer = new THREE.WebGLRenderer();
+
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap; //
+
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
+
+
+scene.add(myWorld.ThreeObject)
+
+
+// UpdateFlyCam = FlyCam(camera, renderer.domElement)
+// new TrackObject("Camera", camera, scene)
+camera.position.set(28, 46, 21)
+
+var amb = new THREE.AmbientLight(0x404040); // soft white light
+scene.add(amb);
+
+var lightColor = 0xFFD1B2
+
+var light = new THREE.PointLight(lightColor, 1, 100);
+light.position.copy({ x: 18, y: 45, z: 17 })
+light.castShadow = true;
+scene.add(light);
+
+let ball = new THREE.SphereGeometry(0.25, 16, 8)
+let colorMat = new THREE.MeshBasicMaterial({ color: lightColor })
+let lightbulb = new THREE.Mesh(ball, colorMat)
+light.add(lightbulb)
+
+let x = 0;
+
+let boxShape = new THREE.CubeGeometry(1, 2, 1);
+let playerMat = new THREE.MeshBasicMaterial({ color: 0x0000FF })
+let player = new THREE.Mesh(boxShape, playerMat)
+scene.add(player)
+player.position.copy({ x: 11, y: 45, z: 25 })
+
+
+let wasd_mouse = new WASD_Mouse(document.body)
+// wasd_mouse.addListener(WASD_Mouse.Fly(player, {
+// 	sprint: 5,
+// 	speed: 1,
+// 	sensitivity: 0.01
+// }))
+
+let pawn = new CharacterController(player, myWorld)
+wasd_mouse.addListener(pawn.createHandle({
+	sprint: 5,
+	speed: 8,
+	
+	sensitivity: 0.01,
+	mode: "noclip"
+}))
+
+let animate = function () {
+	f(); f = () => { }
+
+	Monitor.begin();
+	requestAnimationFrame(animate);
+	wasd_mouse.tick(16 / 1000)
+	camera.position.copy(player.position);
+	camera.rotation.copy(player.rotation)
+	// camera.lookAt(player.position);
+	renderer.render(scene, camera);
+	Monitor.end();
+};
+
+animate();
+
+},{"./CharacterController":4,"./Monitor.js":5,"./WASD_Mouse":7,"./World/Chunk":8,"./World/World":9,"./World/WorldGens/Solid":10,"simplex-noise":1,"three":3}],7:[function(require,module,exports){
 let THREE = require("three")
 
 class WASD_Mouse {
@@ -47074,498 +47181,366 @@ class WASD_Mouse {
 }
 
 module.exports = WASD_Mouse
-},{"three":3}],7:[function(require,module,exports){
-let THREE = require("three")
-let GeometryGenerator = require("./GeometryGenerator")
+},{"three":3}],8:[function(require,module,exports){
+let THREE = require('three');
 
+let MCTris = require("./mcMesh.json")
+
+let polys = {
+    up: new THREE.PlaneGeometry(1, 1, 1), //+y
+    down: new THREE.PlaneGeometry(1, 1, 1), //-y
+    north: new THREE.PlaneGeometry(1, 1, 1), //+z
+    south: new THREE.PlaneGeometry(1, 1, 1), //-z
+    west: new THREE.PlaneGeometry(1, 1, 1),//+x //this seems backword, shouldn't east be +x?
+    east: new THREE.PlaneGeometry(1, 1, 1),//-x
+}
+polys.north.translate(0, 0, 0.5)
+polys.up.rotateX(-Math.PI / 2).translate(0, 0.5, 0)
+polys.down.rotateX(Math.PI / 2).translate(0, -0.5, 0)
+polys.south.rotateY(Math.PI).translate(0, 0, -0.5)
+polys.west.rotateY(Math.PI / 2).translate(0.5, 0, 0)
+polys.east.rotateY(-Math.PI / 2).translate(-0.5, 0, 0)
 
 
 class Chunk {
     /**
-     * 
-     * @param {object} args 
-     * @param {World} args.world 
+     * @param {number[]} args.blocks
+     * @param {number} args.size
+     * @param {THREE.Material} args.material
+     * @param {THREE.Vector3} args.cLoc
+     * @param {World} args.world
      */
     constructor(args) {
-        this.size = args.size
-        this.size2 = args.size * args.size//speed saving member
+        // debugger
+        if (args.name) this.name = args.name; else throw "A chunk with no name"
+        if (args.blocks) this.blocks = args.blocks; else throw "BadBlocks"
+        if (args.size) this.size = args.size;
+        else if (args.world) { this.size = args.world.chunkSize; this.world = args.world }
+        else throw "No World or Size"
 
-        this.name = args.name
-        this.cCoord = args.cCoord
-        this.world = args.world
-        this.generator = args.generator
-        this.stage = 0;
-        this.blocks = [];
-        this.gCoord = args.cCoord.clone().multiplyScalar(args.size)
-        //I feel like maybe there is a better way to map this...
-        for (let i = 0; i < (args.size * args.size * args.size); i++) { this.blocks[i] = null }
+        // if(args.neighbors){
+        //     this.neighbors = args.neighbors
+        // }
+        // else{
+        //     throw "No Neighbors Defined"
+        // }
 
-        this.refreshGeo = GeometryGenerator;
-
-        this.engine = {
-            threeGeo: null,
-            cannonGeo: null,
-            threeMesh: null
+        this.geometry = this.createGeometry2()
+        // debugger
+        this.mesh = new THREE.Mesh(this.geometry, args.material);
+        // debugger
+        this.mesh.castShadow = true;
+        this.mesh.receiveShadow = true;
+        if (args.cLoc) {
+            this.mesh.position.copy(args.cLoc);
+            this.cLoc = this.mesh.position.clone();
+            this.mesh.position.multiplyScalar(this.size);
+        } else {
+            throw "NO LOCATION!"
         }
-
     }
-    update(){
-        console.log("Updating Chunk: " + this.name)
-        this.refreshGeo()
-    }
-    xyzToBlock(x, y, z) {
-        //I didn't think I'd need it, but this does make Marching Cubes faster
-        //this needs hit detection for outside of block
-        if (x >= this.size | y >= this.size | z >= this.size) {
-            let a = this.gCoord.clone().add({x:x,y:y,z:z})
-            return this.world.getBlock(a)
-            // console.error("coord to block hit detection needed!")
-            // return 0;
+    //if this isn't used for a while, imma delete it.
+    // cordToIndex(x, y, z) {
+    //     if (x < 0 | y < 0 | z < 0 | x >= this.size | y >= this.size | z >= this.size) {
+    //         return null
+    //     }
+    //     return x + (y * this.size) + (z * this.size * this.size)
+    // }
+    cordToBlock(x, y, z) {
+        //if outside chunk, return other chunk!
+        if (x < 0 | y < 0 | z < 0 | x >= this.size | y >= this.size | z >= this.size) {
+            return 0
         }
-        let index = x * this.size2 + y * this.size + z;
+        let index = x + (y * this.size) + (z * this.size * this.size)
+        // debugger
         return this.blocks[index]
     }
-    //maybe I need a veriation of this method that's "safe" who gets it's neighboors?
-    getBlock(lCoord) {
-        this.world.reporting.warning("todo detect outside!")
-        return this.blocks[lCoord.x * this.size2 + lCoord.y * this.size + lCoord.z]
+    /**
+     * @param {THREE.Vector3} vect 
+     * @returns {number}
+     */
+    static vectorToIndex(vect) {
+        return vect.x + vect.y * s + vect.z * (s * s)
     }
-    setBlock(lCoord, block) {
-        try {
-            this.world.reporting.warning("todo detect outside!")
-            this.world.reporting.warning("mark for regeneration!")
-            return this.blocks[lCoord.x * this.size2 + lCoord.y * this.size + lCoord.z] = block
-        } catch (e) {
-            debugger
+    /**
+     * 
+     * @param {number} index
+     * @returns {THREE.Vector3} 
+     */
+    static indexToVector(index) {
+        return new THREE.Vector3(
+            index % this.size,
+            ((index / this.size) | 0) % this.size,
+            ((index / (this.size * this.size)) | 0) % this.size)
+    }
+    checkNeighbors(x, y, z) {
+        // debugger
+        if (this.cordToBlock(x - 1, y, z) && this.cordToBlock(x + 1, y, z) &&
+            this.cordToBlock(x, y - 1, z) && this.cordToBlock(x, y + 1, z) &&
+            this.cordToBlock(x, y, z - 1) && this.cordToBlock(x, y, z + 1)) {
+            return false
+        }
+        else return true
+    }
+    marchingNeighbors(x, y, z) {
+        var output = 0
+        if (this.cordToBlock(x, y, z)) {
+            output = output | 1
+        }
+        if (this.cordToBlock(x + 1, y, z)) {
+            output = output | 2
+        }
+        if (this.cordToBlock(x + 1, y, z + 1)) {
+            output = output | 4
+        }
+        if (this.cordToBlock(x, y, z + 1)) {
+            output = output | 8
         }
 
-    }
-    generate(stage) {
-        /**@type {THREE.Vector3} */
-        let cCoord = this.cCoord
-        if (stage < 1) {
-            throw "Stage CANNOT be less than One!"
+        if (this.cordToBlock(x, y + 1, z)) {
+            output = output | 16
         }
-        return new Promise((res, rej) => {
-            try {
-                if (this.stage >= stage) {
-                    res(this)
+        if (this.cordToBlock(x + 1, y + 1, z)) {
+            output = output | 32
+        }
+        if (this.cordToBlock(x + 1, y + 1, z + 1)) {
+            output = output | 64
+        }
+        if (this.cordToBlock(x, y + 1, z + 1)) {
+            output = output | 128
+        }
+        return output
+    }
+    createGeometry2() {
+        let geometry = new THREE.BufferGeometry();
+        console.time("MC Geo Test")
+        let vertexes = []
+        let normals = []
+        for (let z = 0; z < this.size - 1; z++) {
+            for (let y = 0; y < this.size - 1; y++) {
+                for (let x = 0; x < this.size - 1; x++) {
+                    let elem = MCTris[ this.marchingNeighbors(x,y,z)]
+                    let tris = elem[0]
+                    let norm = elem[1]
+                    for(let i = 0 ; i < tris.length ; i = i+3){
+                        vertexes[vertexes.length] = tris[i]+x
+                        vertexes[vertexes.length] = tris[i+1]+y
+                        vertexes[vertexes.length] = tris[i+2]+z
+                        normals[normals.length] = norm[i]
+                        normals[normals.length] = norm[i+1]
+                        normals[normals.length] = norm[i+2]
+                        
+                    }
                 }
-                else if (stage == 1) {
-                    this.generator(stage).then(res(this))//.catch(rej)
-                } else {
-                    let neighborhood = []
-                    for (let x of [-1, 0, 1]) {
-                        for (let y of [-1, 0, 1]) {
-                            for (let z of [-1, 0, 1]) {
-                                let neighbor = cCoord.clone()
-                                neighbor.x += x;
-                                neighbor.y += y;
-                                neighbor.z += z;
-                                neighborhood.push(
-                                    this.world.requestChunk(neighbor, stage - 1)
-                                )
-                            }
+            }
+        }
+        // debugger
+        var geoVerts = new Float32Array( vertexes );
+        var geoNorms = new Float32Array( normals );
+        
+        // itemSize = 3 because there are 3 values (components) per vertex
+        geometry.addAttribute( 'position', new THREE.BufferAttribute( geoVerts, 3 ) );
+        geometry.addAttribute( 'normal', new THREE.BufferAttribute( geoNorms, 3 ) );
+        
+        console.timeEnd("MC Geo Test")
+        return geometry
+    }
+
+    /**
+     * @param {number[]} blocks 
+     * @returns {THREE.Geometry}
+     */
+    createGeometry() {
+        let blocks = this.blocks
+        let start = Date.now()
+        let holderGeo = new THREE.Geometry();
+        // outputGeo.merge(box)
+        //todo only create geomtry for visable sides
+        let displacement = new THREE.Matrix4();
+        for (let z = 0; z < this.size; z++) {
+            for (let y = 0; y < this.size; y++) {
+                for (let x = 0; x < this.size; x++) {
+                    let thisBlock = this.cordToBlock(x, y, z);
+                    if (thisBlock) {
+                        displacement.makeTranslation(x, y, z)
+                        if (this.cordToBlock(x, y + 1, z) == 0) {
+                            holderGeo.merge(polys.up, displacement)
+                        }
+                        if (this.cordToBlock(x, y - 1, z) == 0) {
+                            holderGeo.merge(polys.down, displacement)
+                        }
+                        if (this.cordToBlock(x - 1, y, z) == 0) {
+                            holderGeo.merge(polys.east, displacement)
+                        }
+                        if (this.cordToBlock(x + 1, y, z) == 0) {
+                            holderGeo.merge(polys.west, displacement)
+                        }
+                        if (this.cordToBlock(x, y, z + 1) == 0) {
+                            holderGeo.merge(polys.north, displacement)
+                        }
+                        if (this.cordToBlock(x, y, z - 1) == 0) {
+                            holderGeo.merge(polys.south, displacement)
                         }
                     }
-                    Promise.all(neighborhood).then(this.generator(stage)).then(res(this))
-                }
-            }
-            catch(e){
-                rej(e)
-            }
-        })
-    }
-}
-
-module.exports = Chunk;
-
-
-},{"./GeometryGenerator":8,"three":3}],8:[function(require,module,exports){
-let mcMesh = require("./mcMesh.json")
-let THREE = require('three')
-/**
- * @this {Chunk}
- */
-function GeometryGenerator() {
-    //TODO: clean up old geometry if it exists!
-    if (this.engine.threeGeo != null | this.engine.threeMesh != null) {
-        console.log("clearing chunk:" + this.name)
-        this.engine.threeGeo.dispose()
-        this.engine.threeGeo = null;
-
-        this.world.object.remove(this.engine.threeMesh)
-        this.engine.threeMesh = null;
-
-        // debugger
-        // this.engine.
-        // throw "GEO ALREADY EXISTS!"
-    }
-
-    this.engine.threeGeo = new THREE.BufferGeometry();
-    let verts = []
-
-    let lCoord = new THREE.Vector3()//todo aabb looping object!
-
-    for (let x = 0; x < (this.size); x++) {
-        lCoord.x = x;
-        for (let y = 0; y < (this.size); y++) {
-            lCoord.y = y;
-            for (let z = 0; z < (this.size); z++) {
-                lCoord.z = z;
-                let tris = mcMesh[marchingNeighbors.bind(this)(lCoord, 1)]
-                for (let i = 0; i < tris.length; i = i + 3) {
-                    verts[verts.length] = tris[i] + x
-                    verts[verts.length] = tris[i + 1] + y
-                    verts[verts.length] = tris[i + 2] + z
-
                 }
             }
         }
-    }
-    let geoVerts = new Float32Array(verts);
-    this.engine.threeGeo.addAttribute('position', new THREE.BufferAttribute(geoVerts, 3));
-    this.engine.threeMesh = new THREE.Mesh(this.engine.threeGeo, this.world.mats.stone)
-    this.engine.threeMesh.position.copy(
-        this.gCoord
-    )
+        let dt = Date.now() - start
+        totalTime += dt
+        n++
+        console.log("time: ", dt, "avg: ", totalTime / n)
 
-    this.world.object.add(this.engine.threeMesh)
+
+        // console.log()
+        // console.log(outputGeo)
+        let outputGeo = new THREE.BufferGeometry().fromGeometry(holderGeo)
+        holderGeo.dispose()
+        return outputGeo;
+    }
 
 }
+let n = 0;
+let totalTime = 0;
 
-
-
-function marchingNeighbors(lCoord, block) {
-    let x = lCoord.x
-    let y = lCoord.y
-    let z = lCoord.z
-    let output = 0;
-    //there is a non-branching way to write this...
-    if (block == this.xyzToBlock(x, y, z)) {
-        output = output | 1
-    }
-    if (block == this.xyzToBlock(x + 1, y, z)) {
-        output = output | 2
-    }
-    if (block == this.xyzToBlock(x + 1, y, z + 1)) {
-        output = output | 4
-    }
-    if (block == this.xyzToBlock(x, y, z + 1)) {
-        output = output | 8
-    }
-    if (block == this.xyzToBlock(x, y + 1, z)) {
-        output = output | 16
-    }
-    if (block == this.xyzToBlock(x + 1, y + 1, z)) {
-        output = output | 32
-    }
-    if (block == this.xyzToBlock(x + 1, y + 1, z + 1)) {
-        output = output | 64
-    }
-    if (block == this.xyzToBlock(x, y + 1, z + 1)) {
-        output = output | 128
-    }
-    return output
-}
-
-module.exports = GeometryGenerator;
-
+module.exports = Chunk
 },{"./mcMesh.json":11,"three":3}],9:[function(require,module,exports){
-let THREE = require("three")
+/**
+ * World.js
+ * Manages all chunks. Manages scene graph.
+ * Maybe it will do some other things here...
+ */
+
+let THREE = require('three');
+
+
 let Chunk = require("./Chunk")
 
-let LoadWorldGen = require("./WorldGens/DefaultGenerator")
-
-let config = {
-    chunkSize: 16
-}
-
-
-let V3 = THREE.Vector3
-
-
-
+let normal = new THREE.MeshNormalMaterial()
+let depth = new THREE.MeshDepthMaterial()
+let basic = new THREE.MeshBasicMaterial({ color: 0xFFFF00 })
+let pbr = new THREE.MeshStandardMaterial({
+    color: 0xfffdd1,
+    metalness: 0.7,
+    roughness: 0.7,
+    flatShading: true
+})
 
 
-class World {
+class VoxWorld {
+    /**
+     * @param {Function} args.generator
+     * @param {object} [args.saveData={}]
+     * @param {number} args.chunkSize
+     */
     constructor(args) {
+        //this.seed = args.seed ? args.seed : "helloWorld";
+        if (args.generator == null) {
+            throw "No generator here"
+        } else {
+            this.generator = args.generator
+        }
+        this.chunkSize = args.chunkSize
         this.chunks = {}
-        this.seed = args.seed
-        this.generator = LoadWorldGen(args.seed)
-        this.object = new THREE.Object3D()
-        this.reporting = {
-            warning: (message) => {
-                // debugger
-            }
-        }
-        this.todoList = []
+        this.ThreeObject = new THREE.Object3D();
     }
-    update(){
-        if(this.todoList.length != 0){
-            let job = this.todoList[0];
-            if(job.update){
-                this.chunks[job.update].update()
-                let newList = []
-                for( let i = 0; i < this.todoList.length; i++){
-                    if(this.todoList[i].update != job.update){
-                        newList.push(this.todoList[i])
-                    }
-                }
-                this.todoList = newList
-            }
-        }
-
-    }
-    createSpawnPoint(size) {
-        let AllChunks = []
-        for (let x = 0; x < size; x++) {
-            for (let y = 0; y < size; y++) {
-                for (let z = 0; z < size; z++) {
-                    AllChunks.push(this.requestChunk(new V3(x, y, z), 3))
+    createStartingArea(n) {
+        let cCoord = new THREE.Vector3();
+        for (let x = 0; x < n; x++) {
+            cCoord.x = x
+            for (let y = 0; y < n; y++) {
+                cCoord.y = y
+                for (let z = 0; z < n; z++) {
+                    cCoord.z = z
+                    this.spawnChunk(cCoord);
                 }
             }
         }
-        return Promise.all(AllChunks)
+        // for(let i in this.chunks){
+        //     this.chunks[i].generateMesh()
+        // }
     }
-    getChunkCoord(wCoord) {
-        return new V3(
-            (wCoord.x / config.chunkSize) | 0,
-            (wCoord.y / config.chunkSize) | 0,
-            (wCoord.z / config.chunkSize) | 0
-        )
+
+    /**
+     * @param {THREE.Vector3} cCoord 
+     */
+    spawnChunk(cCoord) {
+        let chunkName = cCoord.x + "." + cCoord.y + "." + cCoord.z;
+        let blocks = this.generator(cCoord);
+        this.chunks[chunkName] = new Chunk({ name: chunkName, blocks: blocks, material: pbr, cLoc: cCoord, world: this })
+        this.ThreeObject.add(this.chunks[chunkName].mesh)
+
+
+        return this.chunks[chunkName]
     }
-    getBlock(wCoord) {
-        let cCoord = this.getChunkCoord(wCoord)
-        let chunkName = cCoord.x + "," + cCoord.y + "," + cCoord.z
-        if (this.chunks[chunkName] != null) {
-            return this.chunks[chunkName].getBlock(
-                new V3(
-                    wCoord.x % config.chunkSize,
-                    wCoord.y % config.chunkSize,
-                    wCoord.z % config.chunkSize)
-            )
+    clearChunk(cX, cY, cZ) {
+        throw "TODO!"
+    }
+    /**
+     * 
+     * @param {THREE.Vector3} vIn 
+     */
+    GetVoxel(vIn) {
+        let chunk = vIn.clone().divideScalar(this.chunkSize).floor();
+        let chunkN = chunk.x + "." + chunk.y + "." + chunk.z;
+        /**@type {Chunk}*/
+        if (this.chunks[chunkN]) {
+            let chunkData = this.chunks[chunkN]
+            var block = chunkData.cordToBlock(vIn.x % this.chunkSize, vIn.y % this.chunkSize, vIn.z % this.chunkSize)
+            // debugger
+            return block
         }
-    }
-    setBlock(wCoord, block) {
-        let cCoord = this.getChunkCoord(wCoord)
-        let chunkName = cCoord.x + "," + cCoord.y + "," + cCoord.z
-        if (this.chunks[chunkName] != null) {
-            this.todoList.push({
-                update: chunkName
-            })
-            return this.chunks[chunkName].setBlock(
-                new V3(
-                    wCoord.x % config.chunkSize,
-                    wCoord.y % config.chunkSize,
-                    wCoord.z % config.chunkSize), block
-            )
-        }
-    }
-    requestChunk(cCoord, stage) {
-        let name = cCoord.x + "," + cCoord.y + "," + cCoord.z
-        return new Promise((res, rej) => {
-            try {
-                if (this.chunks[name] == null) {
-                    this.chunks[name] = new Chunk({
-                        world: this,
-                        generator: this.generator,
-                        cCoord: cCoord,
-                        size: config.chunkSize,
-                        name: name,
-                    })
-                    this.chunks[name].generate(stage).then(res).catch(rej);
-                } else if (this.chunks[name].stage == stage) {
-                    res(this.chunks[name])
-                } else {
-                    this.chunks[name].generate(stage).then(res).catch(rej);
-                }
-            }
-            catch (e) {
-                rej(e)
-            }
-        })
+        return null
+    }   
+    SetVoxel(vIn){
+        
     }
 }
 
-module.exports = World;
-
-World.prototype.mats = {
-    // stone: new THREE.MeshStandardMaterial({
-    //     color: 0xffffd1,
-    //     metalness: 0.7,
-    //     roughness: 0.7,
-    //     flatShading: true
-    // })
-    stone: new THREE.MeshNormalMaterial({
-        flatShading: true
-    })
-};
+module.exports = VoxWorld;
 
 
-},{"./Chunk":7,"./WorldGens/DefaultGenerator":10,"three":3}],10:[function(require,module,exports){
-let THREE = require("three")
-let SimplexNoise = require('simplex-noise')
-
-let prop = {
-    stone: {
-        freq: 16
+document.body.addEventListener("keydown", function (e) {
+    if (e.code == "Space") {
+        pbr.flatShading = pbr.flatShading ? false : true
+        pbr.needsUpdate = true;
+        console.log("toggled!")
     }
-}
-
-function Terrain(rnd) {
-    let lCoord = new THREE.Vector3();
-    for (let x = 0; x < this.size; x++) {
-        lCoord.x = x;
-        for (let y = 0; y < this.size; y++) {
-            lCoord.y = y;
-            for (let z = 0; z < this.size; z++) {
-                lCoord.z = z;
-                let block = ((rnd.stone(x + this.gCoord.x, y + this.gCoord.y, z + this.gCoord.z) + 1) | 0)
-                if (lCoord.clone().addScalar(this.size / -2).length() < (this.size / 4)) {
-                    block = 2
-                }
-                this.setBlock(lCoord, block)
-            }
-        }
-    }
-    return this
-}
-
-function Structures(rnd) {
-    // console.error("TODO: Generating Structures for " + this.name)
-}
-
-function Load(seed) {
-    let rnd = {
-        stone: SeededSimplex(seed + "stone", 32),
-        dirt: SeededSimplex(seed + "dirt", 16)
-    }
-
-    return function DefaultGenerator(stage) {
-        return new Promise((res, rej) => {
-            switch (stage) {
-                case 1:
-                    Terrain.bind(this)(rnd)
-                    break;
-                case 2:
-                    Structures.bind(this)(rnd)
-                    break;
-                case 3:
-                    //3rd pass, prep for rendering
-                    this.refreshGeo()
-                    break;
-                default:
-                    throw "There is no Stage" + stage + "generation!"
-                    break;
-            }
-            res("chunk complete")
-            this.stage = stage
-        })
-    }
-
-}
-
-module.exports = Load;
-
-
-
-let seed = "HelloWorld"
-
-
-function SeededSimplex(seed, freq) {
-    let noise = new SimplexNoise(seed)
-    return function (x, y, z) {
-        return noise.noise3D(x / freq, y / freq, z / freq)
-    }
-}
-},{"simplex-noise":1,"three":3}],11:[function(require,module,exports){
-module.exports=[[],[0.5,0,0,0,0.5,0,0,0,0.5],[1,0,0.5,1,0.5,0,0.5,0,0],[1,0.5,0,0,0.5,0,0,0,0.5,1,0,0.5,1,0.5,0,0,0,0.5],[0.5,0,1,1,0.5,1,1,0,0.5],[0,0,0.5,0.5,0,0,0,0.5,0,1,0.5,1,1,0,0.5,0.5,0,1],[1,0.5,1,1,0.5,0,0.5,0,0,0.5,0,1,1,0.5,1,0.5,0,0],[1,0.5,0,0,0.5,0,1,0.5,1,0,0.5,0,0,0,0.5,0.5,0,1,0.5,0,1,1,0.5,1,0,0.5,0],[0,0,0.5,0,0.5,1,0.5,0,1],[0,0.5,0,0,0.5,1,0.5,0,1,0.5,0,0,0,0.5,0,0.5,0,1],[0.5,0,1,0,0,0.5,0,0.5,1,1,0.5,0,0.5,0,0,1,0,0.5],[0,0.5,0,0,0.5,1,1,0.5,0,0,0.5,1,0.5,0,1,1,0,0.5,1,0,0.5,1,0.5,0,0,0.5,1],[0,0.5,1,1,0.5,1,1,0,0.5,0,0,0.5,0,0.5,1,1,0,0.5],[0,0.5,1,1,0.5,1,0,0.5,0,1,0.5,1,1,0,0.5,0.5,0,0,0.5,0,0,0,0.5,0,1,0.5,1],[1,0.5,1,1,0.5,0,0,0.5,1,1,0.5,0,0.5,0,0,0,0,0.5,0,0,0.5,0,0.5,1,1,0.5,0],[0,0.5,0,1,0.5,1,1,0.5,0,0,0.5,0,0,0.5,1,1,0.5,1],[0,1,0.5,0,0.5,0,0.5,1,0],[0,1,0.5,0,0,0.5,0.5,0,0,0.5,1,0,0,1,0.5,0.5,0,0],[1,0.5,0,0.5,0,0,1,0,0.5,0,1,0.5,0,0.5,0,0.5,1,0],[0,0,0.5,1,0,0.5,0,1,0.5,1,0,0.5,1,0.5,0,0.5,1,0,0.5,1,0,0,1,0.5,1,0,0.5],[0.5,0,1,1,0.5,1,1,0,0.5,0.5,1,0,0,1,0.5,0,0.5,0],[0.5,0,0,0.5,1,0,0,1,0.5,0,0,0.5,0.5,0,0,0,1,0.5,1,0.5,1,1,0,0.5,0.5,0,1],[0.5,0,0,0.5,0,1,1,0.5,1,1,0.5,0,0.5,0,0,1,0.5,1,0,1,0.5,0,0.5,0,0.5,1,0],[1,0.5,1,1,0.5,0,0.5,0,1,0,1,0.5,0,0,0.5,0.5,0,1,1,0.5,0,0,1,0.5,0.5,0,1,0.5,1,0,0,1,0.5,1,0.5,0],[0,0,0.5,0,0.5,1,0.5,0,1,0.5,1,0,0,1,0.5,0,0.5,0],[0.5,0,0,0.5,1,0,0.5,0,1,0.5,1,0,0,1,0.5,0,0.5,1,0,0.5,1,0.5,0,1,0.5,1,0],[1,0,0.5,1,0.5,0,0.5,0,0,0,0,0.5,0,0.5,1,0.5,0,1,0,0.5,0,0.5,1,0,0,1,0.5],[1,0,0.5,0,0.5,1,0.5,0,1,1,0,0.5,0,1,0.5,0,0.5,1,0,1,0.5,1,0,0.5,1,0.5,0,1,0.5,0,0.5,1,0,0,1,0.5],[0,0.5,1,1,0.5,1,1,0,0.5,0,0,0.5,0,0.5,1,1,0,0.5,0.5,1,0,0,1,0.5,0,0.5,0],[1,0,0.5,0,0.5,1,1,0.5,1,1,0,0.5,0.5,0,0,0.5,1,0,1,0,0.5,0.5,1,0,0,0.5,1,0,0.5,1,0.5,1,0,0,1,0.5],[1,0.5,1,1,0.5,0,0,0.5,1,1,0.5,0,0.5,0,0,0,0,0.5,0,0,0.5,0,0.5,1,1,0.5,0,0.5,1,0,0,1,0.5,0,0.5,0],[1,0.5,0,0,0.5,1,1,0.5,1,0.5,1,0,0,1,0.5,0,0.5,1,0,0.5,1,1,0.5,0,0.5,1,0],[0.5,1,0,1,0.5,0,1,1,0.5],[0.5,0,0,0,0.5,0,0,0,0.5,1,1,0.5,0.5,1,0,1,0.5,0],[0.5,1,0,0.5,0,0,1,0,0.5,1,1,0.5,0.5,1,0,1,0,0.5],[1,0,0.5,1,1,0.5,0,0,0.5,1,1,0.5,0.5,1,0,0,0.5,0,0,0.5,0,0,0,0.5,1,1,0.5],[1,0.5,1,1,0,0.5,0.5,0,1,0.5,1,0,1,0.5,0,1,1,0.5],[0.5,0,1,1,0.5,1,1,0,0.5,0.5,0,0,0,0.5,0,0,0,0.5,1,0.5,0,1,1,0.5,0.5,1,0],[0.5,0,0,0.5,0,1,0.5,1,0,0.5,0,1,1,0.5,1,1,1,0.5,1,1,0.5,0.5,1,0,0.5,0,1],[0.5,0,1,0,0.5,0,0,0,0.5,0.5,0,1,0.5,1,0,0,0.5,0,0.5,1,0,0.5,0,1,1,0.5,1,1,0.5,1,1,1,0.5,0.5,1,0],[0,0,0.5,0,0.5,1,0.5,0,1,1,1,0.5,0.5,1,0,1,0.5,0],[0,0.5,0,0,0.5,1,0.5,0,1,0.5,0,0,0,0.5,0,0.5,0,1,1,1,0.5,0.5,1,0,1,0.5,0],[1,0,0.5,1,1,0.5,0.5,1,0,0.5,0,0,1,0,0.5,0.5,1,0,0,0.5,1,0.5,0,1,0,0,0.5],[0.5,0,1,0,0.5,0,0,0.5,1,0.5,0,1,1,0,0.5,1,1,0.5,0.5,0,1,1,1,0.5,0,0.5,0,0,0.5,0,1,1,0.5,0.5,1,0],[1,0,0.5,0,0,0.5,0,0.5,1,1,0.5,1,1,0,0.5,0,0.5,1,0.5,1,0,1,0.5,0,1,1,0.5],[0,0.5,1,1,0.5,1,0,0.5,0,1,0.5,1,1,0,0.5,0.5,0,0,0.5,0,0,0,0.5,0,1,0.5,1,1,1,0.5,0.5,1,0,1,0.5,0],[0,0.5,1,1,0.5,1,0,0,0.5,0.5,1,0,0.5,0,0,0,0,0.5,1,0.5,1,0.5,1,0,0,0,0.5,1,1,0.5,0.5,1,0,1,0.5,1],[1,0.5,1,0,0.5,0,0,0.5,1,1,1,0.5,0.5,1,0,0,0.5,0,0,0.5,0,1,0.5,1,1,1,0.5],[0,0.5,0,1,0.5,0,1,1,0.5,0,1,0.5,0,0.5,0,1,1,0.5],[0,1,0.5,0,0,0.5,1,1,0.5,0,0,0.5,0.5,0,0,1,0.5,0,1,0.5,0,1,1,0.5,0,0,0.5],[1,1,0.5,0,1,0.5,1,0,0.5,0,1,0.5,0,0.5,0,0.5,0,0,0.5,0,0,1,0,0.5,0,1,0.5],[1,0,0.5,0,1,0.5,0,0,0.5,1,0,0.5,1,1,0.5,0,1,0.5],[1,1,0.5,0,1,0.5,0,0.5,0,1,0.5,0,1,1,0.5,0,0.5,0,0.5,0,1,1,0.5,1,1,0,0.5],[0,1,0.5,0,0,0.5,1,1,0.5,0,0,0.5,0.5,0,0,1,0.5,0,1,0.5,0,1,1,0.5,0,0,0.5,0.5,0,1,1,0.5,1,1,0,0.5],[0,0.5,0,1,1,0.5,0,1,0.5,0,0.5,0,0.5,0,0,0.5,0,1,0,0.5,0,0.5,0,1,1,1,0.5,1,1,0.5,0.5,0,1,1,0.5,1],[0,0,0.5,1,1,0.5,0,1,0.5,0.5,0,1,1,0.5,1,1,1,0.5,1,1,0.5,0,0,0.5,0.5,0,1],[0,0.5,0,1,0.5,0,1,1,0.5,0,1,0.5,0,0.5,0,1,1,0.5,0.5,0,1,0,0,0.5,0,0.5,1],[0.5,0,1,0.5,0,0,0,0.5,1,0,0.5,1,0.5,0,0,1,1,0.5,0,0.5,1,1,1,0.5,0,1,0.5,0.5,0,0,1,0.5,0,1,1,0.5],[1,1,0.5,0,1,0.5,1,0,0.5,0,1,0.5,0,0.5,0,0.5,0,0,0.5,0,0,1,0,0.5,0,1,0.5,0,0.5,1,0.5,0,1,0,0,0.5],[0,1,0.5,1,0,0.5,1,1,0.5,0,0.5,1,0.5,0,1,1,0,0.5,1,0,0.5,0,1,0.5,0,0.5,1],[1,0,0.5,0,0,0.5,1,0.5,1,1,0.5,1,0,0,0.5,0,0.5,1,1,1,0.5,0,1,0.5,0,0.5,0,1,1,0.5,0,0.5,0,1,0.5,0],[0,1,0.5,0,0.5,1,1,0.5,1,0,1,0.5,1,0.5,1,1,1,0.5,1,0.5,0,1,0,0.5,0.5,0,0],[1,0.5,1,1,1,0.5,0,1,0.5,1,0.5,1,0,1,0.5,0,0.5,1,0,0,0.5,0,0.5,0,0.5,0,0],[0,1,0.5,0,0.5,1,1,0.5,1,0,1,0.5,1,0.5,1,1,1,0.5],[1,1,0.5,1,0.5,1,0.5,1,1],[0.5,0,0,0,0.5,0,0,0,0.5,0.5,1,1,1,1,0.5,1,0.5,1],[1,0,0.5,1,0.5,0,0.5,0,0,0.5,1,1,1,1,0.5,1,0.5,1],[1,0.5,0,0,0.5,0,0,0,0.5,1,0,0.5,1,0.5,0,0,0,0.5,0.5,1,1,1,1,0.5,1,0.5,1],[1,1,0.5,1,0,0.5,0.5,0,1,0.5,1,1,1,1,0.5,0.5,0,1],[0.5,0,1,0.5,1,1,1,1,0.5,1,0,0.5,0.5,0,1,1,1,0.5,0,0.5,0,0,0,0.5,0.5,0,0],[0.5,0,1,0.5,1,1,0.5,0,0,0.5,1,1,1,1,0.5,1,0.5,0,1,0.5,0,0.5,0,0,0.5,1,1],[0,0,0.5,1,0.5,0,0,0.5,0,0,0,0.5,0.5,0,1,0.5,1,1,0,0,0.5,0.5,1,1,1,0.5,0,1,0.5,0,0.5,1,1,1,1,0.5],[0,0.5,1,0.5,0,1,0,0,0.5,1,1,0.5,1,0.5,1,0.5,1,1],[0.5,0,1,0.5,0,0,0,0.5,0,0,0.5,1,0.5,0,1,0,0.5,0,1,1,0.5,1,0.5,1,0.5,1,1],[0,0,0.5,0,0.5,1,0.5,0,1,1,0,0.5,1,0.5,0,0.5,0,0,1,0.5,1,0.5,1,1,1,1,0.5],[0,0.5,0,0,0.5,1,1,0.5,0,0,0.5,1,0.5,0,1,1,0,0.5,1,0,0.5,1,0.5,0,0,0.5,1,0.5,1,1,1,1,0.5,1,0.5,1],[1,0,0.5,0,0,0.5,1,1,0.5,0,0,0.5,0,0.5,1,0.5,1,1,0.5,1,1,1,1,0.5,0,0,0.5],[0,0.5,0,0,0.5,1,0.5,0,0,1,1,0.5,1,0,0.5,0.5,0,0,0,0.5,1,1,1,0.5,0.5,0,0,0.5,1,1,1,1,0.5,0,0.5,1],[0,0,0.5,1,0.5,0,0.5,0,0,0,0,0.5,1,1,0.5,1,0.5,0,1,1,0.5,0,0,0.5,0,0.5,1,0,0.5,1,0.5,1,1,1,1,0.5],[0,0.5,1,1,0.5,0,0,0.5,0,0.5,1,1,1,1,0.5,1,0.5,0,1,0.5,0,0,0.5,1,0.5,1,1],[0.5,1,0,0,1,0.5,0,0.5,0,1,0.5,1,0.5,1,1,1,1,0.5],[0,1,0.5,0,0,0.5,0.5,0,0,0.5,1,0,0,1,0.5,0.5,0,0,1,0.5,1,0.5,1,1,1,1,0.5],[0.5,0,0,1,0,0.5,1,0.5,0,0.5,1,0,0,1,0.5,0,0.5,0,1,1,0.5,1,0.5,1,0.5,1,1],[0,0,0.5,1,0,0.5,0,1,0.5,1,0,0.5,1,0.5,0,0.5,1,0,0.5,1,0,0,1,0.5,1,0,0.5,1,0.5,1,0.5,1,1,1,1,0.5],[1,1,0.5,1,0,0.5,0.5,0,1,0.5,1,1,1,1,0.5,0.5,0,1,0,0.5,0,0.5,1,0,0,1,0.5],[0.5,0,0,0.5,1,0,0,0,0.5,0,0,0.5,0.5,1,0,0,1,0.5,0.5,0,1,0.5,1,1,1,1,0.5,0.5,0,1,1,1,0.5,1,0,0.5],[0.5,0,1,0.5,1,1,0.5,0,0,0.5,1,1,1,1,0.5,1,0.5,0,1,0.5,0,0.5,0,0,0.5,1,1,0,1,0.5,0,0.5,0,0.5,1,0],[0,0,0.5,0.5,0,1,0.5,1,1,0,0,0.5,0.5,1,1,0,1,0.5,0.5,1,0,1,1,0.5,1,0.5,0],[0.5,0,1,0,0,0.5,0,0.5,1,0.5,1,1,1,1,0.5,1,0.5,1,0,1,0.5,0,0.5,0,0.5,1,0],[0.5,0,0,0.5,1,0,0.5,0,1,0.5,1,0,0,1,0.5,0,0.5,1,0,0.5,1,0.5,0,1,0.5,1,0,1,1,0.5,1,0.5,1,0.5,1,1],[1,0,0.5,1,0.5,0,0.5,0,0,0.5,1,1,1,1,0.5,1,0.5,1,0.5,0,1,0,0,0.5,0,0.5,1,0.5,1,0,0,1,0.5,0,0.5,0],[1,0.5,1,0.5,0,1,1,0,0.5,1,0.5,0,0.5,1,0,1,1,0.5,0,1,0.5,0,0.5,1,0.5,1,1],[1,0,0.5,0,0,0.5,1,1,0.5,0,0,0.5,0,0.5,1,0.5,1,1,0.5,1,1,1,1,0.5,0,0,0.5,0,0.5,0,0.5,1,0,0,1,0.5],[1,0,0.5,0.5,0,0,0.5,1,0,1,0,0.5,0.5,1,0,1,1,0.5,0.5,1,1,0,1,0.5,0,0.5,1],[0,0.5,0,0.5,0,0,0,0,0.5,0,0.5,1,0.5,1,1,0,1,0.5,1,1,0.5,1,0.5,0,0.5,1,0],[1,0.5,0,0.5,1,0,1,1,0.5,0.5,1,1,0,1,0.5,0,0.5,1],[1,0.5,0,1,0.5,1,0.5,1,1,0.5,1,0,1,0.5,0,0.5,1,1],[1,0.5,0,1,0.5,1,0.5,1,1,0.5,1,0,1,0.5,0,0.5,1,1,0,0,0.5,0.5,0,0,0,0.5,0],[0.5,1,0,0.5,0,0,0.5,1,1,0.5,0,0,1,0,0.5,1,0.5,1,1,0.5,1,0.5,1,1,0.5,0,0],[0,0,0.5,1,0,0.5,0,0.5,0,0,0.5,0,1,0,0.5,0.5,1,1,0,0.5,0,0.5,1,1,0.5,1,0,1,0,0.5,1,0.5,1,0.5,1,1],[0.5,1,1,0.5,1,0,0.5,0,1,0.5,1,0,1,0.5,0,1,0,0.5,1,0,0.5,0.5,0,1,0.5,1,0],[0.5,1,1,0.5,1,0,0.5,0,1,0.5,1,0,1,0.5,0,1,0,0.5,1,0,0.5,0.5,0,1,0.5,1,0,0,0.5,0,0,0,0.5,0.5,0,0],[0.5,0,1,0.5,1,0,0.5,0,0,0.5,0,1,0.5,1,1,0.5,1,0],[0.5,1,0,0.5,0,1,0.5,1,1,0,0.5,0,0,0,0.5,0.5,0,1,0.5,0,1,0.5,1,0,0,0.5,0],[0.5,1,1,0.5,1,0,1,0.5,0,1,0.5,1,0.5,1,1,1,0.5,0,0,0,0.5,0,0.5,1,0.5,0,1],[0.5,0,1,0.5,0,0,0,0.5,1,0,0.5,1,0.5,0,0,0,0.5,0,0.5,1,1,0.5,1,0,1,0.5,0,0.5,1,1,1,0.5,0,1,0.5,1],[0.5,1,0,0.5,0,0,0.5,1,1,0.5,0,0,1,0,0.5,1,0.5,1,1,0.5,1,0.5,1,1,0.5,0,0,0,0,0.5,0,0.5,1,0.5,0,1],[0.5,1,0,0,0.5,0,0,0.5,1,0.5,1,0,0,0.5,1,0.5,1,1,1,0.5,1,0.5,0,1,1,0,0.5],[1,0.5,0,0.5,1,1,0.5,1,0,1,0.5,0,1,0,0.5,0,0,0.5,1,0.5,0,0,0,0.5,0.5,1,1,0.5,1,1,0,0,0.5,0,0.5,1],[0,0.5,1,0.5,1,1,0.5,1,0,0,0.5,1,0.5,1,0,0,0.5,0,0.5,0,0,1,0.5,0,1,0,0.5],[0.5,0,0,0.5,1,1,0.5,1,0,0,0,0.5,0,0.5,1,0.5,1,1,0.5,1,1,0.5,0,0,0,0,0.5],[0.5,1,0,0,0.5,0,0,0.5,1,0.5,1,0,0,0.5,1,0.5,1,1],[1,0.5,0,1,0.5,1,0,0.5,0,1,0.5,1,0.5,1,1,0,1,0.5,0,1,0.5,0,0.5,0,1,0.5,1],[0.5,0,0,0,1,0.5,0,0,0.5,0.5,0,0,1,0.5,0,1,0.5,1,0.5,0,0,1,0.5,1,0,1,0.5,0,1,0.5,1,0.5,1,0.5,1,1],[0.5,0,0,0,1,0.5,0,0.5,0,0.5,0,0,0.5,1,1,0,1,0.5,0.5,1,1,0.5,0,0,1,0,0.5,1,0,0.5,1,0.5,1,0.5,1,1],[1,0,0.5,0,1,0.5,0,0,0.5,1,0.5,1,0.5,1,1,0,1,0.5,0,1,0.5,1,0,0.5,1,0.5,1],[0.5,0,1,0.5,1,1,1,0,0.5,0,0.5,0,1,0.5,0,1,0,0.5,0.5,1,1,0,0.5,0,1,0,0.5,0,1,0.5,0,0.5,0,0.5,1,1],[0.5,1,1,0,1,0.5,0,0,0.5,0.5,1,1,0,0,0.5,0.5,0,1,1,0,0.5,0.5,0,0,1,0.5,0],[0.5,1,1,0.5,0,0,0.5,0,1,0,1,0.5,0,0.5,0,0.5,0,0,0.5,0,0,0.5,1,1,0,1,0.5],[0,0,0.5,0.5,0,1,0.5,1,1,0,0,0.5,0.5,1,1,0,1,0.5],[1,0.5,0,1,0.5,1,0,0.5,0,1,0.5,1,0.5,1,1,0,1,0.5,0,1,0.5,0,0.5,0,1,0.5,1,0.5,0,1,0,0,0.5,0,0.5,1],[0.5,0,0,1,0.5,0,1,0.5,1,0.5,0,0,1,0.5,1,0.5,0,1,0,0.5,1,0.5,1,1,0,1,0.5],[0,0,0.5,0,0.5,0,0.5,0,0,1,0,0.5,1,0.5,1,0.5,0,1,0.5,1,1,0,1,0.5,0,0.5,1],[1,0,0.5,1,0.5,1,0.5,0,1,0,0.5,1,0.5,1,1,0,1,0.5],[1,0.5,0,1,0,0.5,0,0,0.5,1,0.5,0,0,0,0.5,0,0.5,0,0,1,0.5,0,0.5,1,0.5,1,1],[0.5,0,0,1,0.5,0,1,0,0.5,0,0.5,1,0.5,1,1,0,1,0.5],[0.5,0,0,0,0,0.5,0,0.5,0,0,1,0.5,0,0.5,1,0.5,1,1],[0,1,0.5,0,0.5,1,0.5,1,1],[0.5,1,1,0,0.5,1,0,1,0.5],[0,0.5,0,0,0,0.5,0.5,0,0,0.5,1,1,0,0.5,1,0,1,0.5],[1,0,0.5,1,0.5,0,0.5,0,0,0,1,0.5,0.5,1,1,0,0.5,1],[0,0,0.5,1,0,0.5,1,0.5,0,0,0.5,0,0,0,0.5,1,0.5,0,0.5,1,1,0,0.5,1,0,1,0.5],[0.5,0,1,1,0.5,1,1,0,0.5,0,1,0.5,0.5,1,1,0,0.5,1],[0.5,0,0,0,0.5,0,0,0,0.5,0.5,0,1,1,0.5,1,1,0,0.5,0,0.5,1,0,1,0.5,0.5,1,1],[1,0.5,1,1,0.5,0,0.5,0,0,0.5,0,1,1,0.5,1,0.5,0,0,0,1,0.5,0.5,1,1,0,0.5,1],[1,0.5,0,0,0.5,0,1,0.5,1,0,0.5,0,0,0,0.5,0.5,0,1,0.5,0,1,1,0.5,1,0,0.5,0,0,1,0.5,0.5,1,1,0,0.5,1],[0.5,1,1,0.5,0,1,0,0,0.5,0,1,0.5,0.5,1,1,0,0,0.5],[0.5,0,1,0.5,0,0,0.5,1,1,0.5,0,0,0,0.5,0,0,1,0.5,0,1,0.5,0.5,1,1,0.5,0,0],[0,0,0.5,0,1,0.5,0.5,1,1,0.5,0,1,0,0,0.5,0.5,1,1,1,0.5,0,0.5,0,0,1,0,0.5],[1,0.5,0,0,0.5,0,1,0,0.5,0.5,1,1,0.5,0,1,1,0,0.5,0,0.5,0,0.5,1,1,1,0,0.5,0,1,0.5,0.5,1,1,0,0.5,0],[0,0,0.5,0,1,0.5,1,0,0.5,0,1,0.5,0.5,1,1,1,0.5,1,1,0.5,1,1,0,0.5,0,1,0.5],[0.5,0,0,1,0.5,1,1,0,0.5,0.5,0,0,0.5,1,1,1,0.5,1,0.5,1,1,0.5,0,0,0,0.5,0,0,0.5,0,0,1,0.5,0.5,1,1],[0.5,0,0,1,0.5,1,1,0.5,0,0.5,0,0,0,0,0.5,0,1,0.5,0.5,0,0,0,1,0.5,1,0.5,1,1,0.5,1,0,1,0.5,0.5,1,1],[0,0.5,0,1,0.5,1,1,0.5,0,0,1,0.5,0.5,1,1,1,0.5,1,1,0.5,1,0,0.5,0,0,1,0.5],[0,0.5,1,0,0.5,0,0.5,1,0,0.5,1,1,0,0.5,1,0.5,1,0],[0.5,1,0,0.5,1,1,0.5,0,0,0.5,1,1,0,0.5,1,0,0,0.5,0,0,0.5,0.5,0,0,0.5,1,1],[0.5,1,0,0.5,1,1,0,0.5,1,0,0.5,0,0.5,1,0,0,0.5,1,1,0,0.5,1,0.5,0,0.5,0,0],[0,0.5,1,0.5,1,0,0.5,1,1,0,0.5,1,0,0,0.5,1,0,0.5,0,0.5,1,1,0,0.5,0.5,1,0,0.5,1,0,1,0,0.5,1,0.5,0],[0,0.5,1,0,0.5,0,0.5,1,0,0.5,1,1,0,0.5,1,0.5,1,0,1,0,0.5,0.5,0,1,1,0.5,1],[0.5,1,0,0.5,1,1,0.5,0,0,0.5,1,1,0,0.5,1,0,0,0.5,0,0,0.5,0.5,0,0,0.5,1,1,1,0.5,1,1,0,0.5,0.5,0,1],[0.5,0,0,0.5,0,1,1,0.5,0,1,0.5,0,0.5,0,1,1,0.5,1,0.5,1,0,0.5,1,1,0,0.5,1,0.5,1,0,0,0.5,1,0,0.5,0],[1,0.5,0,0.5,1,0,0.5,1,1,1,0.5,0,0.5,1,1,1,0.5,1,0.5,0,1,0,0.5,1,0,0,0.5],[0.5,1,1,0.5,0,1,0.5,1,0,0.5,0,1,0,0,0.5,0,0.5,0,0,0.5,0,0.5,1,0,0.5,0,1],[0.5,0,0,0.5,1,1,0.5,0,1,0.5,0,0,0.5,1,0,0.5,1,1],[0.5,1,1,0.5,0,1,0.5,1,0,0.5,0,1,0,0,0.5,0,0.5,0,0,0.5,0,0.5,1,0,0.5,0,1,1,0,0.5,1,0.5,0,0.5,0,0],[0.5,0,1,0.5,1,0,0.5,1,1,1,0,0.5,1,0.5,0,0.5,1,0,0.5,1,0,0.5,0,1,1,0,0.5],[1,0,0.5,0,0,0.5,1,0.5,1,1,0.5,1,0,0,0.5,0.5,1,0,1,0.5,1,0.5,1,0,0.5,1,1,0,0,0.5,0,0.5,0,0.5,1,0],[0.5,1,1,0.5,0,0,0.5,1,0,1,0.5,1,1,0,0.5,0.5,0,0,0.5,0,0,0.5,1,1,1,0.5,1],[0.5,1,1,1,0.5,1,1,0.5,0,0.5,1,1,1,0.5,0,0.5,1,0,0,0.5,0,0.5,0,0,0,0,0.5],[0.5,1,1,1,0.5,1,1,0.5,0,0.5,1,1,1,0.5,0,0.5,1,0],[1,1,0.5,0.5,1,0,1,0.5,0,0,0.5,1,0,1,0.5,0.5,1,1],[0,0,0.5,0.5,0,0,0,0.5,0,0,1,0.5,0.5,1,1,0,0.5,1,0.5,1,0,1,0.5,0,1,1,0.5],[0.5,1,0,0.5,0,0,1,0,0.5,1,1,0.5,0.5,1,0,1,0,0.5,0,0.5,1,0,1,0.5,0.5,1,1],[1,0,0.5,1,1,0.5,0,0,0.5,1,1,0.5,0.5,1,0,0,0.5,0,0,0.5,0,0,0,0.5,1,1,0.5,0.5,1,1,0,0.5,1,0,1,0.5],[1,0,0.5,0.5,0,1,1,0.5,1,1,1,0.5,0.5,1,0,1,0.5,0,0.5,1,1,0,0.5,1,0,1,0.5],[0.5,0,0,0,0.5,0,0,0,0.5,1,1,0.5,0.5,1,0,1,0.5,0,1,0,0.5,0.5,0,1,1,0.5,1,0,1,0.5,0.5,1,1,0,0.5,1],[0.5,0,0,0.5,0,1,0.5,1,0,0.5,0,1,1,0.5,1,1,1,0.5,1,1,0.5,0.5,1,0,0.5,0,1,0,0.5,1,0,1,0.5,0.5,1,1],[0,0.5,1,0,0,0.5,0.5,0,1,1,0.5,1,1,1,0.5,0.5,1,1,0.5,1,0,0,0.5,0,0,1,0.5],[0.5,1,1,0.5,0,1,0,0,0.5,0,1,0.5,0.5,1,1,0,0,0.5,1,0.5,0,1,1,0.5,0.5,1,0],[0.5,0,1,0.5,0,0,0.5,1,1,0.5,0,0,0,0.5,0,0,1,0.5,0,1,0.5,0.5,1,1,0.5,0,0,1,0.5,0,1,1,0.5,0.5,1,0],[1,0,0.5,1,1,0.5,0.5,0,0,0.5,0,0,1,1,0.5,0.5,1,0,0,0,0.5,0,1,0.5,0.5,1,1,0,0,0.5,0.5,1,1,0.5,0,1],[0.5,0,1,1,0,0.5,1,1,0.5,0.5,0,1,1,1,0.5,0.5,1,1,0,1,0.5,0.5,1,0,0,0.5,0],[0,0,0.5,0,1,0.5,1,0,0.5,0,1,0.5,0.5,1,1,1,0.5,1,1,0.5,1,1,0,0.5,0,1,0.5,0.5,1,0,1,0.5,0,1,1,0.5],[1,0.5,0,1,0,0.5,0.5,0,0,0,0.5,0,0,1,0.5,0.5,1,0,0.5,1,1,1,0.5,1,1,1,0.5],[0.5,0,0,0,0,0.5,0,1,0.5,0.5,0,0,0,1,0.5,0.5,1,0,1,1,0.5,0.5,1,1,1,0.5,1],[0,0.5,0,0,1,0.5,0.5,1,0,1,1,0.5,0.5,1,1,1,0.5,1],[0,0.5,0,1,0.5,0,0,0.5,1,1,0.5,0,1,1,0.5,0.5,1,1,0.5,1,1,0,0.5,1,1,0.5,0],[0,0,0.5,0.5,1,1,0,0.5,1,0,0,0.5,1,1,0.5,0.5,1,1,1,1,0.5,0,0,0.5,0.5,0,0,0.5,0,0,1,0.5,0,1,1,0.5],[1,0,0.5,1,1,0.5,0.5,0,0,0,0.5,1,0,0.5,0,0.5,0,0,1,1,0.5,0,0.5,1,0.5,0,0,0.5,1,1,0,0.5,1,1,1,0.5],[1,1,0.5,0,0,0.5,1,0,0.5,0.5,1,1,0,0.5,1,0,0,0.5,0,0,0.5,1,1,0.5,0.5,1,1],[0,0.5,0,1,0.5,0,0,0.5,1,1,0.5,0,1,1,0.5,0.5,1,1,0.5,1,1,0,0.5,1,1,0.5,0,1,0,0.5,0.5,0,1,1,0.5,1],[0.5,0,1,0,0.5,1,0,0,0.5,0.5,0,0,1,0.5,0,1,0,0.5,1,1,0.5,0.5,1,1,1,0.5,1],[0,0.5,0,0.5,0,0,0.5,0,1,0,0.5,0,0.5,0,1,0,0.5,1,0.5,1,1,1,0.5,1,1,1,0.5],[0,0,0.5,0.5,0,1,0,0.5,1,0.5,1,1,1,0.5,1,1,1,0.5],[0,0,0.5,0.5,1,1,0.5,0,1,0,0,0.5,0,0.5,0,1,0.5,0,0,0,0.5,1,0.5,0,0.5,1,1,0.5,1,1,1,0.5,0,1,1,0.5],[0.5,0,0,0.5,1,1,0.5,0,1,1,0.5,0,1,1,0.5,0.5,1,1,0.5,1,1,0.5,0,0,1,0.5,0],[1,1,0.5,0.5,1,1,0.5,0,1,1,1,0.5,0.5,0,1,1,0,0.5,0.5,0,0,0,0,0.5,0,0.5,0],[0.5,0,1,1,0,0.5,1,1,0.5,0.5,0,1,1,1,0.5,0.5,1,1],[0,0,0.5,0,0.5,0,1,0.5,0,0,0,0.5,1,0.5,0,1,0,0.5,1,0.5,1,1,1,0.5,0.5,1,1],[0.5,0,0,1,0.5,0,1,0,0.5,1,0.5,1,1,1,0.5,0.5,1,1],[0,0,0.5,0,0.5,0,0.5,0,0,1,0.5,1,1,1,0.5,0.5,1,1],[0.5,1,1,1,0.5,1,1,1,0.5],[1,0.5,1,0,0.5,1,0,1,0.5,1,1,0.5,1,0.5,1,0,1,0.5],[0,1,0.5,1,1,0.5,1,0.5,1,0,0.5,1,0,1,0.5,1,0.5,1,0.5,0,0,0,0.5,0,0,0,0.5],[1,0.5,1,0,0.5,1,0,1,0.5,1,1,0.5,1,0.5,1,0,1,0.5,0.5,0,0,1,0,0.5,1,0.5,0],[0,0,0.5,1,0,0.5,0,0.5,0,0,0.5,0,1,0,0.5,1,0.5,0,0,1,0.5,1,1,0.5,1,0.5,1,0,1,0.5,1,0.5,1,0,0.5,1],[1,1,0.5,1,0,0.5,0,1,0.5,1,0,0.5,0.5,0,1,0,0.5,1,0,0.5,1,0,1,0.5,1,0,0.5],[1,1,0.5,1,0,0.5,0,1,0.5,1,0,0.5,0.5,0,1,0,0.5,1,0,0.5,1,0,1,0.5,1,0,0.5,0.5,0,0,0,0.5,0,0,0,0.5],[0.5,0,0,0.5,0,1,1,0.5,0,1,0.5,0,0.5,0,1,0,1,0.5,1,0.5,0,0,1,0.5,1,1,0.5,0.5,0,1,0,0.5,1,0,1,0.5],[1,1,0.5,1,0.5,0,0,0.5,0,1,1,0.5,0,0.5,0,0,1,0.5,0,0.5,1,0,0,0.5,0.5,0,1],[0,1,0.5,1,1,0.5,0,0,0.5,1,1,0.5,1,0.5,1,0.5,0,1,0.5,0,1,0,0,0.5,1,1,0.5],[1,0.5,1,0,1,0.5,1,1,0.5,1,0.5,1,0.5,0,1,0.5,0,0,1,0.5,1,0.5,0,0,0,1,0.5,0,1,0.5,0.5,0,0,0,0.5,0],[0,1,0.5,1,1,0.5,0,0,0.5,1,1,0.5,1,0.5,1,0.5,0,1,0.5,0,1,0,0,0.5,1,1,0.5,1,0.5,0,0.5,0,0,1,0,0.5],[0,0.5,0,0,1,0.5,1,1,0.5,0,0.5,0,1,1,0.5,1,0.5,0,1,0,0.5,1,0.5,1,0.5,0,1],[0,0,0.5,1,1,0.5,1,0,0.5,0,0,0.5,0,1,0.5,1,1,0.5],[1,0,0.5,0,1,0.5,1,1,0.5,0.5,0,0,0,0.5,0,0,1,0.5,0,1,0.5,1,0,0.5,0.5,0,0],[1,1,0.5,0,0,0.5,0,1,0.5,1,0.5,0,0.5,0,0,0,0,0.5,0,0,0.5,1,1,0.5,1,0.5,0],[1,1,0.5,1,0.5,0,0,0.5,0,1,1,0.5,0,0.5,0,0,1,0.5],[0,0.5,1,0,0.5,0,1,0.5,1,0,0.5,0,0.5,1,0,1,1,0.5,1,1,0.5,1,0.5,1,0,0.5,0],[0.5,0,0,0.5,1,0,0,0,0.5,1,0.5,1,0,0.5,1,0,0,0.5,0.5,1,0,1,0.5,1,0,0,0.5,1,1,0.5,1,0.5,1,0.5,1,0],[0,0.5,1,0,0.5,0,1,0.5,1,0,0.5,0,0.5,1,0,1,1,0.5,1,1,0.5,1,0.5,1,0,0.5,0,0.5,0,0,1,0,0.5,1,0.5,0],[0,0.5,1,0,0,0.5,1,0,0.5,0,0.5,1,1,0,0.5,1,0.5,1,1,1,0.5,1,0.5,0,0.5,1,0],[0.5,0,1,1,1,0.5,1,0,0.5,0.5,0,1,0,0.5,1,0,0.5,0,0.5,0,1,0,0.5,0,1,1,0.5,1,1,0.5,0,0.5,0,0.5,1,0],[0.5,1,0,1,1,0.5,1,0,0.5,0.5,1,0,1,0,0.5,0.5,0,0,0,0,0.5,0.5,0,1,0,0.5,1],[0.5,0,1,0,0.5,1,0,0.5,0,0.5,0,1,0,0.5,0,0.5,0,0,1,0.5,0,0.5,1,0,1,1,0.5],[0.5,0,1,0,0.5,1,0,0,0.5,1,0.5,0,0.5,1,0,1,1,0.5],[0.5,0,1,1,1,0.5,1,0.5,1,0.5,0,1,0.5,1,0,1,1,0.5,0.5,1,0,0.5,0,1,0,0,0.5,0,0,0.5,0,0.5,0,0.5,1,0],[0.5,1,0,0.5,0,1,0.5,0,0,1,1,0.5,1,0.5,1,0.5,0,1,0.5,0,1,0.5,1,0,1,1,0.5],[1,0,0.5,1,0.5,1,0.5,0,1,0,0,0.5,0,0.5,0,0.5,0,0,0.5,1,0,1,1,0.5,1,0.5,0],[0.5,0,1,1,0,0.5,1,0.5,1,1,1,0.5,1,0.5,0,0.5,1,0],[0,0,0.5,1,1,0.5,1,0,0.5,0,0.5,0,0.5,1,0,1,1,0.5,1,1,0.5,0,0,0.5,0,0.5,0],[1,0,0.5,0.5,0,0,0.5,1,0,1,0,0.5,0.5,1,0,1,1,0.5],[0,0,0.5,0,0.5,0,0.5,0,0,1,0.5,0,0.5,1,0,1,1,0.5],[1,1,0.5,1,0.5,0,0.5,1,0],[1,0.5,1,0,0.5,1,1,0.5,0,0,0.5,1,0,1,0.5,0.5,1,0,0.5,1,0,1,0.5,0,0,0.5,1],[1,0.5,1,0,0.5,1,1,0.5,0,0,0.5,1,0,1,0.5,0.5,1,0,0.5,1,0,1,0.5,0,0,0.5,1,0,0,0.5,0.5,0,0,0,0.5,0],[1,0,0.5,0.5,1,0,0.5,0,0,1,0,0.5,1,0.5,1,0,0.5,1,1,0,0.5,0,0.5,1,0.5,1,0,0.5,1,0,0,0.5,1,0,1,0.5],[1,0,0.5,1,0.5,1,0,0.5,1,1,0,0.5,0,0.5,1,0,0,0.5,0,0.5,0,0,1,0.5,0.5,1,0],[1,0,0.5,0.5,1,0,1,0.5,0,1,0,0.5,0,1,0.5,0.5,1,0,0,1,0.5,1,0,0.5,0.5,0,1,0.5,0,1,0,0.5,1,0,1,0.5],[0.5,0,0,1,0.5,0,1,0,0.5,0.5,0,1,0,0.5,1,0,0,0.5,0,1,0.5,0.5,1,0,0,0.5,0],[0.5,0,1,0.5,1,0,0.5,0,0,0,0.5,1,0,1,0.5,0.5,1,0,0.5,1,0,0.5,0,1,0,0.5,1],[0.5,0,1,0,0.5,1,0,0,0.5,0,0.5,0,0,1,0.5,0.5,1,0],[0,0,0.5,0,1,0.5,0.5,0,1,1,0.5,0,1,0.5,1,0.5,0,1,0,1,0.5,1,0.5,0,0.5,0,1,0.5,1,0,1,0.5,0,0,1,0.5],[1,0.5,1,0.5,0,1,0.5,0,0,1,0.5,1,0.5,0,0,1,0.5,0,0.5,1,0,0,0.5,0,0,1,0.5],[0,1,0.5,0.5,1,0,0.5,0,0,0,1,0.5,0.5,0,0,0,0,0.5,0.5,0,1,1,0,0.5,1,0.5,1],[1,0,0.5,1,0.5,1,0.5,0,1,0,0.5,0,0,1,0.5,0.5,1,0],[0,1,0.5,1,0,0.5,0,0,0.5,0.5,1,0,1,0.5,0,1,0,0.5,1,0,0.5,0,1,0.5,0.5,1,0],[1,0,0.5,0.5,0,0,1,0.5,0,0.5,1,0,0,0.5,0,0,1,0.5],[0.5,0,0,0,0,0.5,0,1,0.5,0.5,0,0,0,1,0.5,0.5,1,0],[0.5,1,0,0,0.5,0,0,1,0.5],[0,0.5,1,1,0.5,0,1,0.5,1,0,0.5,1,0,0.5,0,1,0.5,0],[0,0.5,1,1,0.5,0,1,0.5,1,0,0,0.5,0.5,0,0,1,0.5,0,1,0.5,0,0,0.5,1,0,0,0.5],[0,0.5,0,1,0.5,1,0,0.5,1,0.5,0,0,1,0,0.5,1,0.5,1,1,0.5,1,0,0.5,0,0.5,0,0],[1,0,0.5,1,0.5,1,0,0.5,1,1,0,0.5,0,0.5,1,0,0,0.5],[1,0.5,0,0,0.5,1,0,0.5,0,1,0,0.5,0.5,0,1,0,0.5,1,0,0.5,1,1,0.5,0,1,0,0.5],[0,0.5,1,0,0,0.5,0.5,0,1,1,0,0.5,0.5,0,0,1,0.5,0],[0.5,0,1,0,0.5,1,0,0.5,0,0.5,0,1,0,0.5,0,0.5,0,0],[0.5,0,1,0,0.5,1,0,0,0.5],[1,0.5,1,0,0.5,0,1,0.5,0,0.5,0,1,0,0,0.5,0,0.5,0,0,0.5,0,1,0.5,1,0.5,0,1],[0.5,0,0,1,0.5,0,1,0.5,1,0.5,0,0,1,0.5,1,0.5,0,1],[0,0.5,0,0.5,0,0,0,0,0.5,0.5,0,1,1,0,0.5,1,0.5,1],[1,0,0.5,1,0.5,1,0.5,0,1],[0,0,0.5,0,0.5,0,1,0.5,0,0,0,0.5,1,0.5,0,1,0,0.5],[0.5,0,0,1,0.5,0,1,0,0.5],[0,0,0.5,0,0.5,0,0.5,0,0],[]]
-},{}],12:[function(require,module,exports){
-let f = () => { console.timeEnd("Load To First Frame") }; console.time("Load To First Frame")
-
-let Monitor = require("./Monitor")
-
-let THREE = require("three")
-
-console.time("createSpawn")
-let World = require("./World2/World")
-let myWorld = new World({
-	seed: "Test Args!"
 })
-
-let chunks =5
-myWorld.createSpawnPoint(chunks).then((e) => {
-	console.timeEnd("createSpawn")
-}).catch((e) => {
-	debugger
-})
-
-let wasd_mouse = new (require("./WASD_Mouse"))(document.body)
-let CharacterController = require("./CharacterController")
+},{"./Chunk":8,"three":3}],10:[function(require,module,exports){
+let SimplexNoise = require("simplex-noise")
 
 
-var scene = new THREE.Scene();
-var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+//hey, this could totally be pushed to a worker thread..., it doesn't depend on anything but itself
+class SolidWorldGen {
+    constructor(seed, chunkSize, worldGenArgs) {
+        this.simplex = new SimplexNoise(seed ? seed : null)
+        this.size = chunkSize ? chunkSize : 16
+        this.worldGenArgs = worldGenArgs
+    }
+    generateChunk(cLoc) {
+        let chunkArray = [];
+        let s = this.size;
+        let scale = 32;
+        for (let z = 0; z < s; z++) {
+            let absZ = z + (cLoc.z * s)
+            for (let y = 0; y < s; y++) {
+                let absY = y + (cLoc.y * s)
+                for (let x = 0; x < s; x++) {
+                    let absX = x + (cLoc.x * s)
+                    let value = this.simplex.noise3D(absX / scale, absY / scale, absZ / scale);
+                    value = value>0?1:0
+                    chunkArray[x + y * s + z * s * s] = value;
+                }
+            }
+        }
+        return chunkArray
+    }
 
-var renderer = new THREE.WebGLRenderer();
-renderer.setSize(window.innerWidth, window.innerHeight);
-document.body.appendChild(renderer.domElement);
+}
 
+module.exports = SolidWorldGen
+},{"simplex-noise":1}],11:[function(require,module,exports){
+module.exports=[[[],[]],[[0.5,0,0,0,0.5,0,0,0,0.5],[1,0,0,0,1,0,0,0,1]],[[1,0,0.5,1,0.5,0,0.5,0,0],[0,0,1,0,1,0,-1,0,0]],[[1,0.5,0,0,0.5,0,0,0,0.5,1,0,0.5,1,0.5,0,0,0,0.5],[0,1,0,0,1,0,0,0,1,0,0,1,0,1,0,0,0,1]],[[0.5,0,1,1,0.5,1,1,0,0.5],[-1,0,0,0,1,0,0,0,-1]],[[0,0,0.5,0.5,0,0,0,0.5,0,1,0.5,1,1,0,0.5,0.5,0,1],[0,0,1,1,0,0,0,1,0,0,1,0,0,0,-1,-1,0,0]],[[1,0.5,1,1,0.5,0,0.5,0,0,0.5,0,1,1,0.5,1,0.5,0,0],[0,1,0,0,1,0,-1,0,0,-1,0,0,0,1,0,-1,0,0]],[[1,0.5,0,0,0.5,0,1,0.5,1,0,0.5,0,0,0,0.5,0.5,0,1,0.5,0,1,1,0.5,1,0,0.5,0],[0,1,0,0,1,0,0,1,0,0,1,0,0,0,1,-1,0,0,-1,0,0,0,1,0,0,1,0]],[[0,0,0.5,0,0.5,1,0.5,0,1],[0,0,-1,0,1,0,1,0,0]],[[0,0.5,0,0,0.5,1,0.5,0,1,0.5,0,0,0,0.5,0,0.5,0,1],[0,1,0,0,1,0,1,0,0,1,0,0,0,1,0,1,0,0]],[[0.5,0,1,0,0,0.5,0,0.5,1,1,0.5,0,0.5,0,0,1,0,0.5],[1,0,0,0,0,-1,0,1,0,0,1,0,-1,0,0,0,0,1]],[[0,0.5,0,0,0.5,1,1,0.5,0,0,0.5,1,0.5,0,1,1,0,0.5,1,0,0.5,1,0.5,0,0,0.5,1],[0,1,0,0,1,0,0,1,0,0,1,0,1,0,0,0,0,1,0,0,1,0,1,0,0,1,0]],[[0,0.5,1,1,0.5,1,1,0,0.5,0,0,0.5,0,0.5,1,1,0,0.5],[0,1,0,0,1,0,0,0,-1,0,0,-1,0,1,0,0,0,-1]],[[0,0.5,1,1,0.5,1,0,0.5,0,1,0.5,1,1,0,0.5,0.5,0,0,0.5,0,0,0,0.5,0,1,0.5,1],[0,1,0,0,1,0,0,1,0,0,1,0,0,0,-1,1,0,0,1,0,0,0,1,0,0,1,0]],[[1,0.5,1,1,0.5,0,0,0.5,1,1,0.5,0,0.5,0,0,0,0,0.5,0,0,0.5,0,0.5,1,1,0.5,0],[0,1,0,0,1,0,0,1,0,0,1,0,-1,0,0,0,0,-1,0,0,-1,0,1,0,0,1,0]],[[0,0.5,0,1,0.5,1,1,0.5,0,0,0.5,0,0,0.5,1,1,0.5,1],[0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,0,1,0]],[[0,1,0.5,0,0.5,0,0.5,1,0],[0,0,1,0,-1,0,1,0,0]],[[0,1,0.5,0,0,0.5,0.5,0,0,0.5,1,0,0,1,0.5,0.5,0,0],[0,0,1,0,0,1,1,0,0,1,0,0,0,0,1,1,0,0]],[[1,0.5,0,0.5,0,0,1,0,0.5,0,1,0.5,0,0.5,0,0.5,1,0],[0,1,0,-1,0,0,0,0,1,0,0,1,0,-1,0,1,0,0]],[[0,0,0.5,1,0,0.5,0,1,0.5,1,0,0.5,1,0.5,0,0.5,1,0,0.5,1,0,0,1,0.5,1,0,0.5],[0,0,1,0,0,1,0,0,1,0,0,1,0,1,0,1,0,0,1,0,0,0,0,1,0,0,1]],[[0.5,0,1,1,0.5,1,1,0,0.5,0.5,1,0,0,1,0.5,0,0.5,0],[-1,0,0,0,1,0,0,0,-1,1,0,0,0,0,1,0,-1,0]],[[0.5,0,0,0.5,1,0,0,1,0.5,0,0,0.5,0.5,0,0,0,1,0.5,1,0.5,1,1,0,0.5,0.5,0,1],[1,0,0,1,0,0,0,0,1,0,0,1,1,0,0,0,0,1,0,1,0,0,0,-1,-1,0,0]],[[0.5,0,0,0.5,0,1,1,0.5,1,1,0.5,0,0.5,0,0,1,0.5,1,0,1,0.5,0,0.5,0,0.5,1,0],[-1,0,0,-1,0,0,0,1,0,0,1,0,-1,0,0,0,1,0,0,0,1,0,-1,0,1,0,0]],[[1,0.5,1,1,0.5,0,0.5,0,1,0,1,0.5,0,0,0.5,0.5,0,1,1,0.5,0,0,1,0.5,0.5,0,1,0.5,1,0,0,1,0.5,1,0.5,0],[0,1,0,0,1,0,-1,0,0,0,0,1,0,0,1,-1,0,0,0,1,0,0,0,1,-1,0,0,1,0,0,0,0,1,0,1,0]],[[0,0,0.5,0,0.5,1,0.5,0,1,0.5,1,0,0,1,0.5,0,0.5,0],[0,0,-1,0,1,0,1,0,0,1,0,0,0,0,1,0,-1,0]],[[0.5,0,0,0.5,1,0,0.5,0,1,0.5,1,0,0,1,0.5,0,0.5,1,0,0.5,1,0.5,0,1,0.5,1,0],[1,0,0,1,0,0,1,0,0,1,0,0,0,0,1,0,1,0,0,1,0,1,0,0,1,0,0]],[[1,0,0.5,1,0.5,0,0.5,0,0,0,0,0.5,0,0.5,1,0.5,0,1,0,0.5,0,0.5,1,0,0,1,0.5],[0,0,1,0,1,0,-1,0,0,0,0,-1,0,1,0,1,0,0,0,-1,0,1,0,0,0,0,1]],[[1,0,0.5,0,0.5,1,0.5,0,1,1,0,0.5,0,1,0.5,0,0.5,1,0,1,0.5,1,0,0.5,1,0.5,0,1,0.5,0,0.5,1,0,0,1,0.5],[0,0,1,0,1,0,1,0,0,0,0,1,0,0,1,0,1,0,0,0,1,0,0,1,0,1,0,0,1,0,1,0,0,0,0,1]],[[0,0.5,1,1,0.5,1,1,0,0.5,0,0,0.5,0,0.5,1,1,0,0.5,0.5,1,0,0,1,0.5,0,0.5,0],[0,1,0,0,1,0,0,0,-1,0,0,-1,0,1,0,0,0,-1,1,0,0,0,0,1,0,-1,0]],[[1,0,0.5,0,0.5,1,1,0.5,1,1,0,0.5,0.5,0,0,0.5,1,0,1,0,0.5,0.5,1,0,0,0.5,1,0,0.5,1,0.5,1,0,0,1,0.5],[0,0,-1,0,1,0,0,1,0,0,0,-1,1,0,0,1,0,0,0,0,-1,1,0,0,0,1,0,0,1,0,1,0,0,0,0,1]],[[1,0.5,1,1,0.5,0,0,0.5,1,1,0.5,0,0.5,0,0,0,0,0.5,0,0,0.5,0,0.5,1,1,0.5,0,0.5,1,0,0,1,0.5,0,0.5,0],[0,1,0,0,1,0,0,1,0,0,1,0,-1,0,0,0,0,-1,0,0,-1,0,1,0,0,1,0,1,0,0,0,0,1,0,-1,0]],[[1,0.5,0,0,0.5,1,1,0.5,1,0.5,1,0,0,1,0.5,0,0.5,1,0,0.5,1,1,0.5,0,0.5,1,0],[0,1,0,0,1,0,0,1,0,1,0,0,0,0,1,0,1,0,0,1,0,0,1,0,1,0,0]],[[0.5,1,0,1,0.5,0,1,1,0.5],[-1,0,0,0,-1,0,0,0,1]],[[0.5,0,0,0,0.5,0,0,0,0.5,1,1,0.5,0.5,1,0,1,0.5,0],[1,0,0,0,1,0,0,0,1,0,0,1,-1,0,0,0,-1,0]],[[0.5,1,0,0.5,0,0,1,0,0.5,1,1,0.5,0.5,1,0,1,0,0.5],[-1,0,0,-1,0,0,0,0,1,0,0,1,-1,0,0,0,0,1]],[[1,0,0.5,1,1,0.5,0,0,0.5,1,1,0.5,0.5,1,0,0,0.5,0,0,0.5,0,0,0,0.5,1,1,0.5],[0,0,1,0,0,1,0,0,1,0,0,1,-1,0,0,0,1,0,0,1,0,0,0,1,0,0,1]],[[1,0.5,1,1,0,0.5,0.5,0,1,0.5,1,0,1,0.5,0,1,1,0.5],[0,1,0,0,0,-1,-1,0,0,-1,0,0,0,-1,0,0,0,1]],[[0.5,0,1,1,0.5,1,1,0,0.5,0.5,0,0,0,0.5,0,0,0,0.5,1,0.5,0,1,1,0.5,0.5,1,0],[-1,0,0,0,1,0,0,0,-1,1,0,0,0,1,0,0,0,1,0,-1,0,0,0,1,-1,0,0]],[[0.5,0,0,0.5,0,1,0.5,1,0,0.5,0,1,1,0.5,1,1,1,0.5,1,1,0.5,0.5,1,0,0.5,0,1],[-1,0,0,-1,0,0,-1,0,0,-1,0,0,0,1,0,0,0,1,0,0,1,-1,0,0,-1,0,0]],[[0.5,0,1,0,0.5,0,0,0,0.5,0.5,0,1,0.5,1,0,0,0.5,0,0.5,1,0,0.5,0,1,1,0.5,1,1,0.5,1,1,1,0.5,0.5,1,0],[-1,0,0,0,1,0,0,0,1,-1,0,0,-1,0,0,0,1,0,-1,0,0,-1,0,0,0,1,0,0,1,0,0,0,1,-1,0,0]],[[0,0,0.5,0,0.5,1,0.5,0,1,1,1,0.5,0.5,1,0,1,0.5,0],[0,0,-1,0,1,0,1,0,0,0,0,1,-1,0,0,0,-1,0]],[[0,0.5,0,0,0.5,1,0.5,0,1,0.5,0,0,0,0.5,0,0.5,0,1,1,1,0.5,0.5,1,0,1,0.5,0],[0,1,0,0,1,0,1,0,0,1,0,0,0,1,0,1,0,0,0,0,1,-1,0,0,0,-1,0]],[[1,0,0.5,1,1,0.5,0.5,1,0,0.5,0,0,1,0,0.5,0.5,1,0,0,0.5,1,0.5,0,1,0,0,0.5],[0,0,1,0,0,1,-1,0,0,-1,0,0,0,0,1,-1,0,0,0,1,0,1,0,0,0,0,-1]],[[0.5,0,1,0,0.5,0,0,0.5,1,0.5,0,1,1,0,0.5,1,1,0.5,0.5,0,1,1,1,0.5,0,0.5,0,0,0.5,0,1,1,0.5,0.5,1,0],[1,0,0,0,1,0,0,1,0,1,0,0,0,0,1,0,0,1,1,0,0,0,0,1,0,1,0,0,1,0,0,0,1,-1,0,0]],[[1,0,0.5,0,0,0.5,0,0.5,1,1,0.5,1,1,0,0.5,0,0.5,1,0.5,1,0,1,0.5,0,1,1,0.5],[0,0,-1,0,0,-1,0,1,0,0,1,0,0,0,-1,0,1,0,-1,0,0,0,-1,0,0,0,1]],[[0,0.5,1,1,0.5,1,0,0.5,0,1,0.5,1,1,0,0.5,0.5,0,0,0.5,0,0,0,0.5,0,1,0.5,1,1,1,0.5,0.5,1,0,1,0.5,0],[0,1,0,0,1,0,0,1,0,0,1,0,0,0,-1,1,0,0,1,0,0,0,1,0,0,1,0,0,0,1,-1,0,0,0,-1,0]],[[0,0.5,1,1,0.5,1,0,0,0.5,0.5,1,0,0.5,0,0,0,0,0.5,1,0.5,1,0.5,1,0,0,0,0.5,1,1,0.5,0.5,1,0,1,0.5,1],[0,1,0,0,1,0,0,0,-1,-1,0,0,-1,0,0,0,0,-1,0,1,0,-1,0,0,0,0,-1,0,0,1,-1,0,0,0,1,0]],[[1,0.5,1,0,0.5,0,0,0.5,1,1,1,0.5,0.5,1,0,0,0.5,0,0,0.5,0,1,0.5,1,1,1,0.5],[0,1,0,0,1,0,0,1,0,0,0,1,-1,0,0,0,1,0,0,1,0,0,1,0,0,0,1]],[[0,0.5,0,1,0.5,0,1,1,0.5,0,1,0.5,0,0.5,0,1,1,0.5],[0,-1,0,0,-1,0,0,0,1,0,0,1,0,-1,0,0,0,1]],[[0,1,0.5,0,0,0.5,1,1,0.5,0,0,0.5,0.5,0,0,1,0.5,0,1,0.5,0,1,1,0.5,0,0,0.5],[0,0,1,0,0,1,0,0,1,0,0,1,1,0,0,0,-1,0,0,-1,0,0,0,1,0,0,1]],[[1,1,0.5,0,1,0.5,1,0,0.5,0,1,0.5,0,0.5,0,0.5,0,0,0.5,0,0,1,0,0.5,0,1,0.5],[0,0,1,0,0,1,0,0,1,0,0,1,0,-1,0,-1,0,0,-1,0,0,0,0,1,0,0,1]],[[1,0,0.5,0,1,0.5,0,0,0.5,1,0,0.5,1,1,0.5,0,1,0.5],[0,0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,0,1]],[[1,1,0.5,0,1,0.5,0,0.5,0,1,0.5,0,1,1,0.5,0,0.5,0,0.5,0,1,1,0.5,1,1,0,0.5],[0,0,1,0,0,1,0,-1,0,0,-1,0,0,0,1,0,-1,0,-1,0,0,0,1,0,0,0,-1]],[[0,1,0.5,0,0,0.5,1,1,0.5,0,0,0.5,0.5,0,0,1,0.5,0,1,0.5,0,1,1,0.5,0,0,0.5,0.5,0,1,1,0.5,1,1,0,0.5],[0,0,1,0,0,1,0,0,1,0,0,1,1,0,0,0,-1,0,0,-1,0,0,0,1,0,0,1,-1,0,0,0,1,0,0,0,-1]],[[0,0.5,0,1,1,0.5,0,1,0.5,0,0.5,0,0.5,0,0,0.5,0,1,0,0.5,0,0.5,0,1,1,1,0.5,1,1,0.5,0.5,0,1,1,0.5,1],[0,-1,0,0,0,1,0,0,1,0,-1,0,-1,0,0,-1,0,0,0,-1,0,-1,0,0,0,0,1,0,0,1,-1,0,0,0,1,0]],[[0,0,0.5,1,1,0.5,0,1,0.5,0.5,0,1,1,0.5,1,1,1,0.5,1,1,0.5,0,0,0.5,0.5,0,1],[0,0,1,0,0,1,0,0,1,-1,0,0,0,1,0,0,0,1,0,0,1,0,0,1,-1,0,0]],[[0,0.5,0,1,0.5,0,1,1,0.5,0,1,0.5,0,0.5,0,1,1,0.5,0.5,0,1,0,0,0.5,0,0.5,1],[0,-1,0,0,-1,0,0,0,1,0,0,1,0,-1,0,0,0,1,1,0,0,0,0,-1,0,1,0]],[[0.5,0,1,0.5,0,0,0,0.5,1,0,0.5,1,0.5,0,0,1,1,0.5,0,0.5,1,1,1,0.5,0,1,0.5,0.5,0,0,1,0.5,0,1,1,0.5],[1,0,0,1,0,0,0,1,0,0,1,0,1,0,0,0,0,1,0,1,0,0,0,1,0,0,1,1,0,0,0,-1,0,0,0,1]],[[1,1,0.5,0,1,0.5,1,0,0.5,0,1,0.5,0,0.5,0,0.5,0,0,0.5,0,0,1,0,0.5,0,1,0.5,0,0.5,1,0.5,0,1,0,0,0.5],[0,0,1,0,0,1,0,0,1,0,0,1,0,-1,0,-1,0,0,-1,0,0,0,0,1,0,0,1,0,1,0,1,0,0,0,0,-1]],[[0,1,0.5,1,0,0.5,1,1,0.5,0,0.5,1,0.5,0,1,1,0,0.5,1,0,0.5,0,1,0.5,0,0.5,1],[0,0,1,0,0,1,0,0,1,0,1,0,1,0,0,0,0,1,0,0,1,0,0,1,0,1,0]],[[1,0,0.5,0,0,0.5,1,0.5,1,1,0.5,1,0,0,0.5,0,0.5,1,1,1,0.5,0,1,0.5,0,0.5,0,1,1,0.5,0,0.5,0,1,0.5,0],[0,0,-1,0,0,-1,0,1,0,0,1,0,0,0,-1,0,1,0,0,0,1,0,0,1,0,-1,0,0,0,1,0,-1,0,0,-1,0]],[[0,1,0.5,0,0.5,1,1,0.5,1,0,1,0.5,1,0.5,1,1,1,0.5,1,0.5,0,1,0,0.5,0.5,0,0],[0,0,1,0,1,0,0,1,0,0,0,1,0,1,0,0,0,1,0,-1,0,0,0,-1,1,0,0]],[[1,0.5,1,1,1,0.5,0,1,0.5,1,0.5,1,0,1,0.5,0,0.5,1,0,0,0.5,0,0.5,0,0.5,0,0],[0,1,0,0,0,1,0,0,1,0,1,0,0,0,1,0,1,0,0,0,-1,0,-1,0,-1,0,0]],[[0,1,0.5,0,0.5,1,1,0.5,1,0,1,0.5,1,0.5,1,1,1,0.5],[0,0,1,0,1,0,0,1,0,0,0,1,0,1,0,0,0,1]],[[1,1,0.5,1,0.5,1,0.5,1,1],[0,0,-1,0,-1,0,-1,0,0]],[[0.5,0,0,0,0.5,0,0,0,0.5,0.5,1,1,1,1,0.5,1,0.5,1],[1,0,0,0,1,0,0,0,1,-1,0,0,0,0,-1,0,-1,0]],[[1,0,0.5,1,0.5,0,0.5,0,0,0.5,1,1,1,1,0.5,1,0.5,1],[0,0,1,0,1,0,-1,0,0,-1,0,0,0,0,-1,0,-1,0]],[[1,0.5,0,0,0.5,0,0,0,0.5,1,0,0.5,1,0.5,0,0,0,0.5,0.5,1,1,1,1,0.5,1,0.5,1],[0,1,0,0,1,0,0,0,1,0,0,1,0,1,0,0,0,1,-1,0,0,0,0,-1,0,-1,0]],[[1,1,0.5,1,0,0.5,0.5,0,1,0.5,1,1,1,1,0.5,0.5,0,1],[0,0,-1,0,0,-1,-1,0,0,-1,0,0,0,0,-1,-1,0,0]],[[0.5,0,1,0.5,1,1,1,1,0.5,1,0,0.5,0.5,0,1,1,1,0.5,0,0.5,0,0,0,0.5,0.5,0,0],[-1,0,0,-1,0,0,0,0,-1,0,0,-1,-1,0,0,0,0,-1,0,1,0,0,0,1,1,0,0]],[[0.5,0,1,0.5,1,1,0.5,0,0,0.5,1,1,1,1,0.5,1,0.5,0,1,0.5,0,0.5,0,0,0.5,1,1],[-1,0,0,-1,0,0,-1,0,0,-1,0,0,0,0,-1,0,1,0,0,1,0,-1,0,0,-1,0,0]],[[0,0,0.5,1,0.5,0,0,0.5,0,0,0,0.5,0.5,0,1,0.5,1,1,0,0,0.5,0.5,1,1,1,0.5,0,1,0.5,0,0.5,1,1,1,1,0.5],[0,0,1,0,1,0,0,1,0,0,0,1,-1,0,0,-1,0,0,0,0,1,-1,0,0,0,1,0,0,1,0,-1,0,0,0,0,-1]],[[0,0.5,1,0.5,0,1,0,0,0.5,1,1,0.5,1,0.5,1,0.5,1,1],[0,1,0,1,0,0,0,0,-1,0,0,-1,0,-1,0,-1,0,0]],[[0.5,0,1,0.5,0,0,0,0.5,0,0,0.5,1,0.5,0,1,0,0.5,0,1,1,0.5,1,0.5,1,0.5,1,1],[1,0,0,1,0,0,0,1,0,0,1,0,1,0,0,0,1,0,0,0,-1,0,-1,0,-1,0,0]],[[0,0,0.5,0,0.5,1,0.5,0,1,1,0,0.5,1,0.5,0,0.5,0,0,1,0.5,1,0.5,1,1,1,1,0.5],[0,0,-1,0,1,0,1,0,0,0,0,1,0,1,0,-1,0,0,0,-1,0,-1,0,0,0,0,-1]],[[0,0.5,0,0,0.5,1,1,0.5,0,0,0.5,1,0.5,0,1,1,0,0.5,1,0,0.5,1,0.5,0,0,0.5,1,0.5,1,1,1,1,0.5,1,0.5,1],[0,1,0,0,1,0,0,1,0,0,1,0,1,0,0,0,0,1,0,0,1,0,1,0,0,1,0,-1,0,0,0,0,-1,0,-1,0]],[[1,0,0.5,0,0,0.5,1,1,0.5,0,0,0.5,0,0.5,1,0.5,1,1,0.5,1,1,1,1,0.5,0,0,0.5],[0,0,-1,0,0,-1,0,0,-1,0,0,-1,0,1,0,-1,0,0,-1,0,0,0,0,-1,0,0,-1]],[[0,0.5,0,0,0.5,1,0.5,0,0,1,1,0.5,1,0,0.5,0.5,0,0,0,0.5,1,1,1,0.5,0.5,0,0,0.5,1,1,1,1,0.5,0,0.5,1],[0,1,0,0,1,0,1,0,0,0,0,-1,0,0,-1,1,0,0,0,1,0,0,0,-1,1,0,0,-1,0,0,0,0,-1,0,1,0]],[[0,0,0.5,1,0.5,0,0.5,0,0,0,0,0.5,1,1,0.5,1,0.5,0,1,1,0.5,0,0,0.5,0,0.5,1,0,0.5,1,0.5,1,1,1,1,0.5],[0,0,-1,0,1,0,-1,0,0,0,0,-1,0,0,-1,0,1,0,0,0,-1,0,0,-1,0,1,0,0,1,0,-1,0,0,0,0,-1]],[[0,0.5,1,1,0.5,0,0,0.5,0,0.5,1,1,1,1,0.5,1,0.5,0,1,0.5,0,0,0.5,1,0.5,1,1],[0,1,0,0,1,0,0,1,0,-1,0,0,0,0,-1,0,1,0,0,1,0,0,1,0,-1,0,0]],[[0.5,1,0,0,1,0.5,0,0.5,0,1,0.5,1,0.5,1,1,1,1,0.5],[1,0,0,0,0,1,0,-1,0,0,-1,0,-1,0,0,0,0,-1]],[[0,1,0.5,0,0,0.5,0.5,0,0,0.5,1,0,0,1,0.5,0.5,0,0,1,0.5,1,0.5,1,1,1,1,0.5],[0,0,1,0,0,1,1,0,0,1,0,0,0,0,1,1,0,0,0,-1,0,-1,0,0,0,0,-1]],[[0.5,0,0,1,0,0.5,1,0.5,0,0.5,1,0,0,1,0.5,0,0.5,0,1,1,0.5,1,0.5,1,0.5,1,1],[-1,0,0,0,0,1,0,1,0,1,0,0,0,0,1,0,-1,0,0,0,-1,0,-1,0,-1,0,0]],[[0,0,0.5,1,0,0.5,0,1,0.5,1,0,0.5,1,0.5,0,0.5,1,0,0.5,1,0,0,1,0.5,1,0,0.5,1,0.5,1,0.5,1,1,1,1,0.5],[0,0,1,0,0,1,0,0,1,0,0,1,0,1,0,1,0,0,1,0,0,0,0,1,0,0,1,0,-1,0,-1,0,0,0,0,-1]],[[1,1,0.5,1,0,0.5,0.5,0,1,0.5,1,1,1,1,0.5,0.5,0,1,0,0.5,0,0.5,1,0,0,1,0.5],[0,0,-1,0,0,-1,-1,0,0,-1,0,0,0,0,-1,-1,0,0,0,-1,0,1,0,0,0,0,1]],[[0.5,0,0,0.5,1,0,0,0,0.5,0,0,0.5,0.5,1,0,0,1,0.5,0.5,0,1,0.5,1,1,1,1,0.5,0.5,0,1,1,1,0.5,1,0,0.5],[1,0,0,1,0,0,0,0,1,0,0,1,1,0,0,0,0,1,-1,0,0,-1,0,0,0,0,-1,-1,0,0,0,0,-1,0,0,-1]],[[0.5,0,1,0.5,1,1,0.5,0,0,0.5,1,1,1,1,0.5,1,0.5,0,1,0.5,0,0.5,0,0,0.5,1,1,0,1,0.5,0,0.5,0,0.5,1,0],[-1,0,0,-1,0,0,-1,0,0,-1,0,0,0,0,-1,0,1,0,0,1,0,-1,0,0,-1,0,0,0,0,1,0,-1,0,1,0,0]],[[0,0,0.5,0.5,0,1,0.5,1,1,0,0,0.5,0.5,1,1,0,1,0.5,0.5,1,0,1,1,0.5,1,0.5,0],[0,0,1,-1,0,0,-1,0,0,0,0,1,-1,0,0,0,0,1,1,0,0,0,0,-1,0,1,0]],[[0.5,0,1,0,0,0.5,0,0.5,1,0.5,1,1,1,1,0.5,1,0.5,1,0,1,0.5,0,0.5,0,0.5,1,0],[1,0,0,0,0,-1,0,1,0,-1,0,0,0,0,-1,0,-1,0,0,0,1,0,-1,0,1,0,0]],[[0.5,0,0,0.5,1,0,0.5,0,1,0.5,1,0,0,1,0.5,0,0.5,1,0,0.5,1,0.5,0,1,0.5,1,0,1,1,0.5,1,0.5,1,0.5,1,1],[1,0,0,1,0,0,1,0,0,1,0,0,0,0,1,0,1,0,0,1,0,1,0,0,1,0,0,0,0,-1,0,-1,0,-1,0,0]],[[1,0,0.5,1,0.5,0,0.5,0,0,0.5,1,1,1,1,0.5,1,0.5,1,0.5,0,1,0,0,0.5,0,0.5,1,0.5,1,0,0,1,0.5,0,0.5,0],[0,0,1,0,1,0,-1,0,0,-1,0,0,0,0,-1,0,-1,0,1,0,0,0,0,-1,0,1,0,1,0,0,0,0,1,0,-1,0]],[[1,0.5,1,0.5,0,1,1,0,0.5,1,0.5,0,0.5,1,0,1,1,0.5,0,1,0.5,0,0.5,1,0.5,1,1],[0,-1,0,1,0,0,0,0,1,0,1,0,1,0,0,0,0,-1,0,0,1,0,1,0,-1,0,0]],[[1,0,0.5,0,0,0.5,1,1,0.5,0,0,0.5,0,0.5,1,0.5,1,1,0.5,1,1,1,1,0.5,0,0,0.5,0,0.5,0,0.5,1,0,0,1,0.5],[0,0,-1,0,0,-1,0,0,-1,0,0,-1,0,1,0,-1,0,0,-1,0,0,0,0,-1,0,0,-1,0,-1,0,1,0,0,0,0,1]],[[1,0,0.5,0.5,0,0,0.5,1,0,1,0,0.5,0.5,1,0,1,1,0.5,0.5,1,1,0,1,0.5,0,0.5,1],[0,0,-1,1,0,0,1,0,0,0,0,-1,1,0,0,0,0,-1,-1,0,0,0,0,1,0,1,0]],[[0,0.5,0,0.5,0,0,0,0,0.5,0,0.5,1,0.5,1,1,0,1,0.5,1,1,0.5,1,0.5,0,0.5,1,0],[0,-1,0,-1,0,0,0,0,-1,0,1,0,-1,0,0,0,0,1,0,0,-1,0,1,0,1,0,0]],[[1,0.5,0,0.5,1,0,1,1,0.5,0.5,1,1,0,1,0.5,0,0.5,1],[0,1,0,1,0,0,0,0,-1,-1,0,0,0,0,1,0,1,0]],[[1,0.5,0,1,0.5,1,0.5,1,1,0.5,1,0,1,0.5,0,0.5,1,1],[0,-1,0,0,-1,0,-1,0,0,-1,0,0,0,-1,0,-1,0,0]],[[1,0.5,0,1,0.5,1,0.5,1,1,0.5,1,0,1,0.5,0,0.5,1,1,0,0,0.5,0.5,0,0,0,0.5,0],[0,-1,0,0,-1,0,-1,0,0,-1,0,0,0,-1,0,-1,0,0,0,0,1,1,0,0,0,1,0]],[[0.5,1,0,0.5,0,0,0.5,1,1,0.5,0,0,1,0,0.5,1,0.5,1,1,0.5,1,0.5,1,1,0.5,0,0],[-1,0,0,-1,0,0,-1,0,0,-1,0,0,0,0,1,0,-1,0,0,-1,0,-1,0,0,-1,0,0]],[[0,0,0.5,1,0,0.5,0,0.5,0,0,0.5,0,1,0,0.5,0.5,1,1,0,0.5,0,0.5,1,1,0.5,1,0,1,0,0.5,1,0.5,1,0.5,1,1],[0,0,1,0,0,1,0,1,0,0,1,0,0,0,1,-1,0,0,0,1,0,-1,0,0,-1,0,0,0,0,1,0,-1,0,-1,0,0]],[[0.5,1,1,0.5,1,0,0.5,0,1,0.5,1,0,1,0.5,0,1,0,0.5,1,0,0.5,0.5,0,1,0.5,1,0],[-1,0,0,-1,0,0,-1,0,0,-1,0,0,0,-1,0,0,0,-1,0,0,-1,-1,0,0,-1,0,0]],[[0.5,1,1,0.5,1,0,0.5,0,1,0.5,1,0,1,0.5,0,1,0,0.5,1,0,0.5,0.5,0,1,0.5,1,0,0,0.5,0,0,0,0.5,0.5,0,0],[-1,0,0,-1,0,0,-1,0,0,-1,0,0,0,-1,0,0,0,-1,0,0,-1,-1,0,0,-1,0,0,0,1,0,0,0,1,1,0,0]],[[0.5,0,1,0.5,1,0,0.5,0,0,0.5,0,1,0.5,1,1,0.5,1,0],[-1,0,0,-1,0,0,-1,0,0,-1,0,0,-1,0,0,-1,0,0]],[[0.5,1,0,0.5,0,1,0.5,1,1,0,0.5,0,0,0,0.5,0.5,0,1,0.5,0,1,0.5,1,0,0,0.5,0],[-1,0,0,-1,0,0,-1,0,0,0,1,0,0,0,1,-1,0,0,-1,0,0,-1,0,0,0,1,0]],[[0.5,1,1,0.5,1,0,1,0.5,0,1,0.5,1,0.5,1,1,1,0.5,0,0,0,0.5,0,0.5,1,0.5,0,1],[-1,0,0,-1,0,0,0,-1,0,0,-1,0,-1,0,0,0,-1,0,0,0,-1,0,1,0,1,0,0]],[[0.5,0,1,0.5,0,0,0,0.5,1,0,0.5,1,0.5,0,0,0,0.5,0,0.5,1,1,0.5,1,0,1,0.5,0,0.5,1,1,1,0.5,0,1,0.5,1],[1,0,0,1,0,0,0,1,0,0,1,0,1,0,0,0,1,0,-1,0,0,-1,0,0,0,-1,0,-1,0,0,0,-1,0,0,-1,0]],[[0.5,1,0,0.5,0,0,0.5,1,1,0.5,0,0,1,0,0.5,1,0.5,1,1,0.5,1,0.5,1,1,0.5,0,0,0,0,0.5,0,0.5,1,0.5,0,1],[-1,0,0,-1,0,0,-1,0,0,-1,0,0,0,0,1,0,-1,0,0,-1,0,-1,0,0,-1,0,0,0,0,-1,0,1,0,1,0,0]],[[0.5,1,0,0,0.5,0,0,0.5,1,0.5,1,0,0,0.5,1,0.5,1,1,1,0.5,1,0.5,0,1,1,0,0.5],[-1,0,0,0,1,0,0,1,0,-1,0,0,0,1,0,-1,0,0,0,-1,0,1,0,0,0,0,1]],[[1,0.5,0,0.5,1,1,0.5,1,0,1,0.5,0,1,0,0.5,0,0,0.5,1,0.5,0,0,0,0.5,0.5,1,1,0.5,1,1,0,0,0.5,0,0.5,1],[0,-1,0,-1,0,0,-1,0,0,0,-1,0,0,0,-1,0,0,-1,0,-1,0,0,0,-1,-1,0,0,-1,0,0,0,0,-1,0,1,0]],[[0,0.5,1,0.5,1,1,0.5,1,0,0,0.5,1,0.5,1,0,0,0.5,0,0.5,0,0,1,0.5,0,1,0,0.5],[0,1,0,-1,0,0,-1,0,0,0,1,0,-1,0,0,0,1,0,1,0,0,0,-1,0,0,0,-1]],[[0.5,0,0,0.5,1,1,0.5,1,0,0,0,0.5,0,0.5,1,0.5,1,1,0.5,1,1,0.5,0,0,0,0,0.5],[-1,0,0,-1,0,0,-1,0,0,0,0,-1,0,1,0,-1,0,0,-1,0,0,-1,0,0,0,0,-1]],[[0.5,1,0,0,0.5,0,0,0.5,1,0.5,1,0,0,0.5,1,0.5,1,1],[-1,0,0,0,1,0,0,1,0,-1,0,0,0,1,0,-1,0,0]],[[1,0.5,0,1,0.5,1,0,0.5,0,1,0.5,1,0.5,1,1,0,1,0.5,0,1,0.5,0,0.5,0,1,0.5,1],[0,-1,0,0,-1,0,0,-1,0,0,-1,0,-1,0,0,0,0,1,0,0,1,0,-1,0,0,-1,0]],[[0.5,0,0,0,1,0.5,0,0,0.5,0.5,0,0,1,0.5,0,1,0.5,1,0.5,0,0,1,0.5,1,0,1,0.5,0,1,0.5,1,0.5,1,0.5,1,1],[1,0,0,0,0,1,0,0,1,1,0,0,0,-1,0,0,-1,0,1,0,0,0,-1,0,0,0,1,0,0,1,0,-1,0,-1,0,0]],[[0.5,0,0,0,1,0.5,0,0.5,0,0.5,0,0,0.5,1,1,0,1,0.5,0.5,1,1,0.5,0,0,1,0,0.5,1,0,0.5,1,0.5,1,0.5,1,1],[-1,0,0,0,0,1,0,-1,0,-1,0,0,-1,0,0,0,0,1,-1,0,0,-1,0,0,0,0,1,0,0,1,0,-1,0,-1,0,0]],[[1,0,0.5,0,1,0.5,0,0,0.5,1,0.5,1,0.5,1,1,0,1,0.5,0,1,0.5,1,0,0.5,1,0.5,1],[0,0,1,0,0,1,0,0,1,0,-1,0,-1,0,0,0,0,1,0,0,1,0,0,1,0,-1,0]],[[0.5,0,1,0.5,1,1,1,0,0.5,0,0.5,0,1,0.5,0,1,0,0.5,0.5,1,1,0,0.5,0,1,0,0.5,0,1,0.5,0,0.5,0,0.5,1,1],[-1,0,0,-1,0,0,0,0,-1,0,-1,0,0,-1,0,0,0,-1,-1,0,0,0,-1,0,0,0,-1,0,0,1,0,-1,0,-1,0,0]],[[0.5,1,1,0,1,0.5,0,0,0.5,0.5,1,1,0,0,0.5,0.5,0,1,1,0,0.5,0.5,0,0,1,0.5,0],[-1,0,0,0,0,1,0,0,1,-1,0,0,0,0,1,-1,0,0,0,0,-1,1,0,0,0,-1,0]],[[0.5,1,1,0.5,0,0,0.5,0,1,0,1,0.5,0,0.5,0,0.5,0,0,0.5,0,0,0.5,1,1,0,1,0.5],[-1,0,0,-1,0,0,-1,0,0,0,0,1,0,-1,0,-1,0,0,-1,0,0,-1,0,0,0,0,1]],[[0,0,0.5,0.5,0,1,0.5,1,1,0,0,0.5,0.5,1,1,0,1,0.5],[0,0,1,-1,0,0,-1,0,0,0,0,1,-1,0,0,0,0,1]],[[1,0.5,0,1,0.5,1,0,0.5,0,1,0.5,1,0.5,1,1,0,1,0.5,0,1,0.5,0,0.5,0,1,0.5,1,0.5,0,1,0,0,0.5,0,0.5,1],[0,-1,0,0,-1,0,0,-1,0,0,-1,0,-1,0,0,0,0,1,0,0,1,0,-1,0,0,-1,0,1,0,0,0,0,-1,0,1,0]],[[0.5,0,0,1,0.5,0,1,0.5,1,0.5,0,0,1,0.5,1,0.5,0,1,0,0.5,1,0.5,1,1,0,1,0.5],[1,0,0,0,-1,0,0,-1,0,1,0,0,0,-1,0,1,0,0,0,1,0,-1,0,0,0,0,1]],[[0,0,0.5,0,0.5,0,0.5,0,0,1,0,0.5,1,0.5,1,0.5,0,1,0.5,1,1,0,1,0.5,0,0.5,1],[0,0,-1,0,-1,0,-1,0,0,0,0,1,0,-1,0,1,0,0,-1,0,0,0,0,1,0,1,0]],[[1,0,0.5,1,0.5,1,0.5,0,1,0,0.5,1,0.5,1,1,0,1,0.5],[0,0,1,0,-1,0,1,0,0,0,1,0,-1,0,0,0,0,1]],[[1,0.5,0,1,0,0.5,0,0,0.5,1,0.5,0,0,0,0.5,0,0.5,0,0,1,0.5,0,0.5,1,0.5,1,1],[0,-1,0,0,0,-1,0,0,-1,0,-1,0,0,0,-1,0,-1,0,0,0,1,0,1,0,-1,0,0]],[[0.5,0,0,1,0.5,0,1,0,0.5,0,0.5,1,0.5,1,1,0,1,0.5],[1,0,0,0,-1,0,0,0,-1,0,1,0,-1,0,0,0,0,1]],[[0.5,0,0,0,0,0.5,0,0.5,0,0,1,0.5,0,0.5,1,0.5,1,1],[-1,0,0,0,0,-1,0,-1,0,0,0,1,0,1,0,-1,0,0]],[[0,1,0.5,0,0.5,1,0.5,1,1],[0,0,1,0,1,0,-1,0,0]],[[0.5,1,1,0,0.5,1,0,1,0.5],[1,0,0,0,-1,0,0,0,-1]],[[0,0.5,0,0,0,0.5,0.5,0,0,0.5,1,1,0,0.5,1,0,1,0.5],[0,1,0,0,0,1,1,0,0,1,0,0,0,-1,0,0,0,-1]],[[1,0,0.5,1,0.5,0,0.5,0,0,0,1,0.5,0.5,1,1,0,0.5,1],[0,0,1,0,1,0,-1,0,0,0,0,-1,1,0,0,0,-1,0]],[[0,0,0.5,1,0,0.5,1,0.5,0,0,0.5,0,0,0,0.5,1,0.5,0,0.5,1,1,0,0.5,1,0,1,0.5],[0,0,1,0,0,1,0,1,0,0,1,0,0,0,1,0,1,0,1,0,0,0,-1,0,0,0,-1]],[[0.5,0,1,1,0.5,1,1,0,0.5,0,1,0.5,0.5,1,1,0,0.5,1],[-1,0,0,0,1,0,0,0,-1,0,0,-1,1,0,0,0,-1,0]],[[0.5,0,0,0,0.5,0,0,0,0.5,0.5,0,1,1,0.5,1,1,0,0.5,0,0.5,1,0,1,0.5,0.5,1,1],[1,0,0,0,1,0,0,0,1,-1,0,0,0,1,0,0,0,-1,0,-1,0,0,0,-1,1,0,0]],[[1,0.5,1,1,0.5,0,0.5,0,0,0.5,0,1,1,0.5,1,0.5,0,0,0,1,0.5,0.5,1,1,0,0.5,1],[0,1,0,0,1,0,-1,0,0,-1,0,0,0,1,0,-1,0,0,0,0,-1,1,0,0,0,-1,0]],[[1,0.5,0,0,0.5,0,1,0.5,1,0,0.5,0,0,0,0.5,0.5,0,1,0.5,0,1,1,0.5,1,0,0.5,0,0,1,0.5,0.5,1,1,0,0.5,1],[0,1,0,0,1,0,0,1,0,0,1,0,0,0,1,-1,0,0,-1,0,0,0,1,0,0,1,0,0,0,-1,1,0,0,0,-1,0]],[[0.5,1,1,0.5,0,1,0,0,0.5,0,1,0.5,0.5,1,1,0,0,0.5],[1,0,0,1,0,0,0,0,-1,0,0,-1,1,0,0,0,0,-1]],[[0.5,0,1,0.5,0,0,0.5,1,1,0.5,0,0,0,0.5,0,0,1,0.5,0,1,0.5,0.5,1,1,0.5,0,0],[1,0,0,1,0,0,1,0,0,1,0,0,0,1,0,0,0,-1,0,0,-1,1,0,0,1,0,0]],[[0,0,0.5,0,1,0.5,0.5,1,1,0.5,0,1,0,0,0.5,0.5,1,1,1,0.5,0,0.5,0,0,1,0,0.5],[0,0,-1,0,0,-1,1,0,0,1,0,0,0,0,-1,1,0,0,0,1,0,-1,0,0,0,0,1]],[[1,0.5,0,0,0.5,0,1,0,0.5,0.5,1,1,0.5,0,1,1,0,0.5,0,0.5,0,0.5,1,1,1,0,0.5,0,1,0.5,0.5,1,1,0,0.5,0],[0,1,0,0,1,0,0,0,1,1,0,0,1,0,0,0,0,1,0,1,0,1,0,0,0,0,1,0,0,-1,1,0,0,0,1,0]],[[0,0,0.5,0,1,0.5,1,0,0.5,0,1,0.5,0.5,1,1,1,0.5,1,1,0.5,1,1,0,0.5,0,1,0.5],[0,0,-1,0,0,-1,0,0,-1,0,0,-1,1,0,0,0,1,0,0,1,0,0,0,-1,0,0,-1]],[[0.5,0,0,1,0.5,1,1,0,0.5,0.5,0,0,0.5,1,1,1,0.5,1,0.5,1,1,0.5,0,0,0,0.5,0,0,0.5,0,0,1,0.5,0.5,1,1],[1,0,0,0,1,0,0,0,-1,1,0,0,1,0,0,0,1,0,1,0,0,1,0,0,0,1,0,0,1,0,0,0,-1,1,0,0]],[[0.5,0,0,1,0.5,1,1,0.5,0,0.5,0,0,0,0,0.5,0,1,0.5,0.5,0,0,0,1,0.5,1,0.5,1,1,0.5,1,0,1,0.5,0.5,1,1],[-1,0,0,0,1,0,0,1,0,-1,0,0,0,0,-1,0,0,-1,-1,0,0,0,0,-1,0,1,0,0,1,0,0,0,-1,1,0,0]],[[0,0.5,0,1,0.5,1,1,0.5,0,0,1,0.5,0.5,1,1,1,0.5,1,1,0.5,1,0,0.5,0,0,1,0.5],[0,1,0,0,1,0,0,1,0,0,0,-1,1,0,0,0,1,0,0,1,0,0,1,0,0,0,-1]],[[0,0.5,1,0,0.5,0,0.5,1,0,0.5,1,1,0,0.5,1,0.5,1,0],[0,-1,0,0,-1,0,1,0,0,1,0,0,0,-1,0,1,0,0]],[[0.5,1,0,0.5,1,1,0.5,0,0,0.5,1,1,0,0.5,1,0,0,0.5,0,0,0.5,0.5,0,0,0.5,1,1],[1,0,0,1,0,0,1,0,0,1,0,0,0,-1,0,0,0,1,0,0,1,1,0,0,1,0,0]],[[0.5,1,0,0.5,1,1,0,0.5,1,0,0.5,0,0.5,1,0,0,0.5,1,1,0,0.5,1,0.5,0,0.5,0,0],[1,0,0,1,0,0,0,-1,0,0,-1,0,1,0,0,0,-1,0,0,0,1,0,1,0,-1,0,0]],[[0,0.5,1,0.5,1,0,0.5,1,1,0,0.5,1,0,0,0.5,1,0,0.5,0,0.5,1,1,0,0.5,0.5,1,0,0.5,1,0,1,0,0.5,1,0.5,0],[0,-1,0,1,0,0,1,0,0,0,-1,0,0,0,1,0,0,1,0,-1,0,0,0,1,1,0,0,1,0,0,0,0,1,0,1,0]],[[0,0.5,1,0,0.5,0,0.5,1,0,0.5,1,1,0,0.5,1,0.5,1,0,1,0,0.5,0.5,0,1,1,0.5,1],[0,-1,0,0,-1,0,1,0,0,1,0,0,0,-1,0,1,0,0,0,0,-1,-1,0,0,0,1,0]],[[0.5,1,0,0.5,1,1,0.5,0,0,0.5,1,1,0,0.5,1,0,0,0.5,0,0,0.5,0.5,0,0,0.5,1,1,1,0.5,1,1,0,0.5,0.5,0,1],[1,0,0,1,0,0,1,0,0,1,0,0,0,-1,0,0,0,1,0,0,1,1,0,0,1,0,0,0,1,0,0,0,-1,-1,0,0]],[[0.5,0,0,0.5,0,1,1,0.5,0,1,0.5,0,0.5,0,1,1,0.5,1,0.5,1,0,0.5,1,1,0,0.5,1,0.5,1,0,0,0.5,1,0,0.5,0],[-1,0,0,-1,0,0,0,1,0,0,1,0,-1,0,0,0,1,0,1,0,0,1,0,0,0,-1,0,1,0,0,0,-1,0,0,-1,0]],[[1,0.5,0,0.5,1,0,0.5,1,1,1,0.5,0,0.5,1,1,1,0.5,1,0.5,0,1,0,0.5,1,0,0,0.5],[0,1,0,1,0,0,1,0,0,0,1,0,1,0,0,0,1,0,-1,0,0,0,-1,0,0,0,1]],[[0.5,1,1,0.5,0,1,0.5,1,0,0.5,0,1,0,0,0.5,0,0.5,0,0,0.5,0,0.5,1,0,0.5,0,1],[1,0,0,1,0,0,1,0,0,1,0,0,0,0,-1,0,-1,0,0,-1,0,1,0,0,1,0,0]],[[0.5,0,0,0.5,1,1,0.5,0,1,0.5,0,0,0.5,1,0,0.5,1,1],[1,0,0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,0]],[[0.5,1,1,0.5,0,1,0.5,1,0,0.5,0,1,0,0,0.5,0,0.5,0,0,0.5,0,0.5,1,0,0.5,0,1,1,0,0.5,1,0.5,0,0.5,0,0],[1,0,0,1,0,0,1,0,0,1,0,0,0,0,-1,0,-1,0,0,-1,0,1,0,0,1,0,0,0,0,1,0,1,0,-1,0,0]],[[0.5,0,1,0.5,1,0,0.5,1,1,1,0,0.5,1,0.5,0,0.5,1,0,0.5,1,0,0.5,0,1,1,0,0.5],[1,0,0,1,0,0,1,0,0,0,0,1,0,1,0,1,0,0,1,0,0,1,0,0,0,0,1]],[[1,0,0.5,0,0,0.5,1,0.5,1,1,0.5,1,0,0,0.5,0.5,1,0,1,0.5,1,0.5,1,0,0.5,1,1,0,0,0.5,0,0.5,0,0.5,1,0],[0,0,-1,0,0,-1,0,1,0,0,1,0,0,0,-1,1,0,0,0,1,0,1,0,0,1,0,0,0,0,-1,0,-1,0,1,0,0]],[[0.5,1,1,0.5,0,0,0.5,1,0,1,0.5,1,1,0,0.5,0.5,0,0,0.5,0,0,0.5,1,1,1,0.5,1],[1,0,0,1,0,0,1,0,0,0,1,0,0,0,-1,1,0,0,1,0,0,1,0,0,0,1,0]],[[0.5,1,1,1,0.5,1,1,0.5,0,0.5,1,1,1,0.5,0,0.5,1,0,0,0.5,0,0.5,0,0,0,0,0.5],[1,0,0,0,1,0,0,1,0,1,0,0,0,1,0,1,0,0,0,-1,0,-1,0,0,0,0,-1]],[[0.5,1,1,1,0.5,1,1,0.5,0,0.5,1,1,1,0.5,0,0.5,1,0],[1,0,0,0,1,0,0,1,0,1,0,0,0,1,0,1,0,0]],[[1,1,0.5,0.5,1,0,1,0.5,0,0,0.5,1,0,1,0.5,0.5,1,1],[0,0,1,-1,0,0,0,-1,0,0,-1,0,0,0,-1,1,0,0]],[[0,0,0.5,0.5,0,0,0,0.5,0,0,1,0.5,0.5,1,1,0,0.5,1,0.5,1,0,1,0.5,0,1,1,0.5],[0,0,1,1,0,0,0,1,0,0,0,-1,1,0,0,0,-1,0,-1,0,0,0,-1,0,0,0,1]],[[0.5,1,0,0.5,0,0,1,0,0.5,1,1,0.5,0.5,1,0,1,0,0.5,0,0.5,1,0,1,0.5,0.5,1,1],[-1,0,0,-1,0,0,0,0,1,0,0,1,-1,0,0,0,0,1,0,-1,0,0,0,-1,1,0,0]],[[1,0,0.5,1,1,0.5,0,0,0.5,1,1,0.5,0.5,1,0,0,0.5,0,0,0.5,0,0,0,0.5,1,1,0.5,0.5,1,1,0,0.5,1,0,1,0.5],[0,0,1,0,0,1,0,0,1,0,0,1,-1,0,0,0,1,0,0,1,0,0,0,1,0,0,1,1,0,0,0,-1,0,0,0,-1]],[[1,0,0.5,0.5,0,1,1,0.5,1,1,1,0.5,0.5,1,0,1,0.5,0,0.5,1,1,0,0.5,1,0,1,0.5],[0,0,-1,-1,0,0,0,1,0,0,0,1,-1,0,0,0,-1,0,1,0,0,0,-1,0,0,0,-1]],[[0.5,0,0,0,0.5,0,0,0,0.5,1,1,0.5,0.5,1,0,1,0.5,0,1,0,0.5,0.5,0,1,1,0.5,1,0,1,0.5,0.5,1,1,0,0.5,1],[1,0,0,0,1,0,0,0,1,0,0,1,-1,0,0,0,-1,0,0,0,-1,-1,0,0,0,1,0,0,0,-1,1,0,0,0,-1,0]],[[0.5,0,0,0.5,0,1,0.5,1,0,0.5,0,1,1,0.5,1,1,1,0.5,1,1,0.5,0.5,1,0,0.5,0,1,0,0.5,1,0,1,0.5,0.5,1,1],[-1,0,0,-1,0,0,-1,0,0,-1,0,0,0,1,0,0,0,1,0,0,1,-1,0,0,-1,0,0,0,-1,0,0,0,-1,1,0,0]],[[0,0.5,1,0,0,0.5,0.5,0,1,1,0.5,1,1,1,0.5,0.5,1,1,0.5,1,0,0,0.5,0,0,1,0.5],[0,-1,0,0,0,1,-1,0,0,0,1,0,0,0,1,1,0,0,-1,0,0,0,1,0,0,0,-1]],[[0.5,1,1,0.5,0,1,0,0,0.5,0,1,0.5,0.5,1,1,0,0,0.5,1,0.5,0,1,1,0.5,0.5,1,0],[1,0,0,1,0,0,0,0,-1,0,0,-1,1,0,0,0,0,-1,0,-1,0,0,0,1,-1,0,0]],[[0.5,0,1,0.5,0,0,0.5,1,1,0.5,0,0,0,0.5,0,0,1,0.5,0,1,0.5,0.5,1,1,0.5,0,0,1,0.5,0,1,1,0.5,0.5,1,0],[1,0,0,1,0,0,1,0,0,1,0,0,0,1,0,0,0,-1,0,0,-1,1,0,0,1,0,0,0,-1,0,0,0,1,-1,0,0]],[[1,0,0.5,1,1,0.5,0.5,0,0,0.5,0,0,1,1,0.5,0.5,1,0,0,0,0.5,0,1,0.5,0.5,1,1,0,0,0.5,0.5,1,1,0.5,0,1],[0,0,1,0,0,1,-1,0,0,-1,0,0,0,0,1,-1,0,0,0,0,-1,0,0,-1,1,0,0,0,0,-1,1,0,0,1,0,0]],[[0.5,0,1,1,0,0.5,1,1,0.5,0.5,0,1,1,1,0.5,0.5,1,1,0,1,0.5,0.5,1,0,0,0.5,0],[1,0,0,0,0,1,0,0,1,1,0,0,0,0,1,1,0,0,0,0,-1,-1,0,0,0,1,0]],[[0,0,0.5,0,1,0.5,1,0,0.5,0,1,0.5,0.5,1,1,1,0.5,1,1,0.5,1,1,0,0.5,0,1,0.5,0.5,1,0,1,0.5,0,1,1,0.5],[0,0,-1,0,0,-1,0,0,-1,0,0,-1,1,0,0,0,1,0,0,1,0,0,0,-1,0,0,-1,-1,0,0,0,-1,0,0,0,1]],[[1,0.5,0,1,0,0.5,0.5,0,0,0,0.5,0,0,1,0.5,0.5,1,0,0.5,1,1,1,0.5,1,1,1,0.5],[0,-1,0,0,0,-1,1,0,0,0,1,0,0,0,-1,-1,0,0,1,0,0,0,1,0,0,0,1]],[[0.5,0,0,0,0,0.5,0,1,0.5,0.5,0,0,0,1,0.5,0.5,1,0,1,1,0.5,0.5,1,1,1,0.5,1],[-1,0,0,0,0,-1,0,0,-1,-1,0,0,0,0,-1,-1,0,0,0,0,1,1,0,0,0,1,0]],[[0,0.5,0,0,1,0.5,0.5,1,0,1,1,0.5,0.5,1,1,1,0.5,1],[0,1,0,0,0,-1,-1,0,0,0,0,1,1,0,0,0,1,0]],[[0,0.5,0,1,0.5,0,0,0.5,1,1,0.5,0,1,1,0.5,0.5,1,1,0.5,1,1,0,0.5,1,1,0.5,0],[0,-1,0,0,-1,0,0,-1,0,0,-1,0,0,0,1,1,0,0,1,0,0,0,-1,0,0,-1,0]],[[0,0,0.5,0.5,1,1,0,0.5,1,0,0,0.5,1,1,0.5,0.5,1,1,1,1,0.5,0,0,0.5,0.5,0,0,0.5,0,0,1,0.5,0,1,1,0.5],[0,0,1,1,0,0,0,-1,0,0,0,1,0,0,1,1,0,0,0,0,1,0,0,1,1,0,0,1,0,0,0,-1,0,0,0,1]],[[1,0,0.5,1,1,0.5,0.5,0,0,0,0.5,1,0,0.5,0,0.5,0,0,1,1,0.5,0,0.5,1,0.5,0,0,0.5,1,1,0,0.5,1,1,1,0.5],[0,0,1,0,0,1,-1,0,0,0,-1,0,0,-1,0,-1,0,0,0,0,1,0,-1,0,-1,0,0,1,0,0,0,-1,0,0,0,1]],[[1,1,0.5,0,0,0.5,1,0,0.5,0.5,1,1,0,0.5,1,0,0,0.5,0,0,0.5,1,1,0.5,0.5,1,1],[0,0,1,0,0,1,0,0,1,1,0,0,0,-1,0,0,0,1,0,0,1,0,0,1,1,0,0]],[[0,0.5,0,1,0.5,0,0,0.5,1,1,0.5,0,1,1,0.5,0.5,1,1,0.5,1,1,0,0.5,1,1,0.5,0,1,0,0.5,0.5,0,1,1,0.5,1],[0,-1,0,0,-1,0,0,-1,0,0,-1,0,0,0,1,1,0,0,1,0,0,0,-1,0,0,-1,0,0,0,-1,-1,0,0,0,1,0]],[[0.5,0,1,0,0.5,1,0,0,0.5,0.5,0,0,1,0.5,0,1,0,0.5,1,1,0.5,0.5,1,1,1,0.5,1],[-1,0,0,0,-1,0,0,0,1,1,0,0,0,-1,0,0,0,-1,0,0,1,1,0,0,0,1,0]],[[0,0.5,0,0.5,0,0,0.5,0,1,0,0.5,0,0.5,0,1,0,0.5,1,0.5,1,1,1,0.5,1,1,1,0.5],[0,-1,0,-1,0,0,-1,0,0,0,-1,0,-1,0,0,0,-1,0,1,0,0,0,1,0,0,0,1]],[[0,0,0.5,0.5,0,1,0,0.5,1,0.5,1,1,1,0.5,1,1,1,0.5],[0,0,1,-1,0,0,0,-1,0,1,0,0,0,1,0,0,0,1]],[[0,0,0.5,0.5,1,1,0.5,0,1,0,0,0.5,0,0.5,0,1,0.5,0,0,0,0.5,1,0.5,0,0.5,1,1,0.5,1,1,1,0.5,0,1,1,0.5],[0,0,-1,1,0,0,1,0,0,0,0,-1,0,-1,0,0,-1,0,0,0,-1,0,-1,0,1,0,0,1,0,0,0,-1,0,0,0,1]],[[0.5,0,0,0.5,1,1,0.5,0,1,1,0.5,0,1,1,0.5,0.5,1,1,0.5,1,1,0.5,0,0,1,0.5,0],[1,0,0,1,0,0,1,0,0,0,-1,0,0,0,1,1,0,0,1,0,0,1,0,0,0,-1,0]],[[1,1,0.5,0.5,1,1,0.5,0,1,1,1,0.5,0.5,0,1,1,0,0.5,0.5,0,0,0,0,0.5,0,0.5,0],[0,0,1,1,0,0,1,0,0,0,0,1,1,0,0,0,0,1,-1,0,0,0,0,-1,0,-1,0]],[[0.5,0,1,1,0,0.5,1,1,0.5,0.5,0,1,1,1,0.5,0.5,1,1],[1,0,0,0,0,1,0,0,1,1,0,0,0,0,1,1,0,0]],[[0,0,0.5,0,0.5,0,1,0.5,0,0,0,0.5,1,0.5,0,1,0,0.5,1,0.5,1,1,1,0.5,0.5,1,1],[0,0,-1,0,-1,0,0,-1,0,0,0,-1,0,-1,0,0,0,-1,0,1,0,0,0,1,1,0,0]],[[0.5,0,0,1,0.5,0,1,0,0.5,1,0.5,1,1,1,0.5,0.5,1,1],[1,0,0,0,-1,0,0,0,-1,0,1,0,0,0,1,1,0,0]],[[0,0,0.5,0,0.5,0,0.5,0,0,1,0.5,1,1,1,0.5,0.5,1,1],[0,0,-1,0,-1,0,-1,0,0,0,1,0,0,0,1,1,0,0]],[[0.5,1,1,1,0.5,1,1,1,0.5],[1,0,0,0,1,0,0,0,1]],[[1,0.5,1,0,0.5,1,0,1,0.5,1,1,0.5,1,0.5,1,0,1,0.5],[0,-1,0,0,-1,0,0,0,-1,0,0,-1,0,-1,0,0,0,-1]],[[0,1,0.5,1,1,0.5,1,0.5,1,0,0.5,1,0,1,0.5,1,0.5,1,0.5,0,0,0,0.5,0,0,0,0.5],[0,0,-1,0,0,-1,0,-1,0,0,-1,0,0,0,-1,0,-1,0,1,0,0,0,1,0,0,0,1]],[[1,0.5,1,0,0.5,1,0,1,0.5,1,1,0.5,1,0.5,1,0,1,0.5,0.5,0,0,1,0,0.5,1,0.5,0],[0,-1,0,0,-1,0,0,0,-1,0,0,-1,0,-1,0,0,0,-1,-1,0,0,0,0,1,0,1,0]],[[0,0,0.5,1,0,0.5,0,0.5,0,0,0.5,0,1,0,0.5,1,0.5,0,0,1,0.5,1,1,0.5,1,0.5,1,0,1,0.5,1,0.5,1,0,0.5,1],[0,0,1,0,0,1,0,1,0,0,1,0,0,0,1,0,1,0,0,0,-1,0,0,-1,0,-1,0,0,0,-1,0,-1,0,0,-1,0]],[[1,1,0.5,1,0,0.5,0,1,0.5,1,0,0.5,0.5,0,1,0,0.5,1,0,0.5,1,0,1,0.5,1,0,0.5],[0,0,-1,0,0,-1,0,0,-1,0,0,-1,-1,0,0,0,-1,0,0,-1,0,0,0,-1,0,0,-1]],[[1,1,0.5,1,0,0.5,0,1,0.5,1,0,0.5,0.5,0,1,0,0.5,1,0,0.5,1,0,1,0.5,1,0,0.5,0.5,0,0,0,0.5,0,0,0,0.5],[0,0,-1,0,0,-1,0,0,-1,0,0,-1,-1,0,0,0,-1,0,0,-1,0,0,0,-1,0,0,-1,1,0,0,0,1,0,0,0,1]],[[0.5,0,0,0.5,0,1,1,0.5,0,1,0.5,0,0.5,0,1,0,1,0.5,1,0.5,0,0,1,0.5,1,1,0.5,0.5,0,1,0,0.5,1,0,1,0.5],[-1,0,0,-1,0,0,0,1,0,0,1,0,-1,0,0,0,0,-1,0,1,0,0,0,-1,0,0,-1,-1,0,0,0,-1,0,0,0,-1]],[[1,1,0.5,1,0.5,0,0,0.5,0,1,1,0.5,0,0.5,0,0,1,0.5,0,0.5,1,0,0,0.5,0.5,0,1],[0,0,-1,0,1,0,0,1,0,0,0,-1,0,1,0,0,0,-1,0,-1,0,0,0,1,-1,0,0]],[[0,1,0.5,1,1,0.5,0,0,0.5,1,1,0.5,1,0.5,1,0.5,0,1,0.5,0,1,0,0,0.5,1,1,0.5],[0,0,-1,0,0,-1,0,0,-1,0,0,-1,0,-1,0,1,0,0,1,0,0,0,0,-1,0,0,-1]],[[1,0.5,1,0,1,0.5,1,1,0.5,1,0.5,1,0.5,0,1,0.5,0,0,1,0.5,1,0.5,0,0,0,1,0.5,0,1,0.5,0.5,0,0,0,0.5,0],[0,-1,0,0,0,-1,0,0,-1,0,-1,0,1,0,0,1,0,0,0,-1,0,1,0,0,0,0,-1,0,0,-1,1,0,0,0,1,0]],[[0,1,0.5,1,1,0.5,0,0,0.5,1,1,0.5,1,0.5,1,0.5,0,1,0.5,0,1,0,0,0.5,1,1,0.5,1,0.5,0,0.5,0,0,1,0,0.5],[0,0,-1,0,0,-1,0,0,-1,0,0,-1,0,-1,0,1,0,0,1,0,0,0,0,-1,0,0,-1,0,1,0,-1,0,0,0,0,1]],[[0,0.5,0,0,1,0.5,1,1,0.5,0,0.5,0,1,1,0.5,1,0.5,0,1,0,0.5,1,0.5,1,0.5,0,1],[0,1,0,0,0,-1,0,0,-1,0,1,0,0,0,-1,0,1,0,0,0,1,0,-1,0,1,0,0]],[[0,0,0.5,1,1,0.5,1,0,0.5,0,0,0.5,0,1,0.5,1,1,0.5],[0,0,-1,0,0,-1,0,0,-1,0,0,-1,0,0,-1,0,0,-1]],[[1,0,0.5,0,1,0.5,1,1,0.5,0.5,0,0,0,0.5,0,0,1,0.5,0,1,0.5,1,0,0.5,0.5,0,0],[0,0,-1,0,0,-1,0,0,-1,1,0,0,0,1,0,0,0,-1,0,0,-1,0,0,-1,1,0,0]],[[1,1,0.5,0,0,0.5,0,1,0.5,1,0.5,0,0.5,0,0,0,0,0.5,0,0,0.5,1,1,0.5,1,0.5,0],[0,0,-1,0,0,-1,0,0,-1,0,1,0,-1,0,0,0,0,-1,0,0,-1,0,0,-1,0,1,0]],[[1,1,0.5,1,0.5,0,0,0.5,0,1,1,0.5,0,0.5,0,0,1,0.5],[0,0,-1,0,1,0,0,1,0,0,0,-1,0,1,0,0,0,-1]],[[0,0.5,1,0,0.5,0,1,0.5,1,0,0.5,0,0.5,1,0,1,1,0.5,1,1,0.5,1,0.5,1,0,0.5,0],[0,-1,0,0,-1,0,0,-1,0,0,-1,0,1,0,0,0,0,-1,0,0,-1,0,-1,0,0,-1,0]],[[0.5,0,0,0.5,1,0,0,0,0.5,1,0.5,1,0,0.5,1,0,0,0.5,0.5,1,0,1,0.5,1,0,0,0.5,1,1,0.5,1,0.5,1,0.5,1,0],[1,0,0,1,0,0,0,0,1,0,-1,0,0,-1,0,0,0,1,1,0,0,0,-1,0,0,0,1,0,0,-1,0,-1,0,1,0,0]],[[0,0.5,1,0,0.5,0,1,0.5,1,0,0.5,0,0.5,1,0,1,1,0.5,1,1,0.5,1,0.5,1,0,0.5,0,0.5,0,0,1,0,0.5,1,0.5,0],[0,-1,0,0,-1,0,0,-1,0,0,-1,0,1,0,0,0,0,-1,0,0,-1,0,-1,0,0,-1,0,-1,0,0,0,0,1,0,1,0]],[[0,0.5,1,0,0,0.5,1,0,0.5,0,0.5,1,1,0,0.5,1,0.5,1,1,1,0.5,1,0.5,0,0.5,1,0],[0,-1,0,0,0,1,0,0,1,0,-1,0,0,0,1,0,-1,0,0,0,-1,0,1,0,1,0,0]],[[0.5,0,1,1,1,0.5,1,0,0.5,0.5,0,1,0,0.5,1,0,0.5,0,0.5,0,1,0,0.5,0,1,1,0.5,1,1,0.5,0,0.5,0,0.5,1,0],[-1,0,0,0,0,-1,0,0,-1,-1,0,0,0,-1,0,0,-1,0,-1,0,0,0,-1,0,0,0,-1,0,0,-1,0,-1,0,1,0,0]],[[0.5,1,0,1,1,0.5,1,0,0.5,0.5,1,0,1,0,0.5,0.5,0,0,0,0,0.5,0.5,0,1,0,0.5,1],[1,0,0,0,0,-1,0,0,-1,1,0,0,0,0,-1,1,0,0,0,0,1,-1,0,0,0,-1,0]],[[0.5,0,1,0,0.5,1,0,0.5,0,0.5,0,1,0,0.5,0,0.5,0,0,1,0.5,0,0.5,1,0,1,1,0.5],[-1,0,0,0,-1,0,0,-1,0,-1,0,0,0,-1,0,-1,0,0,0,1,0,1,0,0,0,0,-1]],[[0.5,0,1,0,0.5,1,0,0,0.5,1,0.5,0,0.5,1,0,1,1,0.5],[-1,0,0,0,-1,0,0,0,1,0,1,0,1,0,0,0,0,-1]],[[0.5,0,1,1,1,0.5,1,0.5,1,0.5,0,1,0.5,1,0,1,1,0.5,0.5,1,0,0.5,0,1,0,0,0.5,0,0,0.5,0,0.5,0,0.5,1,0],[1,0,0,0,0,-1,0,-1,0,1,0,0,1,0,0,0,0,-1,1,0,0,1,0,0,0,0,-1,0,0,-1,0,-1,0,1,0,0]],[[0.5,1,0,0.5,0,1,0.5,0,0,1,1,0.5,1,0.5,1,0.5,0,1,0.5,0,1,0.5,1,0,1,1,0.5],[1,0,0,1,0,0,1,0,0,0,0,-1,0,-1,0,1,0,0,1,0,0,1,0,0,0,0,-1]],[[1,0,0.5,1,0.5,1,0.5,0,1,0,0,0.5,0,0.5,0,0.5,0,0,0.5,1,0,1,1,0.5,1,0.5,0],[0,0,1,0,-1,0,1,0,0,0,0,-1,0,-1,0,-1,0,0,1,0,0,0,0,-1,0,1,0]],[[0.5,0,1,1,0,0.5,1,0.5,1,1,1,0.5,1,0.5,0,0.5,1,0],[1,0,0,0,0,1,0,-1,0,0,0,-1,0,1,0,1,0,0]],[[0,0,0.5,1,1,0.5,1,0,0.5,0,0.5,0,0.5,1,0,1,1,0.5,1,1,0.5,0,0,0.5,0,0.5,0],[0,0,-1,0,0,-1,0,0,-1,0,-1,0,1,0,0,0,0,-1,0,0,-1,0,0,-1,0,-1,0]],[[1,0,0.5,0.5,0,0,0.5,1,0,1,0,0.5,0.5,1,0,1,1,0.5],[0,0,-1,1,0,0,1,0,0,0,0,-1,1,0,0,0,0,-1]],[[0,0,0.5,0,0.5,0,0.5,0,0,1,0.5,0,0.5,1,0,1,1,0.5],[0,0,-1,0,-1,0,-1,0,0,0,1,0,1,0,0,0,0,-1]],[[1,1,0.5,1,0.5,0,0.5,1,0],[0,0,-1,0,1,0,1,0,0]],[[1,0.5,1,0,0.5,1,1,0.5,0,0,0.5,1,0,1,0.5,0.5,1,0,0.5,1,0,1,0.5,0,0,0.5,1],[0,-1,0,0,-1,0,0,-1,0,0,-1,0,0,0,-1,-1,0,0,-1,0,0,0,-1,0,0,-1,0]],[[1,0.5,1,0,0.5,1,1,0.5,0,0,0.5,1,0,1,0.5,0.5,1,0,0.5,1,0,1,0.5,0,0,0.5,1,0,0,0.5,0.5,0,0,0,0.5,0],[0,-1,0,0,-1,0,0,-1,0,0,-1,0,0,0,-1,-1,0,0,-1,0,0,0,-1,0,0,-1,0,0,0,1,1,0,0,0,1,0]],[[1,0,0.5,0.5,1,0,0.5,0,0,1,0,0.5,1,0.5,1,0,0.5,1,1,0,0.5,0,0.5,1,0.5,1,0,0.5,1,0,0,0.5,1,0,1,0.5],[0,0,1,-1,0,0,-1,0,0,0,0,1,0,-1,0,0,-1,0,0,0,1,0,-1,0,-1,0,0,-1,0,0,0,-1,0,0,0,-1]],[[1,0,0.5,1,0.5,1,0,0.5,1,1,0,0.5,0,0.5,1,0,0,0.5,0,0.5,0,0,1,0.5,0.5,1,0],[0,0,1,0,-1,0,0,-1,0,0,0,1,0,-1,0,0,0,1,0,1,0,0,0,-1,-1,0,0]],[[1,0,0.5,0.5,1,0,1,0.5,0,1,0,0.5,0,1,0.5,0.5,1,0,0,1,0.5,1,0,0.5,0.5,0,1,0.5,0,1,0,0.5,1,0,1,0.5],[0,0,-1,-1,0,0,0,-1,0,0,0,-1,0,0,-1,-1,0,0,0,0,-1,0,0,-1,-1,0,0,-1,0,0,0,-1,0,0,0,-1]],[[0.5,0,0,1,0.5,0,1,0,0.5,0.5,0,1,0,0.5,1,0,0,0.5,0,1,0.5,0.5,1,0,0,0.5,0],[1,0,0,0,-1,0,0,0,-1,-1,0,0,0,-1,0,0,0,1,0,0,-1,-1,0,0,0,1,0]],[[0.5,0,1,0.5,1,0,0.5,0,0,0,0.5,1,0,1,0.5,0.5,1,0,0.5,1,0,0.5,0,1,0,0.5,1],[-1,0,0,-1,0,0,-1,0,0,0,-1,0,0,0,-1,-1,0,0,-1,0,0,-1,0,0,0,-1,0]],[[0.5,0,1,0,0.5,1,0,0,0.5,0,0.5,0,0,1,0.5,0.5,1,0],[-1,0,0,0,-1,0,0,0,1,0,1,0,0,0,-1,-1,0,0]],[[0,0,0.5,0,1,0.5,0.5,0,1,1,0.5,0,1,0.5,1,0.5,0,1,0,1,0.5,1,0.5,0,0.5,0,1,0.5,1,0,1,0.5,0,0,1,0.5],[0,0,-1,0,0,-1,1,0,0,0,-1,0,0,-1,0,1,0,0,0,0,-1,0,-1,0,1,0,0,-1,0,0,0,-1,0,0,0,-1]],[[1,0.5,1,0.5,0,1,0.5,0,0,1,0.5,1,0.5,0,0,1,0.5,0,0.5,1,0,0,0.5,0,0,1,0.5],[0,-1,0,1,0,0,1,0,0,0,-1,0,1,0,0,0,-1,0,-1,0,0,0,1,0,0,0,-1]],[[0,1,0.5,0.5,1,0,0.5,0,0,0,1,0.5,0.5,0,0,0,0,0.5,0.5,0,1,1,0,0.5,1,0.5,1],[0,0,-1,-1,0,0,-1,0,0,0,0,-1,-1,0,0,0,0,-1,1,0,0,0,0,1,0,-1,0]],[[1,0,0.5,1,0.5,1,0.5,0,1,0,0.5,0,0,1,0.5,0.5,1,0],[0,0,1,0,-1,0,1,0,0,0,1,0,0,0,-1,-1,0,0]],[[0,1,0.5,1,0,0.5,0,0,0.5,0.5,1,0,1,0.5,0,1,0,0.5,1,0,0.5,0,1,0.5,0.5,1,0],[0,0,-1,0,0,-1,0,0,-1,-1,0,0,0,-1,0,0,0,-1,0,0,-1,0,0,-1,-1,0,0]],[[1,0,0.5,0.5,0,0,1,0.5,0,0.5,1,0,0,0.5,0,0,1,0.5],[0,0,-1,1,0,0,0,-1,0,-1,0,0,0,1,0,0,0,-1]],[[0.5,0,0,0,0,0.5,0,1,0.5,0.5,0,0,0,1,0.5,0.5,1,0],[-1,0,0,0,0,-1,0,0,-1,-1,0,0,0,0,-1,-1,0,0]],[[0.5,1,0,0,0.5,0,0,1,0.5],[-1,0,0,0,1,0,0,0,-1]],[[0,0.5,1,1,0.5,0,1,0.5,1,0,0.5,1,0,0.5,0,1,0.5,0],[0,-1,0,0,-1,0,0,-1,0,0,-1,0,0,-1,0,0,-1,0]],[[0,0.5,1,1,0.5,0,1,0.5,1,0,0,0.5,0.5,0,0,1,0.5,0,1,0.5,0,0,0.5,1,0,0,0.5],[0,-1,0,0,-1,0,0,-1,0,0,0,1,1,0,0,0,-1,0,0,-1,0,0,-1,0,0,0,1]],[[0,0.5,0,1,0.5,1,0,0.5,1,0.5,0,0,1,0,0.5,1,0.5,1,1,0.5,1,0,0.5,0,0.5,0,0],[0,-1,0,0,-1,0,0,-1,0,-1,0,0,0,0,1,0,-1,0,0,-1,0,0,-1,0,-1,0,0]],[[1,0,0.5,1,0.5,1,0,0.5,1,1,0,0.5,0,0.5,1,0,0,0.5],[0,0,1,0,-1,0,0,-1,0,0,0,1,0,-1,0,0,0,1]],[[1,0.5,0,0,0.5,1,0,0.5,0,1,0,0.5,0.5,0,1,0,0.5,1,0,0.5,1,1,0.5,0,1,0,0.5],[0,-1,0,0,-1,0,0,-1,0,0,0,-1,-1,0,0,0,-1,0,0,-1,0,0,-1,0,0,0,-1]],[[0,0.5,1,0,0,0.5,0.5,0,1,1,0,0.5,0.5,0,0,1,0.5,0],[0,-1,0,0,0,1,-1,0,0,0,0,-1,1,0,0,0,-1,0]],[[0.5,0,1,0,0.5,1,0,0.5,0,0.5,0,1,0,0.5,0,0.5,0,0],[-1,0,0,0,-1,0,0,-1,0,-1,0,0,0,-1,0,-1,0,0]],[[0.5,0,1,0,0.5,1,0,0,0.5],[-1,0,0,0,-1,0,0,0,1]],[[1,0.5,1,0,0.5,0,1,0.5,0,0.5,0,1,0,0,0.5,0,0.5,0,0,0.5,0,1,0.5,1,0.5,0,1],[0,-1,0,0,-1,0,0,-1,0,1,0,0,0,0,-1,0,-1,0,0,-1,0,0,-1,0,1,0,0]],[[0.5,0,0,1,0.5,0,1,0.5,1,0.5,0,0,1,0.5,1,0.5,0,1],[1,0,0,0,-1,0,0,-1,0,1,0,0,0,-1,0,1,0,0]],[[0,0.5,0,0.5,0,0,0,0,0.5,0.5,0,1,1,0,0.5,1,0.5,1],[0,-1,0,-1,0,0,0,0,-1,1,0,0,0,0,1,0,-1,0]],[[1,0,0.5,1,0.5,1,0.5,0,1],[0,0,1,0,-1,0,1,0,0]],[[0,0,0.5,0,0.5,0,1,0.5,0,0,0,0.5,1,0.5,0,1,0,0.5],[0,0,-1,0,-1,0,0,-1,0,0,0,-1,0,-1,0,0,0,-1]],[[0.5,0,0,1,0.5,0,1,0,0.5],[1,0,0,0,-1,0,0,0,-1]],[[0,0,0.5,0,0.5,0,0.5,0,0],[0,0,-1,0,-1,0,-1,0,0]],[[],[]]]
 
-
-let pawn = new CharacterController(camera, myWorld)
-wasd_mouse.addListener(pawn.createHandle({
-	sprint: 5,
-	speed: 8,
-	sensitivity: 0.01,
-	mode: "noclip"
-}))
-
-
-
-scene.add(myWorld.object)
-
-
-
-// var geometry = new THREE.BoxGeometry(1, 1, 1);
-// var material = new THREE.MeshNormalMaterial({ color: 0x00ff00 });
-// var cube = new THREE.Mesh(geometry, material);
-// scene.add(cube);
-
-// camera.position.z = 5;
-
-// var animate = function () {
-// 	requestAnimationFrame(animate);
-
-// 	cube.rotation.x += 0.1;
-// 	cube.rotation.y += 0.1;
-
-// 	renderer.render(scene, camera);
-// };
-
-// animate();
-
- 
-
-
-
-let animate = function () {
-
-	Monitor.end()
-	Monitor.begin()
-	myWorld.update()
-	// debugger
-	requestAnimationFrame(animate);
-	wasd_mouse.tick(16 / 1000)
-	// camera.position.copy(player.position);
-	// camera.rotation.copy(player.rotation)
-	// camera.lookAt(player.position);
-	renderer.render(scene, camera);
-	f(); f = () => { }
-};
-
-animate();
-
-},{"./CharacterController":4,"./Monitor":5,"./WASD_Mouse":6,"./World2/World":9,"three":3}]},{},[12])
+},{}]},{},[6])
 //# sourceMappingURL=Vox.js.map
